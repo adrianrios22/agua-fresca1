@@ -1,2517 +1,3109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- =========================
-       CAMBIAR PARA CADA CLIENTE
-       ========================= -->
-  <title>Urban Burger | Restaurante</title>
-  <meta
-    name="description"
-    content="Hamburguesas artesanales, bebidas, entradas y mucho sabor."
-  >
-
-  <style>
-
-    /* ========================================
-       VARIABLES DE LA PLANTILLA
-       CAMBIAR COLORES AQUÍ PARA OTRO CLIENTE
-       ======================================== */
-
-    :root {
-      --fondo: #090909;
-      --fondo-2: #111111;
-      --fondo-3: #171717;
-      --tarjeta: #191919;
-
-      --principal: #f2b51d;
-      --principal-claro: #ffd45c;
-
-      --texto: #ffffff;
-      --texto-gris: #b7b7b7;
-      --borde: #292929;
-
-      --radio: 20px;
-      --ancho: 1200px;
-    }
-
-    /* ========================================
-       BASE
-       ======================================== */
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    html {
-      scroll-padding-top: 85px;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--fondo);
-      color: var(--texto);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    .contenedor {
-      width: min(92%, var(--ancho));
-      margin: auto;
-    }
-
-    section {
-      padding: 90px 0;
-    }
-
-    .mini-titulo {
-      color: var(--principal);
-      font-size: 13px;
-      letter-spacing: 2px;
-      font-weight: 900;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .titulo-seccion {
-      font-size: clamp(34px, 5vw, 56px);
-      line-height: 1;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .titulo-seccion span {
-      color: var(--principal);
-    }
-
-    .texto-seccion {
-      color: var(--texto-gris);
-      max-width: 650px;
-      font-size: 17px;
-    }
-
-    .cabecera-seccion {
-      text-align: center;
-      margin-bottom: 45px;
-    }
-
-    .cabecera-seccion .texto-seccion {
-      margin: auto;
-    }
-
-    /* ========================================
-       BOTONES
-       ======================================== */
-
-    .boton {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 22px;
-      border-radius: 12px;
-      background: var(--principal);
-      color: #111;
-      font-weight: 900;
-      transition: .25s ease;
-    }
-
-    .boton:hover {
-      background: var(--principal-claro);
-      transform: translateY(-2px);
-    }
-
-    .boton-borde {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 22px;
-      border-radius: 12px;
-      border: 1px solid #555;
-      color: white;
-      font-weight: 800;
-      transition: .25s ease;
-    }
-
-    .boton-borde:hover {
-      border-color: var(--principal);
-      color: var(--principal);
-    }
-
-    /* ========================================
-       HEADER
-       ======================================== */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(8, 8, 8, .94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--borde);
-    }
-
-    .nav {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 25px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      font-size: 23px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .logo-icono {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--principal);
-      color: #111;
-      font-size: 22px;
-    }
-
-    .logo span {
-      color: var(--principal);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .nav-links a {
-      transition: .2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--principal);
-    }
-
-    .menu-movil {
-      display: none;
-      background: transparent;
-      color: white;
-      border: 0;
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    /* ========================================
-       HERO
-       ======================================== */
-
-    .hero {
-      padding: 0;
-      min-height: 720px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(0,0,0,.96) 0%,
-          rgba(0,0,0,.87) 38%,
-          rgba(0,0,0,.44) 67%,
-          rgba(0,0,0,.20) 100%
-        ),
-        url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=85&w=1800&auto=format&fit=crop");
-
-      background-size: cover;
-      background-position: center;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: rgba(242,181,29,.10);
-      filter: blur(100px);
-      right: -100px;
-      top: 60px;
-    }
-
-    .hero-contenido {
-      position: relative;
-      z-index: 2;
-      max-width: 660px;
-      padding: 100px 0;
-    }
-
-    .hero-etiqueta {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 14px;
-      margin-bottom: 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(242,181,29,.35);
-      background: rgba(242,181,29,.08);
-      color: var(--principal);
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      font-weight: 900;
-    }
-
-    .hero h1 {
-      font-size: clamp(54px, 8vw, 95px);
-      line-height: .91;
-      text-transform: uppercase;
-      letter-spacing: -4px;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      color: var(--principal);
-    }
-
-    .hero p {
-      max-width: 570px;
-      color: #d1d1d1;
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-
-    .hero-botones {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    /* ========================================
-       BENEFICIOS
-       ======================================== */
-
-    .beneficios {
-      margin-top: -42px;
-      position: relative;
-      z-index: 20;
-    }
-
-    .beneficios-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background: var(--fondo-2);
-      border: 1px solid var(--borde);
-      border-radius: var(--radio);
-      overflow: hidden;
-      box-shadow: 0 25px 70px rgba(0,0,0,.35);
-    }
-
-    .beneficio {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 27px;
-      border-right: 1px solid var(--borde);
-    }
-
-    .beneficio:last-child {
-      border-right: 0;
-    }
-
-    .beneficio-icono {
-      font-size: 30px;
-    }
-
-    .beneficio h3 {
-      color: var(--principal);
-      text-transform: uppercase;
-      font-size: 14px;
-      margin-bottom: 3px;
-    }
-
-    .beneficio p {
-      color: var(--texto-gris);
-      font-size: 13px;
-    }
-
-    /* ========================================
-       CATEGORÍAS
-       ======================================== */
-
-    .categorias-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-
-    .categoria {
-      min-height: 180px;
-      background:
-        linear-gradient(145deg, #191919, #111111);
-      border: 1px solid var(--borde);
-      border-radius: 18px;
-      padding: 28px 18px;
-      text-align: center;
-      transition: .25s;
-    }
-
-    .categoria:hover {
-      border-color: var(--principal);
-      transform: translateY(-6px);
-    }
-
-    .categoria-icono {
-      font-size: 48px;
-      margin-bottom: 14px;
-    }
-
-    .categoria h3 {
-      color: var(--principal);
-      text-transform: uppercase;
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .categoria p {
-      color: var(--texto-gris);
-      font-size: 13px;
-    }
-
-    /* ========================================
-       PRODUCTOS
-       ======================================== */
-
-    .productos {
-      background: var(--fondo-2);
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .producto {
-      background: var(--tarjeta);
-      border: 1px solid var(--borde);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: .25s;
-    }
-
-    .producto:hover {
-      transform: translateY(-7px);
-      border-color: var(--principal);
-    }
-
-    .producto-imagen {
-      height: 250px;
-      overflow: hidden;
-    }
-
-    .producto-imagen img {
-      height: 100%;
-      object-fit: cover;
-      transition: .35s;
-    }
-
-    .producto:hover img {
-      transform: scale(1.05);
-    }
-
-    .producto-info {
-      padding: 22px;
-    }
-
-    .producto-info h3 {
-      font-size: 20px;
-      text-transform: uppercase;
-      margin-bottom: 7px;
-    }
-
-    .producto-info p {
-      color: var(--texto-gris);
-      font-size: 14px;
-      min-height: 66px;
-    }
-
-    .producto-abajo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-    }
-
-    .precio {
-      color: var(--principal);
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .etiqueta-producto {
-      color: #111;
-      background: var(--principal);
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    /* ========================================
-       PROMOCIÓN
-       ======================================== */
-
-    .promo {
-      padding: 55px 0;
-    }
-
-    .promo-box {
-      background:
-        linear-gradient(120deg, #d89900, var(--principal), #ffd258);
-      color: #111;
-      border-radius: 25px;
-      padding: 45px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 30px;
-      overflow: hidden;
-    }
-
-    .promo-box h2 {
-      font-size: clamp(38px, 6vw, 65px);
-      line-height: .93;
-      text-transform: uppercase;
-      margin: 8px 0 14px;
-    }
-
-    .promo-box p {
-      font-weight: 700;
-    }
-
-    .promo-icono {
-      font-size: 120px;
-      transform: rotate(-8deg);
-    }
-
-    /* ========================================
-       NOSOTROS
-       ======================================== */
-
-    .nosotros-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 55px;
-      align-items: center;
-    }
-
-    .nosotros-img {
-      position: relative;
-    }
-
-    .nosotros-img img {
-      height: 520px;
-      object-fit: cover;
-      border-radius: 24px;
-    }
-
-    .nosotros-img::after {
-      content: "";
-      position: absolute;
-      inset: 16px -16px -16px 16px;
-      border: 2px solid var(--principal);
-      border-radius: 24px;
-      z-index: -1;
-    }
-
-    .nosotros-texto p {
-      color: var(--texto-gris);
-      margin-bottom: 22px;
-      font-size: 16px;
-    }
-
-    /* ========================================
-       INFORMACIÓN
-       ======================================== */
-
-    .info {
-      background: var(--fondo-2);
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .info-card {
-      background: var(--tarjeta);
-      border: 1px solid var(--borde);
-      border-radius: 18px;
-      padding: 28px;
-    }
-
-    .info-card .info-icono {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .info-card h3 {
-      color: var(--principal);
-      text-transform: uppercase;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .info-card p {
-      color: var(--texto-gris);
-    }
-
-    /* ========================================
-       REDES
-       ======================================== */
-
-    .redes-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 35px;
-    }
-
-    .red-social {
-      padding: 22px;
-      border-radius: 16px;
-      background: #151515;
-      border: 1px solid var(--borde);
-      text-align: center;
-      font-weight: 900;
-      transition: .25s;
-    }
-
-    .red-social:hover {
-      border-color: var(--principal);
-      color: var(--principal);
-      transform: translateY(-4px);
-    }
-
-    /* ========================================
-       FOOTER
-       ======================================== */
-
-    footer {
-      background: #050505;
-      padding: 65px 0 25px;
-      border-top: 1px solid var(--borde);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr 1fr;
-      gap: 40px;
-    }
-
-    .footer-col h3 {
-      color: var(--principal);
-      margin-bottom: 15px;
-    }
-
-    .footer-col p,
-    .footer-col a {
-      color: #909090;
-      font-size: 14px;
-      margin-bottom: 9px;
-      display: block;
-    }
-
-    .footer-col a:hover {
-      color: var(--principal);
-    }
-
-    .copyright {
-      margin-top: 45px;
-      padding-top: 20px;
-      border-top: 1px solid #1f1f1f;
-      color: #666;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    /* ========================================
-       WHATSAPP
-       ======================================== */
-
-    .whatsapp-flotante {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      display: grid;
-      place-items: center;
-      background: #25d366;
-      color: white;
-      font-size: 27px;
-      font-weight: bold;
-      border-radius: 50%;
-      z-index: 900;
-      box-shadow: 0 15px 35px rgba(0,0,0,.40);
-      transition: .25s;
-    }
-
-    .whatsapp-flotante:hover {
-      transform: scale(1.07);
-    }
-
-    /* ========================================
-       RESPONSIVE TABLET
-       ======================================== */
-
-    @media (max-width: 950px) {
-
-      .nav-links {
-        position: absolute;
-        top: 78px;
-        left: 0;
-        right: 0;
-        background: #0b0b0b;
-        border-bottom: 1px solid var(--borde);
-        display: none;
-        flex-direction: column;
-        padding: 25px;
-      }
-
-      .nav-links.activo {
-        display: flex;
-      }
-
-      .menu-movil {
-        display: block;
-      }
-
-      .categorias-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .nosotros-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-    /* ========================================
-       RESPONSIVE CELULAR
-       ======================================== */
-
-    @media (max-width: 620px) {
-
-      section {
-        padding: 70px 0;
-      }
-
-      .hero {
-        min-height: 660px;
-        background-position: 60% center;
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(
-            0deg,
-            rgba(0,0,0,.75),
-            transparent 45%
-          );
-      }
-
-      .hero-contenido {
-        padding: 80px 0;
-        z-index: 3;
-      }
-
-      .hero h1 {
-        font-size: 54px;
-        letter-spacing: -2px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .beneficios-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .beneficio {
-        border-right: 0;
-        border-bottom: 1px solid var(--borde);
-      }
-
-      .beneficio:last-child {
-        border-bottom: 0;
-      }
-
-      .categorias-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .productos-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .producto-imagen {
-        height: 230px;
-      }
-
-      .promo-box {
-        padding: 30px 24px;
-      }
-
-      .promo-icono {
-        display: none;
-      }
-
-      .nosotros-img img {
-        height: 380px;
-      }
-
-      .redes-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-  </style>
-</head>
-
-
-<body>
-
-  <!-- ========================================
-       HEADER
-       ======================================== -->
-
-  <header>
-
-    <div class="contenedor nav">
-
-      <!-- CAMBIAR NOMBRE DEL CLIENTE -->
-
-      <a href="#inicio" class="logo">
-
-        <div class="logo-icono">
-          🍔
-        </div>
-
-        <div>
-          URBAN <span>BURGER</span>
-        </div>
-
-      </a>
-
-
-      <nav class="nav-links" id="navLinks">
-
-        <a href="#inicio">Inicio</a>
-
-        <a href="#categorias">Categorías</a>
-
-        <a href="#menu">Menú</a>
-
-        <a href="#nosotros">Nosotros</a>
-
-        <a href="#ubicacion">Ubicación</a>
-
-        <a href="#redes">Redes</a>
-
-      </nav>
-
-
-      <button
-        class="menu-movil"
-        id="menuMovil"
-        aria-label="Abrir menú"
-      >
-        ☰
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <main>
-
-    <!-- ========================================
-         HERO
-         ======================================== -->
-
-    <section class="hero" id="inicio">
-
-      <div class="contenedor">
-
-        <div class="hero-contenido">
-
-          <div class="hero-etiqueta">
-            SABOR ARTESANAL
-          </div>
-
-
-          <!-- CAMBIAR TEXTO PRINCIPAL -->
-
-          <h1>
-            Hechas para
-            <span>disfrutar</span>
-          </h1>
-
-
-          <p>
-            Hamburguesas artesanales, ingredientes frescos
-            y combinaciones creadas para convertir cualquier
-            antojo en una experiencia increíble.
-          </p>
-
-
-          <div class="hero-botones">
-
-            <a href="#menu" class="boton">
-              Ver menú ↓
-            </a>
-
-            <a href="#nosotros" class="boton-borde">
-              Conócenos
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         BENEFICIOS
-         ======================================== -->
-
-    <div class="beneficios">
-
-      <div class="contenedor beneficios-grid">
-
-
-        <div class="beneficio">
-
-          <div class="beneficio-icono">
-            🥬
-          </div>
-
-          <div>
-
-            <h3>
-              Ingredientes frescos
-            </h3>
-
-            <p>
-              Seleccionados para cada preparación.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="beneficio">
-
-          <div class="beneficio-icono">
-            🔥
-          </div>
-
-          <div>
-
-            <h3>
-              Preparado al momento
-            </h3>
-
-            <p>
-              Sabor fresco desde nuestra cocina.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="beneficio">
-
-          <div class="beneficio-icono">
-            ⭐
-          </div>
-
-          <div>
-
-            <h3>
-              Sabor que destaca
-            </h3>
-
-            <p>
-              Recetas pensadas para querer volver.
-            </p>
-
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </div>
-
-
-    <!-- ========================================
-         CATEGORÍAS
-         ======================================== -->
-
-    <section id="categorias">
-
-      <div class="contenedor">
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Explora nuestro menú
-          </p>
-
-          <h2 class="titulo-seccion">
-            Elige tu <span>antojo</span>
-          </h2>
-
-          <p class="texto-seccion">
-            Encuentra fácilmente lo que quieres probar hoy.
-          </p>
-
-        </div>
-
-
-        <div class="categorias-grid">
-
-
-          <a href="#hamburguesas" class="categoria">
-
-            <div class="categoria-icono">
-              🍔
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#89d4bb" />
+        <meta
+            name="description"
+            content="Agua Fresca: copas de helado, frutas, limonadas y antojos. Personaliza tu pedido y compártelo por WhatsApp."
+        />
+        <title>Agua Fresca | Heladería</title>
+
+        <!-- =====================================================
+         GUÍA DE EDICIÓN: buscar estos títulos con Ctrl + F
+         01. COLORES Y ESTILOS
+         02. ENCABEZADO Y HERO
+         03. SECCIONES DE LA PÁGINA
+         04. VENTANAS DE PRODUCTO Y CARRITO
+         05. CONFIGURACIÓN DEL NEGOCIO
+         06. CATÁLOGO: 56 TARJETAS
+         07. OPCIONES Y ADICIONES
+         08. FUNCIONAMIENTO
+         Los precios null están pendientes. Usa números: 12000.
+         Las fotos se cambian en imagen, dentro del catálogo.
+         ===================================================== -->
+        <style>
+            /* 01. COLORES Y ESTILOS */
+            :root {
+                --menta: #89d4bb;
+                --rosa: #eea4ba;
+                --crema: #f7edda;
+                --chocolate: #442f2c;
+                --uva: #925579;
+                --texto: #332a29;
+                --suave: #685952;
+                --vidrio: rgba(255, 255, 255, 0.14);
+                --borde: rgba(255, 255, 255, 0.78);
+                --radio: 26px;
+                --ancho: 1180px;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+                scroll-padding-top: 100px;
+            }
+            body {
+                margin: 0;
+                color: var(--texto);
+                background: var(--crema);
+                font-family: Arial, Helvetica, sans-serif;
+                line-height: 1.55;
+            }
+            body.bloqueado {
+                overflow: hidden;
+            }
+            button,
+            input,
+            select,
+            textarea {
+                font: inherit;
+            }
+            button,
+            a,
+            input,
+            select,
+            textarea {
+                -webkit-tap-highlight-color: transparent;
+            }
+            button {
+                cursor: pointer;
+                color: inherit;
+            }
+            button:disabled {
+                cursor: not-allowed;
+                opacity: 0.62;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            img {
+                display: block;
+                max-width: 100%;
+            }
+            button:focus-visible,
+            a:focus-visible,
+            input:focus-visible,
+            select:focus-visible,
+            textarea:focus-visible {
+                outline: 3px solid var(--uva);
+                outline-offset: 4px;
+            }
+            [hidden] {
+                display: none !important;
+            }
+            .contenedor {
+                width: min(91%, var(--ancho));
+                margin-inline: auto;
+            }
+            .glass {
+                background: var(--vidrio);
+                border: 1px solid var(--borde);
+                box-shadow:
+                    inset 0 1px 10px #ffffff55,
+                    0 14px 35px #48322913;
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border-radius: var(--radio);
+            }
+            .boton {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 12px 20px;
+                min-height: 46px;
+                border: 1px solid #fff9;
+                border-radius: 999px;
+                background: #ffffff66;
+                box-shadow:
+                    inset 0 1px 6px #fff9,
+                    0 5px 12px #452f2910;
+                font-weight: 700;
+                transition:
+                    transform 0.2s,
+                    background 0.2s;
+            }
+            .boton:hover {
+                transform: translateY(-2px);
+                background: #ffffffbb;
+            }
+            .boton.principal {
+                background: var(--chocolate);
+                color: white;
+                border-color: var(--chocolate);
+            }
+            .boton.secundario {
+                background: transparent;
+                border-color: #664b4866;
+            }
+            .eyebrow {
+                font-size: 12px;
+                text-transform: uppercase;
+                font-weight: 800;
+                letter-spacing: 0.18em;
+            }
+            h1,
+            h2,
+            h3,
+            p {
+                margin-top: 0;
+            }
+            h2 {
+                font-size: clamp(29px, 4vw, 46px);
+                line-height: 1.1;
+                letter-spacing: -0.04em;
+            }
+            .cabecera {
+                text-align: center;
+                max-width: 650px;
+                margin: 0 auto 36px;
+            }
+            .cabecera p {
+                color: var(--suave);
+            }
+            .seccion {
+                padding: 76px 0;
+            }
+
+            /* Encabezado flotante, como en la referencia */
+            header {
+                position: sticky;
+                top: 12px;
+                z-index: 20;
+                margin-bottom: -96px;
+                padding-top: 12px;
+            }
+            .nav {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 15px;
+                padding: 12px 22px;
+            }
+            .marca {
+                font-family: "Brush Script MT", "Segoe Script", cursive;
+                font-weight: 900;
+                font-style: italic;
+                font-size: 28px;
+                line-height: 0.85;
+                text-align: center;
+            }
+            .marca span {
+                display: block;
+                font:
+                    800 10px Arial,
+                    sans-serif;
+                font-style: normal;
+                letter-spacing: 0.24em;
+                margin-top: 8px;
+            }
+            .nav-links {
+                display: flex;
+                gap: 21px;
+                align-items: center;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .menu-movil {
+                display: none;
+            }
+            .carrito-boton {
+                border: 1px solid #fff;
+                background: #fff7;
+                border-radius: 50px;
+                padding: 10px 15px;
+                font-weight: 700;
+            }
+            #contador {
+                display: inline-grid;
+                place-items: center;
+                min-width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                background: var(--chocolate);
+                color: white;
+                margin-left: 5px;
+            }
+
+            /* Hero menta: tipografía chocolate y copa central */
+            .hero {
+                background: radial-gradient(
+                    ellipse at 48% 30%,
+                    #d6f4e7 0%,
+                    var(--menta) 65%
+                );
+                padding: 143px 0 45px;
+                overflow: hidden;
+            }
+            .hero-panel {
+                min-height: 490px;
+                padding: 32px 38px;
+                display: grid;
+                grid-template-columns: 0.85fr 1fr 1.05fr;
+                column-gap: 0;
+                align-items: center;
+                position: relative;
+            }
+            .hero h1 {
+                font-size: clamp(36px, 4.3vw, 65px);
+                line-height: 0.97;
+                letter-spacing: -0.055em;
+                text-transform: uppercase;
+                margin-bottom: 22px;
+            }
+            .hero-intro {
+                max-width: 250px;
+                margin-right: -18px;
+            }
+            .hero-intro strong {
+                display: block;
+                font-size: 25px;
+                line-height: 1.2;
+                margin-bottom: 18px;
+            }
+            .hero-foto {
+                position: relative;
+                align-self: stretch;
+                display: grid;
+                place-items: center;
+            }
+            .hero-foto::before {
+                content: "";
+                position: absolute;
+                width: 230px;
+                height: 230px;
+                border-radius: 50%;
+                background: #fff5;
+                box-shadow: 0 0 70px #fff8;
+            }
+            .hero-foto img {
+                position: relative;
+                max-height: 430px;
+                width: 100%;
+                object-fit: contain;
+                filter: drop-shadow(0 20px 15px #65402e25);
+                transform: rotate(-4deg) scale(1.08);
+            }
+            .hero-derecha {
+                position: relative;
+                z-index: 1;
+                margin-left: -12px;
+            }
+            .hero-nota {
+                text-align: center;
+                margin: 24px 0 0;
+                font-size: 13px;
+            }
+            .acciones {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            /* Historia rosa y pequeños paneles pastel */
+            #nosotros {
+                background: var(--rosa);
+                position: relative;
+            }
+            .historia-grid {
+                display: grid;
+                grid-template-columns: 1.1fr 1fr;
+                gap: 70px;
+                align-items: center;
+            }
+            .historia-grid p {
+                max-width: 470px;
+            }
+            .beneficios {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            .beneficio {
+                min-height: 130px;
+                padding: 22px 14px;
+                text-align: center;
+                font-weight: 800;
+            }
+            .beneficio:nth-child(1) {
+                background: #b1e6cf22;
+            }
+            .beneficio:nth-child(2) {
+                background: #f7d39c22;
+            }
+            .beneficio:nth-child(3) {
+                background: #f8c4d222;
+            }
+            .beneficio:nth-child(4) {
+                background: #d6c1e822;
+            }
+            .beneficio b {
+                display: block;
+                font-size: 29px;
+                margin-bottom: 8px;
+            }
+
+            /* Categorías y catálogo: cristal transparente, sin rellenos pastel sólidos */
+            .filtros {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin: 26px 0;
+            }
+            .filtro {
+                border: 1px solid #b6aaa4;
+                background: #fff7;
+                border-radius: 99px;
+                min-height: 44px;
+                padding: 10px 18px;
+            }
+            .filtro[aria-pressed="true"] {
+                background: var(--chocolate);
+                color: white;
+                border-color: var(--chocolate);
+            }
+            .buscador {
+                display: block;
+                width: min(100%, 480px);
+                margin: 0 auto 14px;
+                border-radius: 30px;
+                padding: 13px 20px;
+                border: 1px solid #b6aaa4;
+                background: #fff9;
+            }
+            .resumen-menu {
+                text-align: center;
+                font-size: 13px;
+                color: var(--suave);
+                margin-bottom: 38px;
+            }
+            .productos-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 45px 24px;
+            }
+            .producto {
+                padding: 0 24px 24px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                min-width: 0;
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50 0%,
+                    #ffffff10 48%,
+                    #ffffff24 100%
+                );
+                border-color: #ffffffc9;
+                box-shadow:
+                    inset 1px 1px 0 #ffffffd9,
+                    inset -1px -1px 0 #ffffff55,
+                    0 12px 30px #49362b16;
+                backdrop-filter: blur(5px) saturate(1.1);
+                -webkit-backdrop-filter: blur(5px) saturate(1.1);
+            }
+            .producto:nth-child(3n + 2) {
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50,
+                    #ffe8f00c 48%,
+                    #ffffff24
+                );
+            }
+            .producto:nth-child(3n) {
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50,
+                    #fff0db0c 48%,
+                    #ffffff24
+                );
+            }
+            .producto-imagen {
+                height: 205px;
+                margin: -10px 0 20px;
+                display: grid;
+                place-items: center;
+                position: relative;
+            }
+            .producto-imagen img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                filter: drop-shadow(0 14px 8px #54332920);
+            }
+            .foto-pendiente {
+                text-align: center;
+                color: #685952;
+                font-size: 12px;
+                border: 1px dashed #7e6d6455;
+                border-radius: 80px;
+                width: 144px;
+                height: 144px;
+                display: grid;
+                place-content: center;
+                gap: 8px;
+                background: #ffffff22;
+            }
+            .foto-pendiente svg {
+                width: 35px;
+                height: 35px;
+                margin: auto;
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 1.2;
+            }
+            .producto h3 {
+                font-size: 21px;
+                line-height: 1.15;
+                margin-bottom: 10px;
+            }
+            .producto .descripcion {
+                font-size: 14px;
+                color: #57463f;
+                margin-bottom: 14px;
+            }
+            .precio {
+                font-weight: 800;
+                margin-top: auto;
+                padding-top: 8px;
+                margin-bottom: 12px;
+            }
+            .producto .boton {
+                width: 100%;
+                font-size: 13px;
+                padding-inline: 9px;
+            }
+            .producto-acciones {
+                display: grid;
+                gap: 8px;
+            }
+            .muestras {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 7px;
+                margin: 0 0 12px;
+            }
+            .muestra {
+                display: flex;
+                gap: 6px;
+                align-items: center;
+                padding: 6px 9px;
+                background: #fff5;
+                border: 1px solid #fff9;
+                border-radius: 20px;
+                font-size: 11px;
+                min-height: 36px;
+            }
+            .muestra i {
+                width: 11px;
+                height: 11px;
+                background: var(--color);
+                border-radius: 50%;
+                border: 1px solid #0002;
+                flex-shrink: 0;
+            }
+            .muestra[aria-pressed="true"] {
+                outline: 2px solid var(--chocolate);
+                background: #fff9;
+            }
+            .seleccion {
+                font-size: 12px;
+                font-weight: 700;
+                min-height: 19px;
+            }
+            .promo {
+                background: var(--uva);
+                color: white;
+                text-align: center;
+            }
+            .promo .glass {
+                padding: 42px 24px;
+            }
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .info-card {
+                padding: 28px;
+                background: #fff7;
+            }
+            #resenas {
+                background: #d8bedf;
+            }
+            #resenas .glass {
+                padding: 32px;
+                text-align: center;
+            }
+            #redes {
+                padding-top: 0;
+                text-align: center;
+            }
+            footer {
+                text-align: center;
+                padding: 30px 20px;
+                background: #d8eade;
+                font-size: 13px;
+            }
+
+            /* Ventanas glass accesibles */
+            dialog {
+                width: min(94%, 650px);
+                max-height: 88dvh;
+                border: 1px solid #fff;
+                border-radius: 28px;
+                padding: 0;
+                color: var(--texto);
+                background: #f9efe8ed;
+                box-shadow: 0 25px 90px #35202245;
+                backdrop-filter: blur(24px);
+            }
+            dialog::backdrop {
+                background: #342c3555;
+                backdrop-filter: blur(6px);
+            }
+            .modal-interior {
+                padding: 28px;
+            }
+            .modal-cabecera {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 15px;
+                margin-bottom: 18px;
+            }
+            .modal-cabecera h2 {
+                font-size: 29px;
+                margin: 0;
+            }
+            .cerrar {
+                border: 1px solid #917a7066;
+                background: #fff8;
+                border-radius: 50%;
+                min-width: 42px;
+                height: 42px;
+                font-size: 24px;
+            }
+            label.campo {
+                display: grid;
+                gap: 6px;
+                margin: 15px 0;
+                font-size: 14px;
+                font-weight: 700;
+            }
+            input,
+            select,
+            textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #b6aaa4;
+                border-radius: 13px;
+                color: var(--texto);
+                background: #ffffffa6;
+            }
+            textarea {
+                resize: vertical;
+                min-height: 75px;
+            }
+            fieldset {
+                margin: 22px 0;
+                border: 1px solid #bcaaa066;
+                border-radius: 17px;
+                padding: 17px;
+            }
+            legend {
+                padding: 0 5px;
+                font-weight: 700;
+            }
+            .extra {
+                display: flex;
+                gap: 10px;
+                padding: 9px 0;
+                align-items: center;
+                font-size: 14px;
+            }
+            .extra input {
+                width: 18px;
+                height: 18px;
+                accent-color: var(--uva);
+            }
+            .extra small {
+                margin-left: auto;
+                text-align: right;
+            }
+            .aviso {
+                font-size: 13px;
+                color: #70413e;
+                background: #fff7;
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .total {
+                font-size: 19px;
+                font-weight: 800;
+                padding: 14px 0;
+            }
+            .fila-carrito {
+                border-bottom: 1px solid #bca89d66;
+                padding: 16px 0;
+            }
+            .fila-carrito p {
+                margin: 5px 0;
+                font-size: 13px;
+            }
+            .controles {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 10px;
+            }
+            .controles button {
+                min-width: 38px;
+                min-height: 38px;
+                border-radius: 50%;
+                border: 1px solid #a48c81;
+                background: #fff9;
+            }
+            .controles .eliminar {
+                border-radius: 20px;
+                padding-inline: 12px;
+                margin-left: auto;
+            }
+            .toast {
+                position: fixed;
+                z-index: 100;
+                bottom: 25px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 30px;
+                background: var(--chocolate);
+                color: white;
+                padding: 13px 22px;
+                text-align: center;
+                max-width: 90%;
+                box-shadow: 0 6px 30px #0002;
+            }
+            .volando {
+                position: fixed;
+                z-index: 99;
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                background: var(--rosa);
+                display: grid;
+                place-items: center;
+                font-size: 25px;
+                pointer-events: none;
+                transition:
+                    transform 0.6s ease,
+                    opacity 0.6s;
+            }
+
+            @media (max-width: 850px) {
+                .nav-links {
+                    gap: 12px;
+                }
+                .hero-panel {
+                    padding: 30px;
+                    grid-template-columns: 1fr 1fr;
+                }
+                .hero-intro {
+                    display: none;
+                }
+                .hero-foto {
+                    order: 2;
+                }
+                .hero-derecha {
+                    order: 1;
+                }
+                .historia-grid {
+                    gap: 28px;
+                }
+                .productos-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (max-width: 580px) {
+                header {
+                    top: 8px;
+                    padding-top: 0;
+                }
+                .nav {
+                    padding: 13px;
+                    gap: 8px;
+                }
+                .marca {
+                    font-size: 23px;
+                }
+                .marca span {
+                    font-size: 8px;
+                }
+                .menu-movil {
+                    display: inline-flex;
+                    background: #fff6;
+                    border: 1px solid white;
+                    border-radius: 30px;
+                    padding: 9px 12px;
+                }
+                .nav-links {
+                    display: none;
+                    position: absolute;
+                    top: 80px;
+                    left: 4.5%;
+                    right: 4.5%;
+                    background: #f8f2eafa;
+                    padding: 20px;
+                    border-radius: 20px;
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .nav-links.abierto {
+                    display: flex;
+                }
+                .nav-links a {
+                    padding: 8px;
+                }
+                .carrito-boton {
+                    padding: 8px 10px;
+                    font-size: 12px;
+                }
+                .hero {
+                    padding-top: 115px;
+                }
+                .hero-panel {
+                    min-height: 0;
+                    padding: 29px 22px 15px;
+                    gap: 12px;
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+                .hero h1 {
+                    font-size: 43px;
+                    max-width: 340px;
+                    margin-inline: auto;
+                }
+                .hero-foto {
+                    height: 240px;
+                }
+                .hero-foto img {
+                    max-height: 245px;
+                }
+                .hero-foto::before {
+                    height: 180px;
+                    width: 180px;
+                }
+                .acciones {
+                    justify-content: center;
+                }
+                .historia-grid,
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+                .seccion {
+                    padding: 48px 0;
+                }
+                .productos-grid {
+                    gap: 32px 12px;
+                }
+                .producto {
+                    padding: 0 12px 17px;
+                    border-radius: 22px;
+                }
+                .producto-imagen {
+                    height: 145px;
+                    margin-bottom: 12px;
+                }
+                .foto-pendiente {
+                    width: 110px;
+                    height: 110px;
+                    font-size: 10px;
+                }
+                .producto h3 {
+                    font-size: 18px;
+                }
+                .producto .descripcion {
+                    font-size: 12px;
+                }
+                .producto .boton {
+                    font-size: 12px;
+                    min-height: 44px;
+                    padding: 9px 5px;
+                }
+                .muestras {
+                    gap: 6px;
+                }
+                .muestra {
+                    font-size: 10px;
+                    padding: 5px 7px;
+                }
+                .filtro {
+                    font-size: 12px;
+                    padding: 9px 13px;
+                }
+                .modal-interior {
+                    padding: 22px;
+                }
+            }
+            @media (max-width: 360px) {
+                .productos-grid {
+                    grid-template-columns: 1fr;
+                }
+                .producto-imagen {
+                    height: 190px;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
+                *,
+                *::before,
+                *::after {
+                    transition: none !important;
+                    animation: none !important;
+                }
+            }
+
+            /* =====================================================
+           DECORACIÓN DE POSTRE Y PASTELES MÁS INTENSOS
+           Las imágenes están integradas al final del archivo.
+           Ajusta opacity para hacer la decoración más discreta.
+           ===================================================== */
+            .hero,
+            #nosotros,
+            #menu,
+            .promo,
+            #resenas,
+            #ubicacion {
+                position: relative;
+                isolation: isolate;
+            }
+            .hero::before,
+            #nosotros::before,
+            #menu::before,
+            .promo::before,
+            #resenas::before,
+            #ubicacion::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background-image: var(--decoracion-postre);
+                background-position: center bottom;
+                background-size: 100% auto;
+                background-repeat: no-repeat;
+                opacity: 0.55;
+            }
+            .hero::before {
+                background-size: cover;
+                background-position: center 65%;
+                opacity: 0.82;
+            }
+            .hero-panel {
+                background: rgba(255, 255, 255, 0.22);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+            .hero-foto {
+                z-index: 2;
+            }
+            .hero-intro {
+                position: relative;
+                z-index: 3;
+            }
+            #menu::before {
+                background-size: 100% 900px;
+                background-repeat: repeat-y;
+                opacity: 0.47;
+            }
+            #nosotros::before {
+                opacity: 0.38;
+            }
+            #resenas::before {
+                opacity: 0.32;
+            }
+            #ubicacion::before {
+                opacity: 0.3;
+            }
+            .promo::before {
+                opacity: 0.35;
+            }
+            #nosotros .historia-grid,
+            .promo .glass,
+            #resenas .glass,
+            #ubicacion .info-grid {
+                position: relative;
+                z-index: 1;
+            }
+            header .nav {
+                position: relative;
+                isolation: isolate;
+                overflow: clip;
+            }
+            header .nav::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background-image: var(--decoracion-postre);
+                background-size: 100% auto;
+                background-position: center 86%;
+                opacity: 0.3;
+                filter: blur(2px);
+            }
+            @media (min-width: 851px) {
+                .hero-intro {
+                    transform: translateX(15px);
+                }
+                .hero h1 {
+                    font-size: clamp(36px, 4vw, 60px);
+                }
+            }
+            @media (max-width: 850px) {
+                .hero-derecha {
+                    margin-left: 0;
+                }
+                .hero-foto img {
+                    max-height: 395px;
+                    transform: rotate(-4deg);
+                }
+                .hero::before {
+                    background-position: center bottom;
+                }
+            }
+            @media (max-width: 580px) {
+                /* El cono queda más cerca de las frases en el móvil. */
+                .hero-panel {
+                    padding: 27px 22px 10px;
+                    gap: 0;
+                }
+                .hero-derecha p:not(.eyebrow) {
+                    margin-bottom: 12px;
+                }
+                .hero-foto {
+                    height: 290px;
+                    margin-top: -4px;
+                }
+                .hero-foto img {
+                    max-height: 290px;
+                }
+                .hero h1 {
+                    margin-bottom: 12px;
+                }
+                .hero::before {
+                    background-size: auto 85%;
+                    opacity: 0.65;
+                }
+                #nosotros::before,
+                #resenas::before,
+                #ubicacion::before {
+                    background-size: auto 340px;
+                    opacity: 0.25;
+                }
+                #menu::before {
+                    background-size: auto 850px;
+                    opacity: 0.38;
+                }
+                header .nav {
+                    overflow: visible;
+                }
+                header .nav::before {
+                    border-radius: var(--radio);
+                }
+            }
+            .fotos-producto {
+                position: absolute;
+                inset: 0;
+                min-height: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                width: 100%;
+                height: 100%;
+                min-width: 0;
+            }
+            .fotos-producto img {
+                width: auto;
+                max-width: calc(100% / var(--numero-fotos));
+                max-height: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .nota-imagen {
+                color: var(--suave);
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .producto-imagen {
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 02. ENCABEZADO Y HERO -->
+        <header>
+            <nav class="contenedor nav glass" aria-label="Navegación principal">
+                <button
+                    class="menu-movil"
+                    id="menuMovil"
+                    aria-expanded="false"
+                    aria-controls="navLinks"
+                >
+                    Menú
+                </button>
+                <a class="marca" href="#inicio" aria-label="Agua Fresca, inicio"
+                    >Agua Fresca<span>HELADERÍA</span></a
+                >
+                <div class="nav-links" id="navLinks">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#menu">Menú</a>
+                    <a href="#nosotros">Nosotros</a>
+                    <a href="#resenas">Reseñas</a>
+                    <a href="#ubicacion">Ubicación</a>
+                </div>
+                <button
+                    class="carrito-boton"
+                    id="abrirCarrito"
+                    aria-label="Abrir pedido"
+                >
+                    Pedido <span id="contador">0</span>
+                </button>
+            </nav>
+        </header>
+        <main>
+            <section class="hero" id="inicio">
+                <div class="contenedor hero-panel glass">
+                    <div class="hero-intro">
+                        <p class="eyebrow">Un momento para ti</p>
+                        <strong>La felicidad viene en forma de helado.</strong>
+                        <p>Copas, frutas y pequeños antojos para disfrutar.</p>
+                    </div>
+                    <div class="hero-foto">
+                        <!-- Cono editado a verde oscuro, conservando el chocolate de la referencia. -->
+                        <img
+                            id="fotoHero"
+                            src="imagenes/cono-hero.webp"
+                            alt="Cono de helado verde con cobertura de chocolate"
+                            width="1024"
+                            height="1536"
+                        />
+                    </div>
+                    <div class="hero-derecha">
+                        <p class="eyebrow">Agua Fresca · Heladería</p>
+                        <h1>Tu antojo,<br />a tu sabor.</h1>
+                        <p>
+                            Elige tu favorito y dale tu toque con nuestras adiciones.
+                        </p>
+                        <div class="acciones">
+                            <a class="boton principal" href="#menu">Ver menú</a>
+                            <a class="boton" href="#nosotros">Conócenos</a>
+                        </div>
+                    </div>
+                </div>
+                <p class="hero-nota">
+                    Copas especiales · Frutas · Limonadas · Mucho por descubrir
+                </p>
+            </section>
+
+            <!-- 03. SECCIONES DE LA PÁGINA -->
+            <section class="seccion" id="nosotros">
+                <div class="contenedor historia-grid">
+                    <div>
+                        <p class="eyebrow">Nuestro lado más dulce</p>
+                        <h2>Pequeños antojos.<br />Grandes sonrisas.</h2>
+                        <!-- Editar aquí la presentación del negocio. No se inventa una historia. -->
+                        <p>
+                            En Agua Fresca encuentras copas de helado, preparaciones
+                            con frutas y bebidas para acompañar tus momentos
+                            favoritos.
+                        </p>
+                        <p>
+                            Explora la carta, elige lo que se te antoja y personaliza
+                            tu pedido a tu gusto.
+                        </p>
+                        <a class="boton" href="#menu">Encuentra tu favorito</a>
+                    </div>
+                    <div class="beneficios">
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">♡</b>Copas especiales
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">✧</b>A tu gusto
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">❋</b>Con frutas
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">☺</b>Para compartir
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="seccion" id="menu">
+                <div class="contenedor">
+                    <div class="cabecera">
+                        <p class="eyebrow">Elige, combina y disfruta</p>
+                        <h2>Un favorito para cada antojo</h2>
+                        <p>
+                            Cada copa tiene su personalidad. Las bebidas reúnen sus
+                            opciones para que elijas fácilmente.
+                        </p>
+                    </div>
+                    <div
+                        class="filtros"
+                        id="categorias"
+                        aria-label="Categorías del menú"
+                    >
+                        <button
+                            class="filtro"
+                            data-categoria="todos"
+                            aria-pressed="true"
+                        >
+                            Todo
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="copas"
+                            aria-pressed="false"
+                        >
+                            Copas y postres
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="infantiles"
+                            aria-pressed="false"
+                        >
+                            Copas infantiles
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="bebidas"
+                            aria-pressed="false"
+                        >
+                            Bebidas
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="antojos"
+                            aria-pressed="false"
+                        >
+                            Antojos
+                        </button>
+                    </div>
+                    <input
+                        type="search"
+                        class="buscador"
+                        id="buscar"
+                        placeholder="Busca una copa, bebida o sabor…"
+                        aria-label="Buscar en el menú"
+                    />
+                    <p class="resumen-menu" id="resumenMenu" aria-live="polite"></p>
+                    <div class="productos-grid" id="productos"></div>
+                    <p id="sinResultados" hidden>
+                        No encontramos esa opción. Prueba con otro nombre.
+                    </p>
+                    <noscript
+                        >Activa JavaScript para ver el menú y preparar tu
+                        pedido.</noscript
+                    >
+                </div>
+            </section>
+            <section class="seccion promo">
+                <div class="contenedor glass">
+                    <p class="eyebrow">Ese toque extra</p>
+                    <h2>Hazlo todavía más tuyo.</h2>
+                    <p>
+                        Agrega queso, chantilly, helado, cereal, cerezas, fresas o
+                        fruta desde tu copa favorita.
+                    </p>
+                    <a class="boton" href="#menu">Personalizar mi antojo</a>
+                </div>
+            </section>
+            <section class="seccion" id="resenas">
+                <div class="contenedor glass">
+                    <p class="eyebrow">Tu experiencia cuenta</p>
+                    <h2>Un espacio para tus momentos dulces</h2>
+                    <!-- Añadir reseñas reales cuando el negocio las proporcione. -->
+                    <p>Después de tu visita, cuéntanos cuál fue tu favorito.</p>
+                    <a
+                        class="boton"
+                        id="enlaceResenas"
+                        hidden
+                        target="_blank"
+                        rel="noopener"
+                        >Escribir una reseña</a
+                    >
+                </div>
+            </section>
+            <section class="seccion" id="ubicacion">
+                <div class="contenedor">
+                    <div class="cabecera">
+                        <p class="eyebrow">Ven por tu favorito</p>
+                        <h2>Nos vemos en Agua Fresca</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-card glass">
+                            <h3>Ubicación</h3>
+                            <p id="direccionLocal"></p>
+                            <a
+                                class="boton"
+                                id="enlaceMapa"
+                                hidden
+                                target="_blank"
+                                rel="noopener"
+                                >Cómo llegar</a
+                            >
+                        </div>
+                        <div class="info-card glass">
+                            <h3>Horario</h3>
+                            <p id="horarioLocal"></p>
+                        </div>
+                        <div class="info-card glass">
+                            <h3>Contacto</h3>
+                            <p id="contactoLocal"></p>
+                            <a
+                                class="boton"
+                                id="enlaceContacto"
+                                hidden
+                                target="_blank"
+                                rel="noopener"
+                                >WhatsApp</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="seccion" id="redes">
+                <div class="contenedor">
+                    <h2>Más momentos dulces</h2>
+                    <p>Sigue las novedades de Agua Fresca.</p>
+                    <div
+                        class="acciones"
+                        id="enlacesRedes"
+                        style="justify-content: center"
+                    ></div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            Agua Fresca · Heladería<br />La felicidad viene en forma de helado.
+        </footer>
+
+        <!-- 04. VENTANAS DE PRODUCTO Y CARRITO -->
+        <dialog id="modalProducto" aria-labelledby="tituloProducto">
+            <div class="modal-interior">
+                <div class="modal-cabecera">
+                    <h2 id="tituloProducto"></h2>
+                    <button
+                        class="cerrar"
+                        data-cerrar="modalProducto"
+                        aria-label="Cerrar producto"
+                    >
+                        ×
+                    </button>
+                </div>
+                <form id="formProducto">
+                    <p id="descripcionProducto"></p>
+                    <div id="opcionesProducto"></div>
+                    <fieldset id="extrasProducto">
+                        <legend>Adiciones para tu antojo</legend>
+                        <div id="listaExtras"></div>
+                    </fieldset>
+                    <label class="campo"
+                        >Indicaciones para este producto<textarea
+                            name="nota"
+                            maxlength="250"
+                            placeholder="¿Algo que debamos tener en cuenta?"
+                        ></textarea>
+                    </label>
+                    <p class="total" id="precioProducto" aria-live="polite"></p>
+                    <p class="aviso" id="avisoPrecio" hidden>
+                        Este producto tiene un precio por confirmar. Puedes guardarlo
+                        en tu pedido; el envío estará disponible al completar los
+                        precios.
+                    </p>
+                    <button class="boton principal" type="submit">
+                        Agregar al pedido
+                    </button>
+                </form>
             </div>
-
-            <h3>
-              Hamburguesas
-            </h3>
-
-            <p>
-              Artesanales y llenas de sabor
-            </p>
-
-          </a>
-
-
-          <a href="#bebidas" class="categoria">
-
-            <div class="categoria-icono">
-              🥤
+        </dialog>
+        <dialog id="modalCarrito" aria-labelledby="tituloCarrito">
+            <div class="modal-interior">
+                <div class="modal-cabecera">
+                    <h2 id="tituloCarrito">Tu pedido</h2>
+                    <button
+                        class="cerrar"
+                        data-cerrar="modalCarrito"
+                        aria-label="Cerrar pedido"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div id="listaCarrito"></div>
+                <p class="total" id="totalCarrito" aria-live="polite"></p>
+                <form id="formPedido">
+                    <label class="campo"
+                        >Tu nombre<input
+                            name="nombre"
+                            required
+                            maxlength="80"
+                            autocomplete="name"
+                    /></label>
+                    <label class="campo"
+                        >Tu teléfono<input
+                            name="telefono"
+                            type="tel"
+                            required
+                            maxlength="25"
+                            autocomplete="tel"
+                    /></label>
+                    <label class="campo"
+                        >¿Cómo quieres recibirlo?<select name="entrega" id="entrega">
+                            <option value="Recoger en el local">
+                                Recoger en el local
+                            </option>
+                            <option value="Domicilio">Domicilio</option>
+                        </select></label
+                    >
+                    <label class="campo" id="campoDireccion" hidden
+                        >Dirección de entrega<input
+                            name="direccion"
+                            id="direccionPedido"
+                            maxlength="200"
+                            autocomplete="street-address"
+                    /></label>
+                    <label class="campo"
+                        >Notas generales<textarea
+                            name="nota"
+                            maxlength="400"
+                        ></textarea>
+                    </label>
+                    <p class="aviso">
+                        El domicilio y la disponibilidad se confirman con el local.
+                        Enviar el mensaje por WhatsApp completa la solicitud.
+                    </p>
+                    <p class="aviso" id="bloqueoPedido"></p>
+                    <button class="boton principal" id="enviarPedido" type="submit">
+                        Preparar pedido en WhatsApp
+                    </button>
+                </form>
             </div>
-
-            <h3>
-              Bebidas
-            </h3>
-
-            <p>
-              Frías y refrescantes
-            </p>
-
-          </a>
-
-
-          <a href="#entradas" class="categoria">
-
-            <div class="categoria-icono">
-              🍟
-            </div>
-
-            <h3>
-              Entradas
-            </h3>
-
-            <p>
-              Perfectas para compartir
-            </p>
-
-          </a>
-
-
-          <a href="#postres" class="categoria">
-
-            <div class="categoria-icono">
-              🍰
-            </div>
-
-            <h3>
-              Postres
-            </h3>
-
-            <p>
-              El final perfecto
-            </p>
-
-          </a>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         HAMBURGUESAS
-         ======================================== -->
-
-    <section class="productos" id="menu">
-
-      <div class="contenedor">
-
-        <div class="cabecera-seccion" id="hamburguesas">
-
-          <p class="mini-titulo">
-            Las favoritas
-          </p>
-
-          <h2 class="titulo-seccion">
-            Nuestras <span>hamburguesas</span>
-          </h2>
-
-          <p class="texto-seccion">
-            Productos de ejemplo para esta plantilla.
-            Después se cambian según cada restaurante.
-          </p>
-
-        </div>
-
-
-        <div class="productos-grid">
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=85&w=900&auto=format&fit=crop"
-                alt="Hamburguesa clásica"
-              >
-
-            </div>
-
-
-            <div class="producto-info">
-
-              <h3>
-                Burger Clásica
-              </h3>
-
-              <p>
-                Carne artesanal, queso cheddar,
-                vegetales frescos y salsa especial.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $18.000
-                </span>
-
-                <span class="etiqueta-producto">
-                  FAVORITA
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=85&w=900&auto=format&fit=crop"
-                alt="Hamburguesa doble"
-              >
-
-            </div>
-
-
-            <div class="producto-info">
-
-              <h3>
-                Burger Doble
-              </h3>
-
-              <p>
-                Doble carne, doble queso,
-                tocineta y salsa de la casa.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $24.000
-                </span>
-
-                <span class="etiqueta-producto">
-                  TOP
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=85&w=900&auto=format&fit=crop"
-                alt="Hamburguesa especial"
-              >
-
-            </div>
-
-
-            <div class="producto-info">
-
-              <h3>
-                Burger Especial
-              </h3>
-
-              <p>
-                Carne artesanal, queso,
-                cebolla caramelizada y salsa premium.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $22.000
-                </span>
-
-                <span class="etiqueta-producto">
-                  NUEVA
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         BEBIDAS
-         ======================================== -->
-
-    <section id="bebidas">
-
-      <div class="contenedor">
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Para acompañar
-          </p>
-
-          <h2 class="titulo-seccion">
-            Bebidas <span>refrescantes</span>
-          </h2>
-
-        </div>
-
-
-        <div class="productos-grid">
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1621263764928-df1444c5e859?q=85&w=900&auto=format&fit=crop"
-                alt="Limonada"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Limonada Natural
-              </h3>
-
-              <p>
-                Preparada al momento
-                con limón fresco y hielo.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $7.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1544145945-f90425340c7e?q=85&w=900&auto=format&fit=crop"
-                alt="Bebida gaseosa"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Gaseosa
-              </h3>
-
-              <p>
-                Diferentes sabores
-                para acompañar tu comida.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $5.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=85&w=900&auto=format&fit=crop"
-                alt="Bebida fría"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Bebida Especial
-              </h3>
-
-              <p>
-                Refrescante mezcla
-                preparada especialmente para la casa.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $9.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         ENTRADAS
-         ======================================== -->
-
-    <section class="productos" id="entradas">
-
-      <div class="contenedor">
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Para compartir
-          </p>
-
-          <h2 class="titulo-seccion">
-            Entradas y <span>acompañamientos</span>
-          </h2>
-
-        </div>
-
-
-        <div class="productos-grid">
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=85&w=900&auto=format&fit=crop"
-                alt="Papas fritas"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Papas Clásicas
-              </h3>
-
-              <p>
-                Papas crocantes
-                recién preparadas.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $8.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=85&w=900&auto=format&fit=crop"
-                alt="Papas especiales"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Papas Especiales
-              </h3>
-
-              <p>
-                Papas con queso,
-                salsa especial y toppings.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $13.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=85&w=900&auto=format&fit=crop"
-                alt="Pollo crocante"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Pollo Crunch
-              </h3>
-
-              <p>
-                Pollo crocante
-                acompañado de salsa de la casa.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $16.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         POSTRES
-         ======================================== -->
-
-    <section id="postres">
-
-      <div class="contenedor">
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Algo dulce
-          </p>
-
-          <h2 class="titulo-seccion">
-            Nuestros <span>postres</span>
-          </h2>
-
-        </div>
-
-
-        <div class="productos-grid">
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=85&w=900&auto=format&fit=crop"
-                alt="Torta de chocolate"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Torta de Chocolate
-              </h3>
-
-              <p>
-                Porción suave y chocolatosa,
-                perfecta para cerrar.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $10.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=85&w=900&auto=format&fit=crop"
-                alt="Postre"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Postre de la Casa
-              </h3>
-
-              <p>
-                Una preparación especial
-                que cambia según disponibilidad.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $12.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <article class="producto">
-
-            <div class="producto-imagen">
-
-              <img
-                src="https://images.unsplash.com/photo-1551024506-0bccd828d307?q=85&w=900&auto=format&fit=crop"
-                alt="Donas"
-              >
-
-            </div>
-
-            <div class="producto-info">
-
-              <h3>
-                Dulce Especial
-              </h3>
-
-              <p>
-                Preparación dulce
-                perfecta para acompañar una bebida.
-              </p>
-
-              <div class="producto-abajo">
-
-                <span class="precio">
-                  $9.000
-                </span>
-
-              </div>
-
-            </div>
-
-          </article>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         PROMOCIÓN
-         ======================================== -->
-
-    <section class="promo">
-
-      <div class="contenedor">
-
-        <div class="promo-box">
-
-          <div>
-
-            <p>
-              PROMOCIÓN DESTACADA
-            </p>
-
-            <h2>
-              Combo<br>
-              especial
-            </h2>
-
-            <p>
-              Hamburguesa + papas + bebida
-            </p>
-
-          </div>
-
-
-          <div class="promo-icono">
-            🍔🔥
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         NOSOTROS
-         ======================================== -->
-
-    <section id="nosotros">
-
-      <div class="contenedor nosotros-grid">
-
-
-        <div class="nosotros-img">
-
-          <img
-            src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=85&w=1000&auto=format&fit=crop"
-            alt="Restaurante"
-          >
-
-        </div>
-
-
-        <div class="nosotros-texto">
-
-          <p class="mini-titulo">
-            Nuestra historia
-          </p>
-
-          <h2 class="titulo-seccion">
-            Cocinamos con
-            <span>pasión</span>
-          </h2>
-
-          <p>
-            Urban Burger nació con una idea sencilla:
-            preparar comida deliciosa con ingredientes frescos,
-            buenas porciones y una experiencia que haga
-            querer volver.
-          </p>
-
-          <p>
-            Esta sección está preparada para que cada cliente
-            pueda contar la historia de su restaurante,
-            negocio o emprendimiento.
-          </p>
-
-
-          <a
-            href="#ubicacion"
-            class="boton"
-          >
-            Visítanos
-          </a>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         UBICACIÓN E INFORMACIÓN
-         ======================================== -->
-
-    <section class="info" id="ubicacion">
-
-      <div class="contenedor">
-
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Encuéntranos
-          </p>
-
-          <h2 class="titulo-seccion">
-            Estamos cerca de <span>ti</span>
-          </h2>
-
-        </div>
-
-
-        <div class="info-grid">
-
-
-          <div class="info-card">
-
-            <div class="info-icono">
-              📍
-            </div>
-
-            <h3>
-              Ubicación
-            </h3>
-
-            <!-- CAMBIAR PARA CADA CLIENTE -->
-
-            <p>
-              Funza, Cundinamarca
-            </p>
-
-          </div>
-
-
-          <div class="info-card">
-
-            <div class="info-icono">
-              🕒
-            </div>
-
-            <h3>
-              Horarios
-            </h3>
-
-            <!-- CAMBIAR PARA CADA CLIENTE -->
-
-            <p>
-              Lunes a domingo<br>
-              12:00 p. m. - 10:00 p. m.
-            </p>
-
-          </div>
-
-
-          <div class="info-card">
-
-            <div class="info-icono">
-              📱
-            </div>
-
-            <h3>
-              Contacto
-            </h3>
-
-            <!-- CAMBIAR PARA CADA CLIENTE -->
-
-            <p>
-              +57 300 123 4567<br>
-              restaurante@email.com
-            </p>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ========================================
-         REDES SOCIALES
-         ======================================== -->
-
-    <section id="redes">
-
-      <div class="contenedor">
-
-
-        <div class="cabecera-seccion">
-
-          <p class="mini-titulo">
-            Síguenos
-          </p>
-
-          <h2 class="titulo-seccion">
-            Encuéntranos en <span>redes</span>
-          </h2>
-
-          <p class="texto-seccion">
-            Conoce nuestras novedades,
-            promociones y productos.
-          </p>
-
-        </div>
-
-
-        <div class="redes-grid">
-
-
-          <!-- CAMBIAR LINKS PARA CADA CLIENTE -->
-
-          <a
-            class="red-social"
-            href="https://instagram.com"
-            target="_blank"
-          >
-            📸 Instagram
-          </a>
-
-
-          <a
-            class="red-social"
-            href="https://facebook.com"
-            target="_blank"
-          >
-            👍 Facebook
-          </a>
-
-
-          <a
-            class="red-social"
-            href="https://tiktok.com"
-            target="_blank"
-          >
-            🎵 TikTok
-          </a>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-
-  <!-- ========================================
-       FOOTER
-       ======================================== -->
-
-  <footer>
-
-    <div class="contenedor">
-
-
-      <div class="footer-grid">
-
-
-        <div class="footer-col">
-
-          <a href="#inicio" class="logo">
-
-            <div class="logo-icono">
-              🍔
-            </div>
-
-            <div>
-              URBAN <span>BURGER</span>
-            </div>
-
-          </a>
-
-          <p style="margin-top: 18px;">
-            Comida fresca, sabor increíble
-            y una experiencia para repetir.
-          </p>
-
-        </div>
-
-
-        <div class="footer-col">
-
-          <h3>
-            Navegación
-          </h3>
-
-          <a href="#inicio">
-            Inicio
-          </a>
-
-          <a href="#menu">
-            Menú
-          </a>
-
-          <a href="#nosotros">
-            Nosotros
-          </a>
-
-          <a href="#ubicacion">
-            Ubicación
-          </a>
-
-        </div>
-
-
-        <div class="footer-col">
-
-          <h3>
-            Menú
-          </h3>
-
-          <a href="#hamburguesas">
-            Hamburguesas
-          </a>
-
-          <a href="#bebidas">
-            Bebidas
-          </a>
-
-          <a href="#entradas">
-            Entradas
-          </a>
-
-          <a href="#postres">
-            Postres
-          </a>
-
-        </div>
-
-
-        <div class="footer-col">
-
-          <h3>
-            Contacto
-          </h3>
-
-          <!-- CAMBIAR -->
-
-          <p>
-            📞 +57 300 123 4567
-          </p>
-
-          <p>
-            📍 Funza, Cundinamarca
-          </p>
-
-          <p>
-            ✉ restaurante@email.com
-          </p>
-
-        </div>
-
-
-      </div>
-
-
-      <div class="copyright">
-
-        © 2026 Urban Burger · Todos los derechos reservados
-
-      </div>
-
-
-    </div>
-
-  </footer>
-
-
-  <!-- ========================================
-       WHATSAPP FLOTANTE
-       CAMBIAR NÚMERO
-       ======================================== -->
-
-  <a
-    class="whatsapp-flotante"
-    href="https://wa.me/573001234567"
-    target="_blank"
-    aria-label="WhatsApp"
-  >
-    ☎
-  </a>
-
-
-  <!-- ========================================
-       JAVASCRIPT
-       SOLO PARA MENÚ DE CELULAR
-       ======================================== -->
-
-  <script>
-
-    const botonMenu = document.getElementById("menuMovil");
-
-    const navegacion = document.getElementById("navLinks");
-
-
-    botonMenu.addEventListener("click", () => {
-
-      navegacion.classList.toggle("activo");
-
-    });
-
-
-    const linksMenu = document.querySelectorAll(".nav-links a");
-
-
-    linksMenu.forEach(link => {
-
-      link.addEventListener("click", () => {
-
-        navegacion.classList.remove("activo");
-
-      });
-
-    });
-
-  </script>
-
-<!-- SISTEMA DE PEDIDOS URBAN BURGER -->
-<style>
-  .btn-agregar {
-    display:block;width:100%;margin-top:15px;
-    padding:13px;border:0;border-radius:12px;
-    background:#f2b51d;color:#111;
-    font-weight:900;cursor:pointer;
-  }
-  .btn-carrito {
-    position:fixed;bottom:20px;left:20px;z-index:1050;
-    border:0;border-radius:30px;padding:15px 20px;
-    background:#f2b51d;color:#111;font-weight:900;
-    box-shadow:0 5px 25px #0009;cursor:pointer;
-  }
-  .fondo-carrito {
-    display:none;position:fixed;inset:0;
-    background:#000b;z-index:2000;
-  }
-  .fondo-carrito.visible {display:block}
-  .panel-carrito {
-    position:absolute;right:0;top:0;
-    width:min(100%,440px);height:100%;
-    overflow:auto;background:#151515;color:white;
-    padding:24px;border-left:1px solid #444;
-  }
-  .panel-carrito h2 {color:#f2b51d}
-  .cerrar-carrito {
-    float:right;background:none;border:0;
-    color:white;font-size:32px;cursor:pointer;
-  }
-  .linea-carrito {
-    display:flex;justify-content:space-between;
-    align-items:center;gap:12px;padding:14px 0;
-    border-bottom:1px solid #444;
-  }
-  .linea-carrito button {
-    padding:5px 11px;background:#333;
-    color:white;border:1px solid #555;
-    border-radius:7px;cursor:pointer;
-  }
-  .cantidad-controles {
-    display:flex;align-items:center;gap:8px;
-  }
-  .pedido-campo {display:block;margin:13px 0}
-  .pedido-campo input,
-  .pedido-campo select,
-  .pedido-campo textarea {
-    display:block;width:100%;margin-top:5px;
-    background:#252525;color:white;
-    border:1px solid #555;border-radius:10px;
-    padding:12px;font:inherit;
-  }
-  .total-carrito {
-    color:#f2b51d;font-size:24px;
-    font-weight:900;margin:20px 0;
-  }
-  .enviar-pedido {
-    width:100%;padding:16px;background:#25d366;
-    border:0;border-radius:12px;
-    font-weight:900;color:#092e19;cursor:pointer;
-  }
-
-.btn-carrito {
-  transition: background .2s ease, box-shadow .2s ease;
-}
-
-.btn-carrito:hover {
-  background: #ffd45c;
-  box-shadow: 0 8px 35px rgba(242,181,29,.4);
-}
-
-.btn-agregar:active {
-  transform: scale(.97);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn-carrito, .btn-agregar {
-    transition: none;
-  }
-}
-
-</style>
-
-<button class="btn-carrito" id="abrirPedido">
-  🛒 Carrito (<span id="contadorPedido">0</span>)
-</button>
-
-<div class="fondo-carrito" id="fondoPedido">
-  <div class="panel-carrito" role="dialog"
-       aria-modal="true" aria-label="Tu pedido">
-    <button class="cerrar-carrito"
-            id="cerrarPedido" aria-label="Cerrar">×</button>
-    <h2>🛒 Tu pedido</h2>
-    <div id="listaPedido"></div>
-    <p class="total-carrito">
-      Total productos: <span id="totalPedido">$0</span>
-    </p>
-
-    <form id="formularioPedido">
-      <label class="pedido-campo">
-        Nombre completo *
-        <input name="nombre" required maxlength="100">
-      </label>
-      <label class="pedido-campo">
-        Teléfono *
-        <input name="telefono" type="tel"
-               required maxlength="25">
-      </label>
-      <label class="pedido-campo">
-        Tipo de entrega
-        <select name="entrega" id="entregaPedido">
-          <option>Domicilio</option>
-          <option>Recoger en el local</option>
-        </select>
-      </label>
-      <label class="pedido-campo" id="campoDireccion">
-        Dirección *
-        <input name="direccion" id="direccionPedido"
-               required maxlength="180">
-      </label>
-      <label class="pedido-campo">
-        Medio de pago *
-        <select name="pago" required>
-          <option value="">Seleccionar</option>
-          <option>Efectivo</option>
-          <option>Transferencia</option>
-          <option>Datáfono (consultar)</option>
-        </select>
-      </label>
-      <label class="pedido-campo">
-        Observaciones
-        <textarea name="notas" rows="2"
-                  maxlength="300"></textarea>
-      </label>
-      <button class="enviar-pedido" type="submit">
-        ✅ Pedir por WhatsApp
-      </button>
-      <p style="color:#aaa;font-size:12px;margin-top:12px">
-        WhatsApp abrirá el pedido preparado.
-        Pulsa Enviar para mandarlo al restaurante.
-        El domicilio y el pedido deben confirmarse.
-      </p>
-    </form>
-  </div>
-</div>
-
-<script>
-(() => {
-  // NÚMERO DEL RESTAURANTE PARA LOS PEDIDOS
-  const whatsapp = "573144073259";
-
-  const moneda = n => new Intl.NumberFormat("es-CO", {
-    style:"currency",currency:"COP",
-    maximumFractionDigits:0
-  }).format(n);
-
-  const productos = [];
-  const carrito = new Map();
-
-  const fondo = document.getElementById("fondoPedido");
-  const listado = document.getElementById("listaPedido");
-  const totalElemento = document.getElementById("totalPedido");
-  const contador = document.getElementById("contadorPedido");
-
-  document.querySelectorAll("article.producto")
-    .forEach((tarjeta) => {
-      const nombre = tarjeta.querySelector("h3")?.textContent.trim();
-      const precioTexto = tarjeta.querySelector(".precio")?.textContent || "";
-      const precio = Number(precioTexto.replace(/\D/g,""));
-      if (!nombre || !precio) return;
-
-      const id = productos.length;
-      productos.push({nombre,precio});
-
-      const boton = document.createElement("button");
-      boton.className = "btn-agregar";
-      boton.type = "button";
-      boton.textContent = "🛒 Agregar al carrito";
-      boton.addEventListener("click", () => {
-        carrito.set(id,(carrito.get(id)||0)+1);
-        actualizar();
-        animarProducto(tarjeta, boton);
-      });
-      tarjeta.querySelector(".producto-info").append(boton);
-    });
-
-function animarProducto(tarjeta, boton) {
-  const carritoBoton = document.getElementById("abrirPedido");
-  const imagen = tarjeta.querySelector(".producto-imagen img");
-
-  const textoOriginal = boton.textContent;
-  boton.textContent = "✓ Añadido";
-
-  setTimeout(() => {
-    boton.textContent = textoOriginal;
-  }, 850);
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-
-  if (imagen) {
-    const origen = imagen.getBoundingClientRect();
-    const destino = carritoBoton.getBoundingClientRect();
-
-    const miniatura = imagen.cloneNode(true);
-
-    Object.assign(miniatura.style, {
-      position: "fixed",
-      left: origen.left + origen.width / 2 - 35 + "px",
-      top: origen.top + origen.height / 2 - 35 + "px",
-      width: "70px",
-      height: "70px",
-      objectFit: "cover",
-      borderRadius: "16px",
-      zIndex: "3000",
-      pointerEvents: "none",
-      boxShadow: "0 8px 25px #0009"
-    });
-
-    document.body.appendChild(miniatura);
-
-    const dx = destino.left + destino.width / 2 -
-      (origen.left + origen.width / 2);
-
-    const dy = destino.top + destino.height / 2 -
-      (origen.top + origen.height / 2);
-
-    miniatura.animate([
-      {
-        transform: "translate(0,0) scale(1)",
-        opacity: 1,
-        offset: 0
-      },
-      {
-        transform: `translate(${dx * 0.5}px,${dy * 0.5 - 110}px) scale(.7)`,
-        opacity: 1,
-        offset: .55
-      },
-      {
-        transform: `translate(${dx}px,${dy}px) scale(.15)`,
-        opacity: 0,
-        offset: 1
-      }
-    ], {
-      duration: 750,
-      easing: "ease-in-out"
-    }).finished.then(() => miniatura.remove())
-      .catch(() => miniatura.remove());
-  }
-
-  carritoBoton.animate([
-    { transform: "scale(1)" },
-    { transform: "scale(1.18)" },
-    { transform: "scale(1)" }
-  ], {
-    duration: 400,
-    delay: 650,
-    easing: "ease-out"
-  });
-}
-
-  function abrir() {
-    fondo.classList.add("visible");
-    document.getElementById("cerrarPedido").focus();
-  }
-
-  function cerrar() {
-    fondo.classList.remove("visible");
-    document.getElementById("abrirPedido").focus();
-  }
-
-  document.getElementById("abrirPedido")
-    .addEventListener("click",abrir);
-  document.getElementById("cerrarPedido")
-    .addEventListener("click",cerrar);
-  fondo.addEventListener("click",e => {
-    if(e.target === fondo) cerrar();
-  });
-  document.addEventListener("keydown",e => {
-    if(e.key === "Escape") cerrar();
-  });
-
-  function cambiar(id,variacion) {
-    const n = (carrito.get(id)||0)+variacion;
-    if(n <= 0) carrito.delete(id);
-    else carrito.set(id,n);
-    actualizar();
-  }
-
-  function actualizar() {
-    listado.replaceChildren();
-    let total = 0;
-    let cantidad = 0;
-
-    if(carrito.size === 0) {
-      const aviso = document.createElement("p");
-      aviso.textContent = "Tu carrito está vacío.";
-      listado.append(aviso);
-    }
-
-    carrito.forEach((n,id) => {
-      const p = productos[id];
-      total += p.precio*n;
-      cantidad += n;
-
-      const fila = document.createElement("div");
-      fila.className = "linea-carrito";
-      const datos = document.createElement("div");
-      const controles = document.createElement("div");
-      controles.className = "cantidad-controles";
-
-      const nombre = document.createElement("strong");
-      nombre.textContent = p.nombre;
-      const subtotal = document.createElement("p");
-      subtotal.textContent = moneda(p.precio*n);
-      datos.append(nombre,subtotal);
-
-      const menos = document.createElement("button");
-      menos.type = "button";
-      menos.textContent = "−";
-      menos.onclick = () => cambiar(id,-1);
-
-      const numero = document.createElement("span");
-      numero.textContent = n;
-
-      const mas = document.createElement("button");
-      mas.type = "button";
-      mas.textContent = "+";
-      mas.onclick = () => cambiar(id,1);
-
-      controles.append(menos,numero,mas);
-      fila.append(datos,controles);
-      listado.append(fila);
-    });
-
-    contador.textContent = cantidad;
-    totalElemento.textContent = moneda(total);
-  }
-
-  const entrega = document.getElementById("entregaPedido");
-  const direccion = document.getElementById("direccionPedido");
-
-  entrega.addEventListener("change",() => {
-    const domicilio = entrega.value === "Domicilio";
-    document.getElementById("campoDireccion").hidden = !domicilio;
-    direccion.required = domicilio;
-  });
-
-  document.getElementById("formularioPedido")
-    .addEventListener("submit",e => {
-      e.preventDefault();
-
-      if(carrito.size === 0) {
-        alert("Primero agrega productos al carrito.");
-        return;
-      }
-
-      const d = new FormData(e.currentTarget);
-      let total = 0;
-      const lineas = [];
-
-      carrito.forEach((n,id) => {
-        const p = productos[id];
-        const subtotal = n*p.precio;
-        total += subtotal;
-        lineas.push(
-          `${n} x ${p.nombre}: ${moneda(subtotal)}`
-        );
-      });
-
-      const mensaje = [
-        "🍔 *NUEVO PEDIDO - URBAN BURGER*",
-        "",
-        "*PRODUCTOS*",
-        ...lineas,
-        "",
-        `*Subtotal:* ${moneda(total)}`,
-        "*Domicilio:* Por confirmar",
-        "",
-        `*Nombre:* ${d.get("nombre")}`,
-        `*Teléfono:* ${d.get("telefono")}`,
-        `*Entrega:* ${d.get("entrega")}`,
-        ...(d.get("entrega")==="Domicilio"
-          ? [`*Dirección:* ${d.get("direccion")}`] : []),
-        `*Pago:* ${d.get("pago")}`,
-        `*Observaciones:* ${d.get("notas")||"Ninguna"}`,
-        "",
-        "Por favor, confirma disponibilidad",
-        "y el total final del pedido. ¡Gracias!"
-      ].join("\n");
-
-      window.location.href =
-        `https://wa.me/${whatsapp}?text=${encodeURIComponent(mensaje)}`;
-    });
-
-  // Actualizar también el botón flotante de contacto
-  const contacto = document.querySelector(".whatsapp-flotante");
-  if(contacto) contacto.href = `https://wa.me/${whatsapp}`;
-
-  actualizar();
-})();
-</script>
-<!-- FIN SISTEMA DE PEDIDOS -->
-
-
-</body>
+        </dialog>
+        <div class="toast" id="toast" role="status" hidden></div>
+
+        <script>
+            "use strict";
+
+            // 05. CONFIGURACIÓN DEL NEGOCIO
+            // Completar con datos de Agua Fresca. No se reutiliza el número de la hamburguesería.
+            const NEGOCIO = {
+                nombre: "Agua Fresca",
+                whatsapp: "", // Código de país y número, sin + ni espacios. Ejemplo: 573001234567.
+                direccion: "Dirección por confirmar",
+                horario: "Horario por confirmar",
+                mapa: "", // URL completa de Google Maps.
+                resenas: "", // URL de reseñas reales.
+                instagram: "",
+                facebook: "",
+                tiktok: "",
+            };
+
+            // 06. CATÁLOGO: 56 TARJETAS
+            // precio: valor en COP, sin puntos ni símbolo. null = pendiente; 0 = gratis.
+            // imagen: archivo dentro de la carpeta imagenes que acompaña este index.html.
+            // En tarjetas agrupadas, el precio de cada opción es su precio completo.
+            const PRODUCTOS = [
+                // TARJETA 01: BROWNIE CALIENTE
+                {
+                    id: "copa-01",
+                    nombre: "Brownie caliente",
+                    categoria: "copas",
+                    descripcion:
+                        "Brownie, helado, salsa de chocolate y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-01.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 02: TORTA ESPECIAL
+                {
+                    id: "copa-02",
+                    nombre: "Torta especial",
+                    categoria: "copas",
+                    descripcion: "Torta de chocolate, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-02.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 03: CAFÉ COLOMBIA
+                {
+                    id: "copa-03",
+                    nombre: "Café Colombia",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, licor de café y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-03.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 04: SUPREMA
+                {
+                    id: "copa-04",
+                    nombre: "Suprema",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, chocolatina de maní y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-04.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 05: OREO
+                {
+                    id: "copa-05",
+                    nombre: "Oreo",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, galleta Oreo, salsa de chocolate y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-05.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 06: EXPLOSIÓN DE CHOCOLATE
+                {
+                    id: "copa-06",
+                    nombre: "Explosión de chocolate",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, trozos de brownie, galleta Oreo y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-06.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 07: EUFORIA
+                {
+                    id: "copa-07",
+                    nombre: "Euforia",
+                    categoria: "copas",
+                    descripcion: "Trozos de brownie, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-07.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 08: FANTASÍA
+                {
+                    id: "copa-08",
+                    nombre: "Fantasía",
+                    categoria: "copas",
+                    descripcion:
+                        "Banano, papaya, fresa, helado, queso rallado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-08.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 09: CAPRICHO
+                {
+                    id: "copa-09",
+                    nombre: "Capricho",
+                    categoria: "copas",
+                    descripcion: "Melocotón, brownie, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-09.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 10: AREQUIPE
+                {
+                    id: "copa-10",
+                    nombre: "Arequipe",
+                    categoria: "copas",
+                    descripcion:
+                        "Salsa de arequipe, banano, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-10.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 11: WAFFLES
+                {
+                    id: "copa-11",
+                    nombre: "Waffles",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, fresa, melocotón o banano y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-11.webp",
+                    adiciones: true,
+                    sabores: true,
+                    opciones: [
+                        {
+                            nombre: "Fresa",
+                            precio: null,
+                            color: "#e46e8b",
+                        },
+                        {
+                            nombre: "Melocotón",
+                            precio: null,
+                            color: "#efb176",
+                        },
+                        {
+                            nombre: "Banano",
+                            precio: null,
+                            color: "#e4c861",
+                        },
+                    ],
+                },
+                // TARJETA 12: BAYLEYS
+                {
+                    id: "copa-12",
+                    nombre: "Bayleys",
+                    categoria: "copas",
+                    descripcion:
+                        "Trago de Bayleys, salsa de chocolate, helado, queso y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-12.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 13: CHOCORRAMO
+                {
+                    id: "copa-13",
+                    nombre: "Chocorramo",
+                    categoria: "copas",
+                    descripcion: "Trozos de Chocorramo, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-13.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 14: MILO
+                {
+                    id: "copa-14",
+                    nombre: "Milo",
+                    categoria: "copas",
+                    descripcion: "Galleta Milo, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-14.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 15: SORPRESA
+                {
+                    id: "copa-15",
+                    nombre: "Sorpresa",
+                    categoria: "copas",
+                    descripcion: "Helado, fresa, kiwi, melocotón y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-15.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 16: SUEÑO DE FRUTAS
+                {
+                    id: "copa-16",
+                    nombre: "Sueño de frutas",
+                    categoria: "copas",
+                    descripcion: "Helado, trozos de frutas y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-16.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 17: FESTIVAL DE FRUTAS
+                {
+                    id: "copa-17",
+                    nombre: "Festival de frutas",
+                    categoria: "copas",
+                    descripcion:
+                        "Mango, manzana, papaya, banano, melocotón, fresas, helado, yogurt y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-17.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 18: MELOCOTÓN
+                {
+                    id: "copa-18",
+                    nombre: "Melocotón",
+                    categoria: "copas",
+                    descripcion: "Rodajas de melocotón, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-18.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 19: FRESA
+                {
+                    id: "copa-19",
+                    nombre: "Fresa",
+                    categoria: "copas",
+                    descripcion:
+                        "Fresas, helado, leche condensada y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-19.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 20: CEREZA
+                {
+                    id: "copa-20",
+                    nombre: "Cereza",
+                    categoria: "copas",
+                    descripcion: "Cerezas, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-20.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 21: DESTELLOS ROJOS
+                {
+                    id: "copa-21",
+                    nombre: "Destellos rojos",
+                    categoria: "copas",
+                    descripcion: "Fresas, cerezas, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-21.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 22: CARIBE
+                {
+                    id: "copa-22",
+                    nombre: "Caribe",
+                    categoria: "copas",
+                    descripcion: "Melocotón, fresas, helado y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-22.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 23: ILUSIÓN
+                {
+                    id: "copa-23",
+                    nombre: "Ilusión",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, mango, durazno, queso rallado, cereales y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-23.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 24: ESTRELLA
+                {
+                    id: "copa-24",
+                    nombre: "Estrella",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, fresa, banano, ripio de Oreo y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-24.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 25: DE LA CASA
+                {
+                    id: "copa-25",
+                    nombre: "De la casa",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, salsa de arequipe y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-25.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 26: CABELLO DE ÁNGEL
+                {
+                    id: "copa-26",
+                    nombre: "Cabello de ángel",
+                    categoria: "copas",
+                    descripcion: "Helado, queso derretido y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-26.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 27: M&M
+                {
+                    id: "copa-27",
+                    nombre: "M&M",
+                    categoria: "copas",
+                    descripcion: "Helado, M&M y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-27.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 28: EXPLOSIÓN DE MASMELOS
+                {
+                    id: "copa-28",
+                    nombre: "Explosión de masmelos",
+                    categoria: "copas",
+                    descripcion: "Helado, masmelos y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-28.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 29: ENSALADA DE FRUTAS
+                {
+                    id: "copa-29",
+                    nombre: "Ensalada de frutas",
+                    categoria: "copas",
+                    descripcion:
+                        "Frutas, yogurt de melocotón, queso rallado, helado, leche condensada y cereal.",
+                    precio: null,
+                    imagen: "imagenes/copa-29.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 30: SALPICÓN SENCILLO
+                {
+                    id: "copa-30",
+                    nombre: "Salpicón sencillo",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, jugo de salpicón y leche condensada.",
+                    precio: null,
+                    imagen: "imagenes/copa-30.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 31: SALPICÓN HELADO
+                {
+                    id: "copa-31",
+                    nombre: "Salpicón helado",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, helado, jugo de salpicón y leche condensada.",
+                    precio: null,
+                    imagen: "imagenes/copa-31.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 32: SALPICÓN ESPECIAL
+                {
+                    id: "copa-32",
+                    nombre: "Salpicón especial",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, jugo de salpicón, helado, queso rallado, cereal y leche condensada.",
+                    precio: null,
+                    imagen: "imagenes/copa-32.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 33: ARCOÍRIS
+                {
+                    id: "copa-33",
+                    nombre: "Arcoíris",
+                    categoria: "copas",
+                    descripcion: "Variedad de gelatina y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-33.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 34: GELATINA HELADO
+                {
+                    id: "copa-34",
+                    nombre: "Gelatina helado",
+                    categoria: "copas",
+                    descripcion:
+                        "Gelatina, helado, leche condensada y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-34.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 35: BANANA SPLIT
+                {
+                    id: "copa-35",
+                    nombre: "Banana split",
+                    categoria: "copas",
+                    descripcion:
+                        "Banano, helado, salsa de arequipe y crema chantilly.",
+                    precio: null,
+                    imagen: "imagenes/copa-35.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 36: CONCHA
+                {
+                    id: "copa-36",
+                    nombre: "Concha",
+                    categoria: "copas",
+                    descripcion: "Helado, galleta y salsa.",
+                    precio: null,
+                    imagen: "imagenes/copa-36.webp",
+                    adiciones: true,
+                    sabores: true,
+                    imagenes: ["imagenes/copa-36.webp", "imagenes/copa-36-2.webp"],
+                },
+                // TARJETA 37: CUCURUCHOS
+                {
+                    id: "copa-37",
+                    nombre: "Cucuruchos",
+                    categoria: "copas",
+                    descripcion: "Helado, crema chantilly y decoración.",
+                    precio: null,
+                    imagen: "imagenes/copa-37.webp",
+                    adiciones: true,
+                    sabores: true,
+                    imagenes: ["imagenes/copa-37.webp", "imagenes/copa-37-2.webp"],
+                },
+                // TARJETA 38: COPA PAYASO
+                {
+                    id: "infantil-01",
+                    nombre: "Copa Payaso",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de payaso.",
+                    precio: null,
+                    imagen: "imagenes/infantil-01.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 39: COPA GATO
+                {
+                    id: "infantil-02",
+                    nombre: "Copa Gato",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de gato.",
+                    precio: null,
+                    imagen: "imagenes/infantil-02.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 40: COPA RATÓN
+                {
+                    id: "infantil-03",
+                    nombre: "Copa Ratón",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de ratón.",
+                    precio: null,
+                    imagen: "imagenes/infantil-03.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 41: COPA MUÑECO DE NIEVE
+                {
+                    id: "infantil-04",
+                    nombre: "Copa Muñeco de nieve",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de muñeco de nieve.",
+                    precio: null,
+                    imagen: "imagenes/infantil-04.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 42: COPA ARAÑA
+                {
+                    id: "infantil-05",
+                    nombre: "Copa Araña",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de araña.",
+                    precio: null,
+                    imagen: "imagenes/infantil-05.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 43: COPA OSO
+                {
+                    id: "infantil-06",
+                    nombre: "Copa Oso",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de oso.",
+                    precio: null,
+                    imagen: "imagenes/infantil-06.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 44: COPA PINOCHO
+                {
+                    id: "infantil-07",
+                    nombre: "Copa Pinocho",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pinocho.",
+                    precio: null,
+                    imagen: "imagenes/infantil-07.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 45: COPA CERDITO
+                {
+                    id: "infantil-08",
+                    nombre: "Copa Cerdito",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de cerdito.",
+                    precio: null,
+                    imagen: "imagenes/infantil-08.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 46: COPA PULPO
+                {
+                    id: "infantil-09",
+                    nombre: "Copa Pulpo",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pulpo.",
+                    precio: null,
+                    imagen: "imagenes/infantil-09.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 47: COPA BÚHO
+                {
+                    id: "infantil-10",
+                    nombre: "Copa Búho",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de búho.",
+                    precio: null,
+                    imagen: "imagenes/infantil-10.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 48: COPA GUSANO
+                {
+                    id: "infantil-11",
+                    nombre: "Copa Gusano",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de gusano.",
+                    precio: null,
+                    imagen: "imagenes/infantil-11.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 49: COPA POLLITO
+                {
+                    id: "infantil-12",
+                    nombre: "Copa Pollito",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pollito.",
+                    precio: null,
+                    imagen: "imagenes/infantil-12.webp",
+                    adiciones: true,
+                    sabores: true,
+                },
+                // TARJETA 50: GASEOSAS Y BEBIDAS ENVASADAS
+                {
+                    id: "gaseosas",
+                    nombre: "Gaseosas y bebidas envasadas",
+                    categoria: "bebidas",
+                    descripcion: "Escoge tu bebida favorita.",
+                    precio: null,
+                    imagen: "imagenes/gaseosas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Piña",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Uva",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Manzana",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Colombiana",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Quatro",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Tuti-fruti",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Coca-Cola",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Tamarindo",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Hit",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Bretaña",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Saviloe",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Mr Tea",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Agua",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Agua con gas",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Agua saborizada",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Gatorade",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Vive 100",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Malta",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 51: CERVEZAS
+                {
+                    id: "cervezas",
+                    nombre: "Cervezas",
+                    categoria: "bebidas",
+                    descripcion: "Elige la cerveza para acompañar tu pedido.",
+                    precio: null,
+                    imagen: "imagenes/cervezas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Águila",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Coronita",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Águila Light",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Pilsen",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Cola y Pola",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Costeñita",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Los Cuates",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 52: PRODUCTOS ALPINA
+                {
+                    id: "alpina",
+                    nombre: "Productos Alpina",
+                    categoria: "bebidas",
+                    descripcion: "Abre las opciones y escoge tu producto.",
+                    precio: null,
+                    imagen: "imagenes/alpina.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "modal",
+                    opciones: [
+                        {
+                            nombre: "Bonyurt",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Avena",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Alpinito",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "YogoYogo",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Alpin",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 53: BEBIDAS FRÍAS Y CALIENTES
+                {
+                    id: "preparadas",
+                    nombre: "Bebidas frías y calientes",
+                    categoria: "bebidas",
+                    descripcion: "Malteadas, cafés, aromáticas y micheladas.",
+                    precio: null,
+                    imagen: "imagenes/preparadas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "modal",
+                    opciones: [
+                        {
+                            nombre: "Malteada",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Milo frío",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Capuchino frío",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Milo caliente",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Capuchino caliente",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Tinto",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Café con leche",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Aromática",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Michelada",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                    ],
+                    imagenes: [
+                        "imagenes/preparadas.webp",
+                        "imagenes/preparadas-2.webp",
+                    ],
+                },
+                // TARJETA 54: JUGOS NATURALES
+                {
+                    id: "jugos",
+                    nombre: "Jugos naturales",
+                    categoria: "bebidas",
+                    descripcion: "Elige tu fruta y prepáralo en agua o en leche.",
+                    precio: null,
+                    imagen: "imagenes/jugos.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Mango",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Fresa",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Mora",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Maracuyá",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Guanábana",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Guayaba",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Chontaborojo",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                    ],
+                    preparaciones: ["En agua", "En leche"],
+                },
+                // TARJETA 55: LIMONADAS
+                {
+                    id: "limonadas",
+                    nombre: "Limonadas",
+                    categoria: "bebidas",
+                    descripcion: "Encuentra tu combinación favorita.",
+                    precio: null,
+                    imagen: "imagenes/limonadas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Coco",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Mango biche",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Cereza",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Fresa",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 56: PIZZA HAWAIANA
+                {
+                    id: "pizza-hawaiana",
+                    nombre: "Pizza hawaiana",
+                    categoria: "antojos",
+                    descripcion: "Un antojo salado para acompañar tu visita.",
+                    precio: null,
+                    imagen: "imagenes/pizza-hawaiana.webp",
+                    adiciones: false,
+                    sabores: false,
+                },
+            ];
+
+            // 07. OPCIONES Y ADICIONES
+            // Agregar aquí los sabores reales de helado cuando el negocio los confirme.
+            // No se inventa una lista de sabores que no está en la carta.
+            const SABORES_HELADO = [];
+
+            const ADICIONES = [
+                { id: "queso", nombre: "Queso", precio: null },
+                { id: "chantilly", nombre: "Chantilly", precio: null },
+                { id: "helado", nombre: "Helado", precio: null },
+                { id: "cereal", nombre: "Cereal", precio: null },
+                { id: "cerezas", nombre: "Cerezas", precio: null },
+                { id: "fresas", nombre: "Fresas", precio: null },
+                { id: "fruta", nombre: "Fruta", precio: null },
+            ];
+
+            // Las preparaciones con precio distinto se configuran por separado aquí.
+            // precio es el valor final del producto; no es un recargo.
+            const PRECIOS_PREPARACION = {
+                jugos: {}, // Ejemplo: "Mango|En agua": 6000, "Mango|En leche": 7000.
+                preparadas: {}, // Ejemplo: "Aromática|En agua": 3000.
+            };
+
+            const OPCIONES_SECUNDARIAS = {
+                Hit: ["Mango", "Piña-Naranja", "Mora", "Tropical"],
+                Alpin: ["Chocolate", "Fresa"],
+                Aromática: ["Hierbabuena", "Manzanilla", "Panelita", "Frutos rojos"],
+                Michelada: ["Mango", "Maracuyá", "Cereza", "Fresa"],
+            };
+            const BASES_MICHELADA = [
+                "Soda",
+                "Tamarindo",
+                "Bretaña",
+                "Cerveza",
+                "Quatro",
+            ];
+
+            // 08. FUNCIONAMIENTO
+            // A partir de aquí normalmente no necesitas editar para cambiar la carta.
+            const $ = (id) => document.getElementById(id);
+            const moneda = (n) =>
+                new Intl.NumberFormat("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                    maximumFractionDigits: 0,
+                }).format(n);
+            const precioValido = (n) =>
+                typeof n === "number" && Number.isFinite(n) && n >= 0;
+            const textoPrecio = (n) =>
+                precioValido(n) ? moneda(n) : "Precio por confirmar";
+            const normalizar = (s) =>
+                s
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase();
+            const CLAVE_CARRITO = "agua-fresca-pedido-v1";
+            const seleccionados = new Map();
+            let categoria = "todos";
+            let productoActual = null;
+            let ultimoBoton = null;
+            let carrito = [];
+            let tiempoToast;
+
+            function nodo(tag, clase, texto) {
+                const el = document.createElement(tag);
+                if (clase) el.className = clase;
+                if (texto !== undefined) el.textContent = texto;
+                return el;
+            }
+
+            function notificar(texto) {
+                clearTimeout(tiempoToast);
+                $("toast").textContent = texto;
+                $("toast").hidden = false;
+                tiempoToast = setTimeout(() => {
+                    $("toast").hidden = true;
+                }, 3000);
+            }
+
+            function abrirModal(id) {
+                $(id).showModal();
+                document.body.classList.add("bloqueado");
+            }
+
+            document.querySelectorAll("dialog").forEach((dialogo) => {
+                dialogo.addEventListener("close", () => {
+                    document.body.classList.remove("bloqueado");
+                });
+                dialogo.addEventListener("click", (e) => {
+                    const r = dialogo.getBoundingClientRect();
+                    if (
+                        e.target === dialogo &&
+                        (e.clientX < r.left ||
+                            e.clientX > r.right ||
+                            e.clientY < r.top ||
+                            e.clientY > r.bottom)
+                    )
+                        dialogo.close();
+                });
+            });
+            document.querySelectorAll("[data-cerrar]").forEach((boton) => {
+                boton.addEventListener("click", () =>
+                    $(boton.dataset.cerrar).close(),
+                );
+            });
+
+            function configurarNegocio() {
+                $("direccionLocal").textContent = NEGOCIO.direccion;
+                $("horarioLocal").textContent = NEGOCIO.horario;
+                $("contactoLocal").textContent =
+                    NEGOCIO.whatsapp || "Contacto por confirmar";
+                const enlaces = [
+                    ["enlaceMapa", NEGOCIO.mapa],
+                    ["enlaceResenas", NEGOCIO.resenas],
+                    [
+                        "enlaceContacto",
+                        NEGOCIO.whatsapp ? "https://wa.me/" + NEGOCIO.whatsapp : "",
+                    ],
+                ];
+                for (const [id, url] of enlaces) {
+                    if (/^https:\/\//.test(url)) {
+                        $(id).href = url;
+                        $(id).hidden = false;
+                    }
+                }
+                for (const red of ["instagram", "facebook", "tiktok"]) {
+                    if (!/^https:\/\//.test(NEGOCIO[red])) continue;
+                    const enlace = nodo(
+                        "a",
+                        "boton",
+                        red === "tiktok"
+                            ? "TikTok"
+                            : red[0].toUpperCase() + red.slice(1),
+                    );
+                    enlace.href = NEGOCIO[red];
+                    enlace.target = "_blank";
+                    enlace.rel = "noopener";
+                    $("enlacesRedes").append(enlace);
+                }
+            }
+
+            function crearFoto(p) {
+                const marco = nodo("div", "producto-imagen");
+                const marcador = nodo("div", "foto-pendiente");
+                marcador.innerHTML =
+                    '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="9" width="30" height="23" rx="5"/><circle cx="26" cy="16" r="3"/><path d="M6 28l9-10 8 8 4-4 7 7"/></svg>';
+                marcador.append(nodo("span", "", "Foto próximamente"));
+                marco.append(marcador);
+                const rutas = p.imagenes || (p.imagen ? [p.imagen] : []);
+                const grupo = nodo("div", "fotos-producto");
+                grupo.style.setProperty("--numero-fotos", rutas.length);
+                rutas.forEach((ruta, indice) => {
+                    const fuente = ruta;
+                    if (!fuente) return;
+                    const foto = new Image();
+                    foto.alt =
+                        p.nombre +
+                        (rutas.length > 1 ? " · presentación " + (indice + 1) : "");
+                    foto.loading = "eager";
+                    foto.decoding = "async";
+                    foto.onload = () => {
+                        if (marcador.parentElement) marcador.replaceWith(grupo);
+                    };
+                    grupo.append(foto);
+                    foto.src = fuente;
+                });
+                return marco;
+            }
+
+            function pintarCatalogo() {
+                const consulta = normalizar($("buscar").value.trim());
+                const visibles = PRODUCTOS.filter((p) => {
+                    const texto = [
+                        p.nombre,
+                        p.descripcion,
+                        ...(p.opciones || []).map((o) => o.nombre),
+                    ].join(" ");
+                    return (
+                        (categoria === "todos" || p.categoria === categoria) &&
+                        normalizar(texto).includes(consulta)
+                    );
+                });
+                $("productos").replaceChildren();
+                for (const p of visibles) {
+                    const tarjeta = nodo("article", "producto glass");
+                    tarjeta.dataset.producto = p.id;
+                    tarjeta.append(
+                        crearFoto(p),
+                        nodo("h3", "", p.nombre),
+                        nodo("p", "descripcion", p.descripcion),
+                    );
+                    if (p.notaImagen)
+                        tarjeta.append(nodo("small", "nota-imagen", p.notaImagen));
+                    if (p.selector === "colores") {
+                        const muestras = nodo("div", "muestras");
+                        muestras.setAttribute("role", "group");
+                        muestras.setAttribute(
+                            "aria-label",
+                            "Opciones de " + p.nombre,
+                        );
+                        p.opciones.forEach((opcion, indice) => {
+                            const boton = nodo("button", "muestra");
+                            boton.type = "button";
+                            boton.style.setProperty("--color", opcion.color);
+                            boton.setAttribute(
+                                "aria-pressed",
+                                String(seleccionados.get(p.id) === indice),
+                            );
+                            const color = nodo("i");
+                            color.setAttribute("aria-hidden", "true");
+                            boton.append(color, nodo("span", "", opcion.nombre));
+                            boton.addEventListener("click", () => {
+                                seleccionados.set(p.id, indice);
+                                muestras
+                                    .querySelectorAll("button")
+                                    .forEach((b) =>
+                                        b.setAttribute(
+                                            "aria-pressed",
+                                            String(b === boton),
+                                        ),
+                                    );
+                                tarjeta.querySelector(".seleccion").textContent =
+                                    "Elegiste: " + opcion.nombre;
+                                tarjeta.querySelector(".precio").textContent =
+                                    textoPrecio(opcion.precio);
+                            });
+                            muestras.append(boton);
+                        });
+                        tarjeta.append(muestras);
+                        const indice = seleccionados.get(p.id);
+                        tarjeta.append(
+                            nodo(
+                                "p",
+                                "seleccion",
+                                indice === undefined
+                                    ? "Selecciona una opción"
+                                    : "Elegiste: " + p.opciones[indice].nombre,
+                            ),
+                        );
+                    }
+                    const seleccion = seleccionados.get(p.id);
+                    const valor =
+                        p.opciones && seleccion !== undefined
+                            ? p.opciones[seleccion].precio
+                            : p.precio;
+                    tarjeta.append(nodo("p", "precio", textoPrecio(valor)));
+                    const acciones = nodo("div", "producto-acciones");
+                    const elegir = nodo(
+                        "button",
+                        "boton",
+                        p.sabores
+                            ? "Elegir sabor"
+                            : p.opciones
+                              ? "Elegir opciones"
+                              : "Agregar al pedido",
+                    );
+                    elegir.type = "button";
+                    elegir.addEventListener("click", () => abrirProducto(p, elegir));
+                    acciones.append(elegir);
+                    if (p.adiciones) {
+                        const extras = nodo(
+                            "button",
+                            "boton secundario",
+                            "+ Adiciones",
+                        );
+                        extras.type = "button";
+                        extras.addEventListener("click", () => {
+                            abrirProducto(p, extras);
+                            $("extrasProducto").scrollIntoView({ block: "nearest" });
+                        });
+                        acciones.append(extras);
+                    }
+                    tarjeta.append(acciones);
+                    $("productos").append(tarjeta);
+                }
+                $("resumenMenu").textContent =
+                    visibles.length +
+                    " de " +
+                    PRODUCTOS.length +
+                    " tarjetas · Las opciones se eligen dentro de cada producto";
+                $("sinResultados").hidden = visibles.length !== 0;
+            }
+
+            function agregarSelector(nombre, etiqueta, opciones, valor = "") {
+                const label = nodo("label", "campo", etiqueta);
+                const select = nodo("select");
+                select.name = nombre;
+                select.required = true;
+                const vacia = nodo("option", "", "Selecciona una opción");
+                vacia.value = "";
+                select.append(vacia);
+                opciones.forEach((opcion, indice) => {
+                    const op = nodo(
+                        "option",
+                        "",
+                        typeof opcion === "string" ? opcion : opcion.nombre,
+                    );
+                    op.value = typeof opcion === "string" ? opcion : String(indice);
+                    select.append(op);
+                });
+                select.value = valor;
+                label.append(select);
+                $("opcionesProducto").append(label);
+                return select;
+            }
+
+            function actualizarSubopciones() {
+                $("opcionesProducto")
+                    .querySelectorAll(".dependiente")
+                    .forEach((el) => el.remove());
+                const p = productoActual;
+                const valor = $("formProducto").elements.opcion?.value;
+                const opcion =
+                    valor !== "" && valor !== undefined
+                        ? p.opciones?.[Number(valor)]
+                        : null;
+                if (opcion && OPCIONES_SECUNDARIAS[opcion.nombre]) {
+                    agregarSelector(
+                        "variante",
+                        opcion.nombre === "Michelada"
+                            ? "Sabor de la michelada"
+                            : "Elige el sabor",
+                        OPCIONES_SECUNDARIAS[opcion.nombre],
+                    ).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Michelada") {
+                    agregarSelector(
+                        "base",
+                        "Base de la michelada",
+                        BASES_MICHELADA,
+                    ).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Aromática") {
+                    agregarSelector("preparacion", "Preparación", [
+                        "En agua",
+                        "En leche",
+                    ]).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Malteada" && SABORES_HELADO.length) {
+                    agregarSelector(
+                        "sabor",
+                        "Sabor de la malteada",
+                        SABORES_HELADO,
+                    ).parentElement.classList.add("dependiente");
+                }
+                actualizarPrecioModal();
+            }
+
+            function abrirProducto(p, boton) {
+                productoActual = p;
+                ultimoBoton = boton;
+                $("formProducto").reset();
+                $("tituloProducto").textContent = p.nombre;
+                $("descripcionProducto").textContent = p.descripcion;
+                $("opcionesProducto").replaceChildren();
+                if (p.opciones) {
+                    const previo = seleccionados.get(p.id);
+                    const select = agregarSelector(
+                        "opcion",
+                        p.nombre === "Waffles"
+                            ? "Fruta de tu waffle"
+                            : "Elige tu producto",
+                        p.opciones,
+                        previo === undefined ? "" : String(previo),
+                    );
+                    select.addEventListener("change", actualizarSubopciones);
+                }
+                if (p.preparaciones)
+                    agregarSelector("preparacion", "Preparación", p.preparaciones);
+                if (p.sabores) {
+                    if (SABORES_HELADO.length) {
+                        // Permite combinar varios sabores, pues la carta no especifica número de bolas.
+                        const campo = nodo("fieldset");
+                        campo.append(nodo("legend", "", "Elige tus sabores"));
+                        SABORES_HELADO.forEach((sabor) => {
+                            const label = nodo("label", "extra");
+                            const input = nodo("input");
+                            input.type = "checkbox";
+                            input.name = "sabor";
+                            input.value = sabor;
+                            label.append(input, document.createTextNode(sabor));
+                            campo.append(label);
+                        });
+                        $("opcionesProducto").append(campo);
+                    } else {
+                        $("opcionesProducto").append(
+                            nodo(
+                                "p",
+                                "aviso",
+                                "Los sabores disponibles se confirman con el local. Puedes indicar tu preferencia en las notas.",
+                            ),
+                        );
+                    }
+                }
+                $("extrasProducto").hidden = !p.adiciones;
+                $("listaExtras").replaceChildren();
+                if (p.adiciones)
+                    ADICIONES.forEach((extra) => {
+                        const label = nodo("label", "extra");
+                        const input = nodo("input");
+                        input.type = "checkbox";
+                        input.name = "extra";
+                        input.value = extra.id;
+                        label.append(
+                            input,
+                            document.createTextNode(extra.nombre),
+                            nodo("small", "", textoPrecio(extra.precio)),
+                        );
+                        $("listaExtras").append(label);
+                    });
+                actualizarSubopciones();
+                abrirModal("modalProducto");
+            }
+
+            function obtenerSeleccion() {
+                const p = productoActual;
+                const datos = new FormData($("formProducto"));
+                const valorOpcion = datos.get("opcion");
+                const opcion =
+                    valorOpcion !== null && valorOpcion !== ""
+                        ? p.opciones?.[Number(valorOpcion)]
+                        : null;
+                const extras = datos
+                    .getAll("extra")
+                    .map((id) => ADICIONES.find((e) => e.id === id))
+                    .filter(Boolean);
+                const preparacion = datos.get("preparacion");
+                let precio = p.opciones ? opcion?.precio : p.precio;
+                if (preparacion) {
+                    const clave = (opcion?.nombre || "") + "|" + preparacion;
+                    precio = PRECIOS_PREPARACION[p.id]?.[clave] ?? precio;
+                }
+                const pendiente =
+                    !precioValido(precio) ||
+                    extras.some((e) => !precioValido(e.precio));
+                const unitario = pendiente
+                    ? null
+                    : precio + extras.reduce((s, e) => s + e.precio, 0);
+                const detalle = [];
+                if (opcion) detalle.push(opcion.nombre);
+                for (const campo of ["preparacion", "variante", "base"]) {
+                    if (datos.get(campo)) detalle.push(String(datos.get(campo)));
+                }
+                const sabores = datos.getAll("sabor");
+                if (sabores.length) detalle.push("Sabores: " + sabores.join(", "));
+                if (extras.length)
+                    detalle.push(
+                        "Adiciones: " + extras.map((e) => e.nombre).join(", "),
+                    );
+                return {
+                    productoId: p.id,
+                    nombre: p.nombre,
+                    detalle,
+                    nota: String(datos.get("nota") || "").trim(),
+                    unitario,
+                    eleccion: Object.fromEntries(
+                        ["opcion", "preparacion", "variante", "base"].map((k) => [
+                            k,
+                            datos.get(k) || "",
+                        ]),
+                    ),
+                    sabores,
+                    extras: extras.map((e) => e.id),
+                };
+            }
+
+            function actualizarPrecioModal() {
+                if (!productoActual) return;
+                const item = obtenerSeleccion();
+                $("precioProducto").textContent = textoPrecio(item.unitario);
+                $("avisoPrecio").hidden = precioValido(item.unitario);
+            }
+            $("formProducto").addEventListener("change", actualizarPrecioModal);
+            $("formProducto").addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (
+                    productoActual.sabores &&
+                    SABORES_HELADO.length &&
+                    !new FormData(e.currentTarget).getAll("sabor").length
+                ) {
+                    notificar("Elige al menos un sabor.");
+                    return;
+                }
+                const item = obtenerSeleccion();
+                const firma = JSON.stringify([
+                    item.productoId,
+                    item.eleccion,
+                    item.sabores,
+                    item.extras,
+                    item.nota,
+                ]);
+                const existente = carrito.find((i) => i.firma === firma);
+                if (existente)
+                    existente.cantidad = Math.min(99, existente.cantidad + 1);
+                else carrito.push({ ...item, firma, cantidad: 1 });
+                $("modalProducto").close();
+                guardarCarrito();
+                animarAlCarrito();
+                notificar("Agregado a tu pedido");
+            });
+
+            function animarAlCarrito() {
+                if (
+                    !ultimoBoton ||
+                    matchMedia("(prefers-reduced-motion: reduce)").matches
+                )
+                    return;
+                const origen = ultimoBoton.getBoundingClientRect();
+                const destino = $("abrirCarrito").getBoundingClientRect();
+                const punto = nodo("div", "volando", "♡");
+                punto.style.left = origen.left + origen.width / 2 + "px";
+                punto.style.top = origen.top + "px";
+                document.body.append(punto);
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => {
+                        punto.style.transform = `translate(${destino.left - origen.left - origen.width / 2}px, ${destino.top - origen.top}px) scale(.2)`;
+                        punto.style.opacity = "0";
+                    }),
+                );
+                setTimeout(() => punto.remove(), 700);
+            }
+
+            function guardarCarrito() {
+                try {
+                    localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
+                } catch {
+                    notificar("Tu navegador no permite guardar el pedido al salir.");
+                }
+                pintarCarrito();
+            }
+
+            function cargarCarrito() {
+                try {
+                    const datos = JSON.parse(
+                        localStorage.getItem(CLAVE_CARRITO) || "[]",
+                    );
+                    if (Array.isArray(datos))
+                        carrito = datos
+                            .filter(
+                                (i) =>
+                                    PRODUCTOS.some((p) => p.id === i.productoId) &&
+                                    typeof i.firma === "string" &&
+                                    typeof i.nombre === "string" &&
+                                    Array.isArray(i.detalle) &&
+                                    i.detalle.every((d) => typeof d === "string") &&
+                                    typeof i.nota === "string" &&
+                                    Number.isInteger(i.cantidad) &&
+                                    i.cantidad > 0 &&
+                                    i.cantidad <= 99 &&
+                                    (i.unitario === null ||
+                                        precioValido(i.unitario)),
+                            )
+                            .slice(0, 200);
+                } catch {
+                    carrito = [];
+                }
+                // Recalcula al volver: evita conservar precios antiguos después de editar la carta.
+                carrito.forEach((item) => {
+                    const producto = PRODUCTOS.find((p) => p.id === item.productoId);
+                    const eleccion = item.eleccion || {};
+                    const opcion =
+                        eleccion.opcion !== undefined && eleccion.opcion !== ""
+                            ? producto.opciones?.[Number(eleccion.opcion)]
+                            : null;
+                    let precio = producto.opciones
+                        ? opcion?.precio
+                        : producto.precio;
+                    if (eleccion.preparacion) {
+                        const clave =
+                            (opcion?.nombre || "") + "|" + eleccion.preparacion;
+                        precio = PRECIOS_PREPARACION[producto.id]?.[clave] ?? precio;
+                    }
+                    const ids = Array.isArray(item.extras) ? item.extras : [];
+                    const extras = ids.map((id) =>
+                        ADICIONES.find((e) => e.id === id),
+                    );
+                    const pendiente =
+                        !precioValido(precio) ||
+                        extras.some((e) => !e || !precioValido(e.precio));
+                    item.unitario = pendiente
+                        ? null
+                        : precio + extras.reduce((s, e) => s + e.precio, 0);
+                });
+                pintarCarrito();
+            }
+
+            function motivoBloqueo() {
+                if (!carrito.length)
+                    return "Agrega productos para preparar tu pedido.";
+                if (carrito.some((i) => !precioValido(i.unitario)))
+                    return "Hay precios por confirmar. El envío se habilitará cuando estén completos.";
+                if (!/^\d{10,15}$/.test(NEGOCIO.whatsapp))
+                    return "El contacto de WhatsApp está por confirmar.";
+                return "";
+            }
+
+            function pintarCarrito() {
+                $("contador").textContent = carrito.reduce(
+                    (s, i) => s + i.cantidad,
+                    0,
+                );
+                $("listaCarrito").replaceChildren();
+                if (!carrito.length)
+                    $("listaCarrito").append(
+                        nodo("p", "", "Tu pedido está esperando algo delicioso."),
+                    );
+                carrito.forEach((item, indice) => {
+                    const fila = nodo("div", "fila-carrito");
+                    fila.append(nodo("strong", "", item.nombre));
+                    if (item.detalle.length)
+                        fila.append(nodo("p", "", item.detalle.join(" · ")));
+                    if (item.nota) fila.append(nodo("p", "", "Nota: " + item.nota));
+                    fila.append(
+                        nodo(
+                            "p",
+                            "",
+                            precioValido(item.unitario)
+                                ? moneda(item.unitario * item.cantidad)
+                                : "Precio por confirmar",
+                        ),
+                    );
+                    const controles = nodo("div", "controles");
+                    for (const [etiqueta, variacion] of [
+                        ["−", -1],
+                        ["+", 1],
+                    ]) {
+                        if (variacion === 1)
+                            controles.append(
+                                nodo("span", "", String(item.cantidad)),
+                            );
+                        const boton = nodo("button", "", etiqueta);
+                        boton.type = "button";
+                        boton.setAttribute(
+                            "aria-label",
+                            (variacion === 1 ? "Aumentar " : "Disminuir ") +
+                                item.nombre,
+                        );
+                        boton.addEventListener("click", () => {
+                            item.cantidad = Math.min(99, item.cantidad + variacion);
+                            if (item.cantidad <= 0) carrito.splice(indice, 1);
+                            guardarCarrito();
+                        });
+                        controles.append(boton);
+                    }
+                    const borrar = nodo("button", "eliminar", "Quitar");
+                    borrar.type = "button";
+                    borrar.addEventListener("click", () => {
+                        carrito.splice(indice, 1);
+                        guardarCarrito();
+                    });
+                    controles.append(borrar);
+                    fila.append(controles);
+                    $("listaCarrito").append(fila);
+                });
+                const pendiente = carrito.some((i) => !precioValido(i.unitario));
+                const total = carrito.reduce(
+                    (s, i) => s + (i.unitario || 0) * i.cantidad,
+                    0,
+                );
+                $("totalCarrito").textContent = pendiente
+                    ? "Total por confirmar"
+                    : "Subtotal de productos: " + moneda(total);
+                const bloqueo = motivoBloqueo();
+                $("bloqueoPedido").textContent = bloqueo;
+                $("bloqueoPedido").hidden = !bloqueo;
+                $("enviarPedido").disabled = Boolean(bloqueo);
+                $("formPedido").hidden = !carrito.length;
+            }
+
+            $("abrirCarrito").addEventListener("click", () =>
+                abrirModal("modalCarrito"),
+            );
+            $("entrega").addEventListener("change", () => {
+                const domicilio = $("entrega").value === "Domicilio";
+                $("campoDireccion").hidden = !domicilio;
+                $("direccionPedido").required = domicilio;
+            });
+            $("formPedido").addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (motivoBloqueo()) {
+                    notificar(motivoBloqueo());
+                    return;
+                }
+                const datos = new FormData(e.currentTarget);
+                const lineas = [
+                    "Hola, " + NEGOCIO.nombre + ". Quiero solicitar este pedido:",
+                    "",
+                ];
+                carrito.forEach((item) => {
+                    lineas.push(
+                        `${item.cantidad} × ${item.nombre} — ${moneda(item.cantidad * item.unitario)}`,
+                    );
+                    if (item.detalle.length)
+                        lineas.push("  " + item.detalle.join(" · "));
+                    if (item.nota) lineas.push("  Nota: " + item.nota);
+                });
+                const total = carrito.reduce(
+                    (s, i) => s + i.unitario * i.cantidad,
+                    0,
+                );
+                lineas.push(
+                    "",
+                    "Subtotal de productos: " + moneda(total),
+                    "Nombre: " + datos.get("nombre"),
+                    "Teléfono: " + datos.get("telefono"),
+                    "Entrega: " + datos.get("entrega"),
+                );
+                if (datos.get("entrega") === "Domicilio")
+                    lineas.push("Dirección: " + datos.get("direccion"));
+                if (datos.get("nota")) lineas.push("Notas: " + datos.get("nota"));
+                lineas.push(
+                    "Domicilio y disponibilidad por confirmar con el local.",
+                );
+                const url =
+                    "https://wa.me/" +
+                    NEGOCIO.whatsapp +
+                    "?text=" +
+                    encodeURIComponent(lineas.join("\n"));
+                window.open(url, "_blank", "noopener");
+            });
+
+            document.querySelectorAll(".filtro").forEach((boton) => {
+                boton.addEventListener("click", () => {
+                    categoria = boton.dataset.categoria;
+                    document
+                        .querySelectorAll(".filtro")
+                        .forEach((b) =>
+                            b.setAttribute("aria-pressed", String(b === boton)),
+                        );
+                    pintarCatalogo();
+                });
+            });
+            $("buscar").addEventListener("input", pintarCatalogo);
+            $("menuMovil").addEventListener("click", () => {
+                const abierto = $("navLinks").classList.toggle("abierto");
+                $("menuMovil").setAttribute("aria-expanded", String(abierto));
+            });
+            document.querySelectorAll(".nav-links a").forEach((enlace) => {
+                enlace.addEventListener("click", () => {
+                    $("navLinks").classList.remove("abierto");
+                    $("menuMovil").setAttribute("aria-expanded", "false");
+                });
+            });
+
+            configurarNegocio();
+            pintarCatalogo();
+            cargarCarrito();
+        </script>
+    </body>
 </html>
