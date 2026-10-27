@@ -1,0 +1,3591 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#89d4bb" />
+        <meta
+            name="description"
+            content="Agua Fresca: copas de helado, frutas, limonadas y antojos. Personaliza tu pedido y compártelo por WhatsApp."
+        />
+        <title>Agua Fresca | Heladería</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+        <!-- =====================================================
+         GUÍA DE EDICIÓN: buscar estos títulos con Ctrl + F
+         01. COLORES Y ESTILOS
+         02. ENCABEZADO Y HERO
+         03. SECCIONES DE LA PÁGINA
+         04. VENTANAS DE PRODUCTO Y CARRITO
+         05. CONFIGURACIÓN DEL NEGOCIO
+         06. CATÁLOGO: 56 TARJETAS
+         07. OPCIONES Y ADICIONES
+         08. FUNCIONAMIENTO
+         Los precios null están pendientes. Usa números: 12000.
+         Busca TARJETA 01, TARJETA 02, etc. para editar cada producto.
+         Busca ADICIONES para cambiar los precios de los extras.
+         Busca PRECIOS_PREPARACION para jugos y aromáticas.
+         Busca 09. CRISTAL VIOLETA PREMIUM para editar los dos paneles.
+         GIF: imagenes/check-pedido.gif; si falta, hay check SVG animado.
+         Las fotos se cambian en imagen, dentro del catálogo.
+         ===================================================== -->
+        <style>
+            /* 01. COLORES Y ESTILOS */
+            :root {
+                --menta: #7dceb1;
+                --rosa: #ed9bb4;
+                --crema: #f5e5cc;
+                --chocolate: #442f2c;
+                --uva: #925579;
+                --texto: #332a29;
+                --suave: #685952;
+                --vidrio: rgba(255, 255, 255, 0.14);
+                --borde: rgba(255, 255, 255, 0.78);
+                --radio: 26px;
+                --ancho: 1180px;
+                --decoracion-postre: url("imagenes/decoracion-postre.webp");
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+                scroll-padding-top: 100px;
+            }
+            body {
+                margin: 0;
+                color: var(--texto);
+                background: var(--crema);
+                font-family: Arial, Helvetica, sans-serif;
+                line-height: 1.55;
+            }
+            body.bloqueado {
+                overflow: hidden;
+            }
+            button,
+            input,
+            select,
+            textarea {
+                font: inherit;
+            }
+            button,
+            a,
+            input,
+            select,
+            textarea {
+                -webkit-tap-highlight-color: transparent;
+            }
+            button {
+                cursor: pointer;
+                color: inherit;
+            }
+            button:disabled {
+                cursor: not-allowed;
+                opacity: 0.62;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            img {
+                display: block;
+                max-width: 100%;
+            }
+            button:focus-visible,
+            a:focus-visible,
+            input:focus-visible,
+            select:focus-visible,
+            textarea:focus-visible {
+                outline: 3px solid var(--uva);
+                outline-offset: 4px;
+            }
+            [hidden] {
+                display: none !important;
+            }
+            .contenedor {
+                width: min(91%, var(--ancho));
+                margin-inline: auto;
+            }
+            .glass {
+                background: var(--vidrio);
+                border: 1px solid var(--borde);
+                box-shadow:
+                    inset 0 1px 10px #ffffff55,
+                    0 14px 35px #48322913;
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border-radius: var(--radio);
+            }
+            .boton {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 12px 20px;
+                min-height: 46px;
+                border: 1px solid #fff9;
+                border-radius: 999px;
+                background: #ffffff66;
+                box-shadow:
+                    inset 0 1px 6px #fff9,
+                    0 5px 12px #452f2910;
+                font-weight: 700;
+                transition:
+                    transform 0.2s,
+                    background 0.2s;
+            }
+            .boton:hover {
+                transform: translateY(-2px);
+                background: #ffffffbb;
+            }
+            .boton.principal {
+                background: var(--chocolate);
+                color: white;
+                border-color: var(--chocolate);
+            }
+            .boton.secundario {
+                background: transparent;
+                border-color: #664b4866;
+            }
+            .eyebrow {
+                font-size: 12px;
+                text-transform: uppercase;
+                font-weight: 800;
+                letter-spacing: 0.18em;
+            }
+            h1,
+            h2,
+            h3,
+            p {
+                margin-top: 0;
+            }
+            h2 {
+                font-size: clamp(29px, 4vw, 46px);
+                line-height: 1.1;
+                letter-spacing: -0.04em;
+            }
+            .cabecera {
+                text-align: center;
+                max-width: 650px;
+                margin: 0 auto 36px;
+            }
+            .cabecera p {
+                color: var(--suave);
+            }
+            .seccion {
+                padding: 76px 0;
+            }
+
+            /* Encabezado flotante, como en la referencia */
+            header {
+                position: sticky;
+                top: 12px;
+                z-index: 20;
+                margin-bottom: -96px;
+                padding-top: 12px;
+            }
+            .nav {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 15px;
+                padding: 12px 22px;
+            }
+            .marca {
+                font-family: "Brush Script MT", "Segoe Script", cursive;
+                font-weight: 900;
+                font-style: italic;
+                font-size: 28px;
+                line-height: 0.85;
+                text-align: center;
+            }
+            .marca span {
+                display: block;
+                font:
+                    800 10px Arial,
+                    sans-serif;
+                font-style: normal;
+                letter-spacing: 0.24em;
+                margin-top: 8px;
+            }
+            .nav-links {
+                display: flex;
+                gap: 21px;
+                align-items: center;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .menu-movil {
+                display: none;
+            }
+            .carrito-boton {
+                border: 1px solid #fff;
+                background: #fff7;
+                border-radius: 50px;
+                padding: 10px 15px;
+                font-weight: 700;
+            }
+            #contador {
+                display: inline-grid;
+                place-items: center;
+                min-width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                background: var(--chocolate);
+                color: white;
+                margin-left: 5px;
+            }
+
+            /* Hero menta: tipografía chocolate y copa central */
+            .hero {
+                background: radial-gradient(
+                    ellipse at 48% 30%,
+                    #d6f4e7 0%,
+                    var(--menta) 65%
+                );
+                padding: 143px 0 45px;
+                overflow: hidden;
+            }
+            .hero-panel {
+                min-height: 490px;
+                padding: 32px 38px;
+                display: grid;
+                grid-template-columns: 0.85fr 1fr 1.05fr;
+                column-gap: 0;
+                align-items: center;
+                position: relative;
+            }
+            .hero h1 {
+                font-size: clamp(36px, 4.3vw, 65px);
+                line-height: 0.97;
+                letter-spacing: -0.055em;
+                text-transform: uppercase;
+                margin-bottom: 22px;
+            }
+            .hero-intro {
+                max-width: 250px;
+                margin-right: -18px;
+            }
+            .hero-intro strong {
+                display: block;
+                font-size: 25px;
+                line-height: 1.2;
+                margin-bottom: 18px;
+            }
+            .hero-foto {
+                position: relative;
+                align-self: stretch;
+                display: grid;
+                place-items: center;
+            }
+            .hero-foto::before {
+                content: "";
+                position: absolute;
+                width: 230px;
+                height: 230px;
+                border-radius: 50%;
+                background: #fff5;
+                box-shadow: 0 0 70px #fff8;
+            }
+            .hero-foto img {
+                position: relative;
+                max-height: 430px;
+                width: 100%;
+                object-fit: contain;
+                filter: drop-shadow(0 20px 15px #65402e25);
+                transform: rotate(-4deg) scale(1.08);
+            }
+            .hero-derecha {
+                position: relative;
+                z-index: 1;
+                margin-left: -12px;
+            }
+            .hero-nota {
+                text-align: center;
+                margin: 24px 0 0;
+                font-size: 13px;
+            }
+            .acciones {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            /* Historia rosa y pequeños paneles pastel */
+            #nosotros {
+                background: var(--rosa);
+                position: relative;
+            }
+            .historia-grid {
+                display: grid;
+                grid-template-columns: 1.1fr 1fr;
+                gap: 70px;
+                align-items: center;
+            }
+            .historia-grid p {
+                max-width: 470px;
+            }
+            .beneficios {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            .beneficio {
+                min-height: 130px;
+                padding: 22px 14px;
+                text-align: center;
+                font-weight: 800;
+            }
+            .beneficio:nth-child(1) {
+                background: #b1e6cf22;
+            }
+            .beneficio:nth-child(2) {
+                background: #f7d39c22;
+            }
+            .beneficio:nth-child(3) {
+                background: #f8c4d222;
+            }
+            .beneficio:nth-child(4) {
+                background: #d6c1e822;
+            }
+            .beneficio b {
+                display: block;
+                font-size: 29px;
+                margin-bottom: 8px;
+            }
+
+            /* Categorías y catálogo: cristal transparente, sin rellenos pastel sólidos */
+            .filtros {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin: 26px 0;
+            }
+            .filtro {
+                border: 1px solid #b6aaa4;
+                background: #fff7;
+                border-radius: 99px;
+                min-height: 44px;
+                padding: 10px 18px;
+            }
+            .filtro[aria-pressed="true"] {
+                background: var(--chocolate);
+                color: white;
+                border-color: var(--chocolate);
+            }
+            .buscador {
+                display: block;
+                width: min(100%, 480px);
+                margin: 0 auto 14px;
+                border-radius: 30px;
+                padding: 13px 20px;
+                border: 1px solid #b6aaa4;
+                background: #fff9;
+            }
+            .resumen-menu {
+                text-align: center;
+                font-size: 13px;
+                color: var(--suave);
+                margin-bottom: 38px;
+            }
+            .productos-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 45px 24px;
+            }
+            .producto {
+                padding: 0 24px 24px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                min-width: 0;
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50 0%,
+                    #ffffff10 48%,
+                    #ffffff24 100%
+                );
+                border-color: #ffffffc9;
+                box-shadow:
+                    inset 1px 1px 0 #ffffffd9,
+                    inset -1px -1px 0 #ffffff55,
+                    0 12px 30px #49362b16;
+                backdrop-filter: blur(5px) saturate(1.1);
+                -webkit-backdrop-filter: blur(5px) saturate(1.1);
+            }
+            .producto:nth-child(3n + 2) {
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50,
+                    #ffe8f00c 48%,
+                    #ffffff24
+                );
+            }
+            .producto:nth-child(3n) {
+                background: linear-gradient(
+                    135deg,
+                    #ffffff50,
+                    #fff0db0c 48%,
+                    #ffffff24
+                );
+            }
+            .producto-imagen {
+                height: 205px;
+                margin: -10px 0 20px;
+                display: grid;
+                place-items: center;
+                position: relative;
+            }
+            .producto-imagen img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                filter: drop-shadow(0 14px 8px #54332920);
+            }
+            .foto-pendiente {
+                text-align: center;
+                color: #685952;
+                font-size: 12px;
+                border: 1px dashed #7e6d6455;
+                border-radius: 80px;
+                width: 144px;
+                height: 144px;
+                display: grid;
+                place-content: center;
+                gap: 8px;
+                background: #ffffff22;
+            }
+            .foto-pendiente svg {
+                width: 35px;
+                height: 35px;
+                margin: auto;
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 1.2;
+            }
+            .producto h3 {
+                font-size: 21px;
+                line-height: 1.15;
+                margin-bottom: 10px;
+            }
+            .producto .descripcion {
+                font-size: 14px;
+                color: #57463f;
+                margin-bottom: 14px;
+            }
+            .precio {
+                font-weight: 800;
+                margin-top: auto;
+                padding-top: 8px;
+                margin-bottom: 12px;
+            }
+            .producto .boton {
+                width: 100%;
+                font-size: 13px;
+                padding-inline: 9px;
+            }
+            .producto-acciones {
+                display: grid;
+                gap: 8px;
+            }
+            .muestras {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 7px;
+                margin: 0 0 12px;
+            }
+            .muestra {
+                display: flex;
+                gap: 6px;
+                align-items: center;
+                padding: 6px 9px;
+                background: #fff5;
+                border: 1px solid #fff9;
+                border-radius: 20px;
+                font-size: 11px;
+                min-height: 36px;
+            }
+            .muestra i {
+                width: 11px;
+                height: 11px;
+                background: var(--color);
+                border-radius: 50%;
+                border: 1px solid #0002;
+                flex-shrink: 0;
+            }
+            .muestra[aria-pressed="true"] {
+                outline: 2px solid var(--chocolate);
+                background: #fff9;
+            }
+            .seleccion {
+                font-size: 12px;
+                font-weight: 700;
+                min-height: 19px;
+            }
+            .promo {
+                background: var(--uva);
+                color: white;
+                text-align: center;
+            }
+            .promo .glass {
+                padding: 42px 24px;
+            }
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .info-card {
+                padding: 28px;
+                background: #fff7;
+            }
+            #resenas {
+                background: #d8bedf;
+            }
+            #resenas .glass {
+                padding: 32px;
+                text-align: center;
+            }
+            #redes {
+                padding-top: 0;
+                text-align: center;
+            }
+            footer {
+                text-align: center;
+                padding: 30px 20px;
+                background: #d8eade;
+                font-size: 13px;
+            }
+
+            /* Ventanas glass accesibles */
+            dialog {
+                width: min(94%, 650px);
+                max-height: 88dvh;
+                border: 1px solid #fff;
+                border-radius: 28px;
+                padding: 0;
+                color: var(--texto);
+                background: #f9efe8ed;
+                box-shadow: 0 25px 90px #35202245;
+                backdrop-filter: blur(24px);
+            }
+            dialog::backdrop {
+                background: #342c3555;
+                backdrop-filter: blur(6px);
+            }
+            .modal-interior {
+                padding: 28px;
+            }
+            .modal-cabecera {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 15px;
+                margin-bottom: 18px;
+            }
+            .modal-cabecera h2 {
+                font-size: 29px;
+                margin: 0;
+            }
+            .cerrar {
+                border: 1px solid #917a7066;
+                background: #fff8;
+                border-radius: 50%;
+                min-width: 42px;
+                height: 42px;
+                font-size: 24px;
+            }
+            label.campo {
+                display: grid;
+                gap: 6px;
+                margin: 15px 0;
+                font-size: 14px;
+                font-weight: 700;
+            }
+            input,
+            select,
+            textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #b6aaa4;
+                border-radius: 13px;
+                color: var(--texto);
+                background: #ffffffa6;
+            }
+            textarea {
+                resize: vertical;
+                min-height: 75px;
+            }
+            fieldset {
+                margin: 22px 0;
+                border: 1px solid #bcaaa066;
+                border-radius: 17px;
+                padding: 17px;
+            }
+            legend {
+                padding: 0 5px;
+                font-weight: 700;
+            }
+            .extra {
+                display: flex;
+                gap: 10px;
+                padding: 9px 0;
+                align-items: center;
+                font-size: 14px;
+            }
+            .extra input {
+                width: 18px;
+                height: 18px;
+                accent-color: var(--uva);
+            }
+            .extra small {
+                margin-left: auto;
+                text-align: right;
+            }
+            .aviso {
+                font-size: 13px;
+                color: #70413e;
+                background: #fff7;
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .total {
+                font-size: 19px;
+                font-weight: 800;
+                padding: 14px 0;
+            }
+            .fila-carrito {
+                border-bottom: 1px solid #bca89d66;
+                padding: 16px 0;
+            }
+            .fila-carrito p {
+                margin: 5px 0;
+                font-size: 13px;
+            }
+            .controles {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 10px;
+            }
+            .controles button {
+                min-width: 38px;
+                min-height: 38px;
+                border-radius: 50%;
+                border: 1px solid #a48c81;
+                background: #fff9;
+            }
+            .controles .eliminar {
+                border-radius: 20px;
+                padding-inline: 12px;
+                margin-left: auto;
+            }
+            .toast {
+                position: fixed;
+                z-index: 100;
+                bottom: 25px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 30px;
+                background: var(--chocolate);
+                color: white;
+                padding: 13px 22px;
+                text-align: center;
+                max-width: 90%;
+                box-shadow: 0 6px 30px #0002;
+            }
+            .volando {
+                position: fixed;
+                z-index: 99;
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                background: var(--rosa);
+                display: grid;
+                place-items: center;
+                font-size: 25px;
+                pointer-events: none;
+                transition:
+                    transform 0.6s ease,
+                    opacity 0.6s;
+            }
+
+            @media (max-width: 850px) {
+                .nav-links {
+                    gap: 12px;
+                }
+                .hero-panel {
+                    padding: 30px;
+                    grid-template-columns: 1fr 1fr;
+                }
+                .hero-intro {
+                    display: none;
+                }
+                .hero-foto {
+                    order: 2;
+                }
+                .hero-derecha {
+                    order: 1;
+                }
+                .historia-grid {
+                    gap: 28px;
+                }
+                .productos-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (max-width: 580px) {
+                header {
+                    top: 8px;
+                    padding-top: 0;
+                }
+                .nav {
+                    padding: 13px;
+                    gap: 8px;
+                }
+                .marca {
+                    font-size: 23px;
+                }
+                .marca span {
+                    font-size: 8px;
+                }
+                .menu-movil {
+                    display: inline-flex;
+                    background: #fff6;
+                    border: 1px solid white;
+                    border-radius: 30px;
+                    padding: 9px 12px;
+                }
+                .nav-links {
+                    display: none;
+                    position: absolute;
+                    top: 80px;
+                    left: 4.5%;
+                    right: 4.5%;
+                    background: #f8f2eafa;
+                    padding: 20px;
+                    border-radius: 20px;
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .nav-links.abierto {
+                    display: flex;
+                }
+                .nav-links a {
+                    padding: 8px;
+                }
+                .carrito-boton {
+                    padding: 8px 10px;
+                    font-size: 12px;
+                }
+                .hero {
+                    padding-top: 115px;
+                }
+                .hero-panel {
+                    min-height: 0;
+                    padding: 29px 22px 15px;
+                    gap: 12px;
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+                .hero h1 {
+                    font-size: 43px;
+                    max-width: 340px;
+                    margin-inline: auto;
+                }
+                .hero-foto {
+                    height: 240px;
+                }
+                .hero-foto img {
+                    max-height: 245px;
+                }
+                .hero-foto::before {
+                    height: 180px;
+                    width: 180px;
+                }
+                .acciones {
+                    justify-content: center;
+                }
+                .historia-grid,
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+                .seccion {
+                    padding: 48px 0;
+                }
+                .productos-grid {
+                    gap: 32px 12px;
+                }
+                .producto {
+                    padding: 0 12px 17px;
+                    border-radius: 22px;
+                }
+                .producto-imagen {
+                    height: 145px;
+                    margin-bottom: 12px;
+                }
+                .foto-pendiente {
+                    width: 110px;
+                    height: 110px;
+                    font-size: 10px;
+                }
+                .producto h3 {
+                    font-size: 18px;
+                }
+                .producto .descripcion {
+                    font-size: 12px;
+                }
+                .producto .boton {
+                    font-size: 12px;
+                    min-height: 44px;
+                    padding: 9px 5px;
+                }
+                .muestras {
+                    gap: 6px;
+                }
+                .muestra {
+                    font-size: 10px;
+                    padding: 5px 7px;
+                }
+                .filtro {
+                    font-size: 12px;
+                    padding: 9px 13px;
+                }
+                .modal-interior {
+                    padding: 22px;
+                }
+            }
+            @media (max-width: 360px) {
+                .productos-grid {
+                    grid-template-columns: 1fr;
+                }
+                .producto-imagen {
+                    height: 190px;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
+                *,
+                *::before,
+                *::after {
+                    transition: none !important;
+                    animation: none !important;
+                }
+            }
+
+            /* =====================================================
+           DECORACIÓN DE POSTRE Y PASTELES MÁS INTENSOS
+           La decoración se carga desde imagenes/decoracion-postre.webp.
+           Las fotos del catálogo se leen de la carpeta imagenes.
+           Ajusta opacity para hacer la decoración más discreta.
+           ===================================================== */
+            .hero,
+            #nosotros,
+            #menu,
+            .promo,
+            #resenas,
+            #ubicacion {
+                position: relative;
+                isolation: isolate;
+            }
+            .hero::before,
+            #nosotros::before,
+            #menu::before,
+            .promo::before,
+            #resenas::before,
+            #ubicacion::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background-image: var(--decoracion-postre);
+                background-position: center bottom;
+                background-size: 100% auto;
+                background-repeat: no-repeat;
+                opacity: 0.55;
+            }
+            .hero::before {
+                background-size: cover;
+                background-position: center 65%;
+                opacity: 0.82;
+            }
+            .hero-panel {
+                background: rgba(255, 255, 255, 0.22);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+            .hero-foto {
+                z-index: 2;
+            }
+            .hero-intro {
+                position: relative;
+                z-index: 3;
+            }
+            #menu::before {
+                background-size: 100% 900px;
+                background-repeat: repeat-y;
+                opacity: 0.47;
+            }
+            #nosotros::before {
+                opacity: 0.38;
+            }
+            #resenas::before {
+                opacity: 0.32;
+            }
+            #ubicacion::before {
+                opacity: 0.3;
+            }
+            .promo::before {
+                opacity: 0.35;
+            }
+            #nosotros .historia-grid,
+            .promo .glass,
+            #resenas .glass,
+            #ubicacion .info-grid {
+                position: relative;
+                z-index: 1;
+            }
+            header .nav {
+                position: relative;
+                isolation: isolate;
+                overflow: clip;
+            }
+            header .nav::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background-image: var(--decoracion-postre);
+                background-size: 100% auto;
+                background-position: center 86%;
+                opacity: 0.3;
+                filter: blur(2px);
+            }
+            @media (min-width: 851px) {
+                .hero-intro {
+                    transform: translateX(15px);
+                }
+                .hero h1 {
+                    font-size: clamp(36px, 4vw, 60px);
+                }
+            }
+            @media (max-width: 850px) {
+                .hero-derecha {
+                    margin-left: 0;
+                }
+                .hero-foto img {
+                    max-height: 395px;
+                    transform: rotate(-4deg);
+                }
+                .hero::before {
+                    background-position: center bottom;
+                }
+            }
+            @media (max-width: 580px) {
+                /* El cono queda más cerca de las frases en el móvil. */
+                .hero-panel {
+                    padding: 27px 22px 10px;
+                    gap: 0;
+                }
+                .hero-derecha p:not(.eyebrow) {
+                    margin-bottom: 12px;
+                }
+                .hero-foto {
+                    height: 290px;
+                    margin-top: -4px;
+                }
+                .hero-foto img {
+                    max-height: 290px;
+                }
+                .hero h1 {
+                    margin-bottom: 12px;
+                }
+                .hero::before {
+                    background-size: auto 85%;
+                    opacity: 0.65;
+                }
+                #nosotros::before,
+                #resenas::before,
+                #ubicacion::before {
+                    background-size: auto 340px;
+                    opacity: 0.25;
+                }
+                #menu::before {
+                    background-size: auto 850px;
+                    opacity: 0.38;
+                }
+                header .nav {
+                    overflow: visible;
+                }
+                header .nav::before {
+                    border-radius: var(--radio);
+                }
+            }
+            .fotos-producto {
+                position: absolute;
+                inset: 0;
+                min-height: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                width: 100%;
+                height: 100%;
+                min-width: 0;
+            }
+            .fotos-producto img {
+                width: auto;
+                max-width: calc(100% / var(--numero-fotos));
+                max-height: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .nota-imagen {
+                color: var(--suave);
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .producto-imagen {
+                position: relative;
+            }
+
+            /* RESTAURACIÓN: cristal transparente y frases cercanas al cono. */
+            .producto.glass {
+                background: linear-gradient(
+                    135deg,
+                    #ffffff3d,
+                    #ffffff0a 48%,
+                    #ffffff1a
+                );
+                backdrop-filter: blur(3px) saturate(1.12);
+                -webkit-backdrop-filter: blur(3px) saturate(1.12);
+            }
+            .hero-panel {
+                background: #ffffff2b;
+            }
+            #resenas {
+                background-color: #d0addb;
+            }
+            #ubicacion {
+                background-color: #baddc7;
+            }
+            @media (min-width: 851px) {
+                .hero-intro {
+                    transform: translateX(23px);
+                }
+                .hero-derecha {
+                    margin-left: -20px;
+                }
+            }
+
+            /* Navegación: cristal que deja ver el contenido real al desplazarse. */
+            header .nav.glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px) saturate(1.15);
+                -webkit-backdrop-filter: blur(10px) saturate(1.15);
+            }
+            header .nav::before {
+                content: none;
+            }
+            /* 09. CRISTAL VIOLETA PREMIUM — sólo en el pedido y su confirmación.
+               Capa translúcida, bisel óptico y reflejos inspirados en la referencia. */
+            #modalCarrito,
+            #modalConfirmacion {
+                font-family: "Outfit", "Segoe UI", Arial, sans-serif;
+                color: #302044;
+                position: fixed;
+                isolation: isolate;
+                overflow-x: hidden;
+                border: 1.5px solid rgba(255, 255, 255, 0.82);
+                border-radius: 36px;
+                background: linear-gradient(
+                    137deg,
+                    rgba(232, 204, 255, 0.53) 0%,
+                    rgba(195, 151, 237, 0.37) 43%,
+                    rgba(179, 126, 222, 0.47) 73%,
+                    rgba(217, 183, 247, 0.41) 100%
+                );
+                backdrop-filter: blur(26px) saturate(1.42);
+                -webkit-backdrop-filter: blur(26px) saturate(1.42);
+                box-shadow:
+                    0 32px 76px rgba(58, 27, 94, 0.31),
+                    0 8px 22px rgba(73, 35, 104, 0.16),
+                    inset 0 2px 2px rgba(255, 255, 255, 0.98),
+                    inset 2px 0 2px rgba(255, 255, 255, 0.78),
+                    inset -2px -3px 6px rgba(76, 32, 132, 0.67),
+                    inset 0 -12px 23px rgba(113, 52, 167, 0.18);
+            }
+            #modalCarrito::backdrop,
+            #modalConfirmacion::backdrop {
+                background: rgba(46, 21, 73, 0.16);
+                backdrop-filter: blur(5px) saturate(1.06);
+                -webkit-backdrop-filter: blur(5px) saturate(1.06);
+            }
+            #modalCarrito::before,
+            #modalConfirmacion::before {
+                content: "";
+                position: absolute;
+                z-index: 0;
+                inset: 0;
+                border-radius: inherit;
+                pointer-events: none;
+                background:
+                    radial-gradient(ellipse at 6% 0%, rgba(255,255,255,0.64), transparent 44%),
+                    radial-gradient(ellipse at 100% 105%, rgba(98, 39, 156, 0.22), transparent 50%),
+                    linear-gradient(165deg, rgba(255,255,255,0.27), transparent 42%);
+            }
+            #modalCarrito::after,
+            #modalConfirmacion::after {
+                content: "";
+                position: absolute;
+                inset: 5px;
+                border-radius: 31px;
+                box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.55),
+                    inset 0 -1px 0 rgba(85,36,136,0.24);
+                pointer-events: none;
+            }
+            #modalCarrito[open],
+            #modalConfirmacion[open] {
+                animation: aparecerCristal 340ms cubic-bezier(.2,.8,.2,1) both;
+            }
+            #modalCarrito {
+                width: min(calc(100% - 24px), 610px);
+                max-height: min(90dvh, 870px);
+                scrollbar-width: thin;
+                scrollbar-color: #9c70ba88 transparent;
+            }
+            #modalCarrito .modal-interior {
+                position: relative;
+                z-index: 1;
+                padding: 30px clamp(20px, 5vw, 38px) 34px;
+            }
+            #modalCarrito .modal-cabecera { align-items: center; margin-bottom: 22px; }
+            #modalCarrito .modal-cabecera h2 {
+                font-family: "Outfit", "Segoe UI", sans-serif;
+                font-weight: 700;
+                letter-spacing: -0.055em;
+                font-size: clamp(31px, 5vw, 42px);
+                line-height: 1.07;
+                color: #38204d;
+            }
+            #modalCarrito .cerrar {
+                background: rgba(255,255,255,0.28);
+                border: 1px solid rgba(255,255,255,0.86);
+                box-shadow: inset 0 1px 2px #fff8, 0 4px 13px #6d3c8c22;
+                color: #4b2b65;
+            }
+            #modalCarrito .fila-carrito {
+                border-bottom: 1px solid rgba(255,255,255,0.45);
+            }
+            #modalCarrito .fila-carrito strong { font-weight: 700; }
+            #modalCarrito .total {
+                padding: 15px 16px;
+                border: 1px solid rgba(255,255,255,0.65);
+                border-radius: 18px;
+                background: rgba(255,255,255,0.19);
+                box-shadow: inset 0 1px 4px #fff8;
+                margin: 16px 0;
+                color: #3c2356;
+                font-weight: 700;
+            }
+            #modalCarrito label.campo {
+                color: #3b2853;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 0.01em;
+            }
+            #modalCarrito input,
+            #modalCarrito select,
+            #modalCarrito textarea {
+                border-radius: 15px;
+                border: 1px solid rgba(255,255,255,0.76);
+                background: rgba(255,255,255,0.38);
+                color: #352345;
+                box-shadow: inset 0 1px 5px rgba(85, 42, 131, .08), 0 1px 0 #fff8;
+                backdrop-filter: blur(7px);
+                -webkit-backdrop-filter: blur(7px);
+            }
+            #modalCarrito input:focus,
+            #modalCarrito select:focus,
+            #modalCarrito textarea:focus {
+                border-color: #9150c4;
+                background: rgba(255,255,255,0.55);
+            }
+            #modalCarrito .aviso {
+                background: rgba(255,255,255,0.21);
+                border: 1px solid rgba(255,255,255,0.44);
+                color: #573c69;
+                font-size: 12px;
+            }
+            #modalCarrito .controles button {
+                background: rgba(255,255,255,0.35);
+                border: 1px solid rgba(255,255,255,0.76);
+                color: #42255d;
+                box-shadow: inset 0 1px 2px #fff8;
+            }
+            #modalCarrito .boton.principal {
+                width: 100%;
+                min-height: 55px;
+                border: 1px solid rgba(255,255,255,0.6);
+                border-radius: 18px;
+                background: linear-gradient(125deg, #6a3a98 0%, #8651ad 50%, #5e3688 100%);
+                color: #fff;
+                font-size: 15px;
+                letter-spacing: .01em;
+                font-weight: 600;
+                box-shadow: inset 0 1px 2px #ffffff75, 0 10px 22px #61308e55;
+            }
+            #modalCarrito .boton.principal:hover { background: linear-gradient(125deg, #7645a3, #9663c1, #6b4097); }
+            #modalCarrito .boton.principal:disabled { background: #937ba6; }
+
+            /* Segunda ventana: únicamente el check verde sobre cristal real. */
+            #modalConfirmacion {
+                width: min(calc(100% - 38px), 320px);
+                min-height: 255px;
+                max-height: 85dvh;
+                overflow: hidden;
+                border-radius: 39px;
+            }
+            #modalConfirmacion::after { border-radius: 34px; }
+            .confirmacion-interior {
+                position: relative;
+                z-index: 1;
+                min-height: 255px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 22px;
+            }
+            #checkPedido {
+                display: block;
+                width: 210px;
+                height: 172px;
+                max-width: 100%;
+                object-fit: contain;
+                /* El filtro SVG vuelve transparente el negro y deja el check verde. */
+                filter: url(#gifVerdeSinNegro) drop-shadow(0 0 17px #24f28a80);
+                -webkit-filter: url(#gifVerdeSinNegro) drop-shadow(0 0 17px #24f28a80);
+            }
+            #checkVectorFallback {
+                width: 192px;
+                height: 160px;
+                overflow: visible;
+                filter: drop-shadow(0 0 12px rgba(24, 236, 120, .53));
+            }
+            #checkVectorFallback path {
+                fill: none;
+                stroke: #22ed84;
+                stroke-width: 14;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-dasharray: 135;
+                stroke-dashoffset: 135;
+                animation: dibujarCheck .88s .25s ease-in-out forwards;
+            }
+            #modalConfirmacion:not([open]) #checkVectorFallback path { animation: none; }
+            #abrirWhatsAppOtraVez {
+                margin-top: 8px;
+                padding: 9px 15px;
+                font-size: 13px;
+                font-weight: 600;
+                color: #482c60;
+                background: rgba(255, 255, 255, 0.32);
+                border: 1px solid #fffd;
+                box-shadow: inset 0 1px 3px #fff8;
+            }
+            .solo-lectores {
+                position: absolute !important;
+                height: 1px;
+                width: 1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+            }
+            @keyframes aparecerCristal {
+                from { opacity: 0; transform: translateY(12px) scale(.958); }
+                to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+            @keyframes dibujarCheck {
+                to { stroke-dashoffset: 0; }
+            }
+            @media (max-width: 580px) {
+                #modalCarrito { border-radius: 29px; max-height: 91dvh; }
+                #modalCarrito::after { border-radius: 24px; }
+                #modalCarrito .modal-interior { padding: 25px 20px 28px; }
+                #modalCarrito .modal-cabecera h2 { font-size: 33px; }
+                #modalConfirmacion { border-radius: 35px; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                #modalCarrito[open], #modalConfirmacion[open],
+                #checkVectorFallback path { animation: none !important; }
+                #checkVectorFallback path { stroke-dashoffset: 0; }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 02. ENCABEZADO Y HERO -->
+        <header>
+            <nav class="contenedor nav glass" aria-label="Navegación principal">
+                <button
+                    class="menu-movil"
+                    id="menuMovil"
+                    aria-expanded="false"
+                    aria-controls="navLinks"
+                >
+                    Menú
+                </button>
+                <a class="marca" href="#inicio" aria-label="Agua Fresca, inicio"
+                    >Agua Fresca<span>HELADERÍA</span></a
+                >
+                <div class="nav-links" id="navLinks">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#menu">Menú</a>
+                    <a href="#nosotros">Nosotros</a>
+                    <a href="#resenas">Reseñas</a>
+                    <a href="#ubicacion">Ubicación</a>
+                </div>
+                <button
+                    class="carrito-boton"
+                    id="abrirCarrito"
+                    aria-label="Abrir pedido"
+                >
+                    Pedido <span id="contador">0</span>
+                </button>
+            </nav>
+        </header>
+        <main>
+            <section class="hero" id="inicio">
+                <div class="contenedor hero-panel glass">
+                    <div class="hero-intro">
+                        <p class="eyebrow">Un momento para ti</p>
+                        <strong>La felicidad viene en forma de helado.</strong>
+                        <p>Copas, frutas y pequeños antojos para disfrutar.</p>
+                    </div>
+                    <div class="hero-foto">
+                        <!-- Cono editado a verde oscuro, conservando el chocolate de la referencia. -->
+                        <img
+                            id="fotoHero"
+                            src="imagenes/cono-hero.webp"
+                            alt="Cono de helado verde con cobertura de chocolate"
+                            width="1024"
+                            height="1536"
+                        />
+                    </div>
+                    <div class="hero-derecha">
+                        <p class="eyebrow">Agua Fresca · Heladería</p>
+                        <h1>Tu antojo,<br />a tu sabor.</h1>
+                        <p>
+                            Elige tu favorito y dale tu toque con nuestras adiciones.
+                        </p>
+                        <div class="acciones">
+                            <a class="boton principal" href="#menu">Ver menú</a>
+                            <a class="boton" href="#nosotros">Conócenos</a>
+                        </div>
+                    </div>
+                </div>
+                <p class="hero-nota">
+                    Copas especiales · Frutas · Limonadas · Mucho por descubrir
+                </p>
+            </section>
+
+            <!-- 03. SECCIONES DE LA PÁGINA -->
+            <section class="seccion" id="nosotros">
+                <div class="contenedor historia-grid">
+                    <div>
+                        <p class="eyebrow">Nuestro lado más dulce</p>
+                        <h2>Pequeños antojos.<br />Grandes sonrisas.</h2>
+                        <!-- Editar aquí la presentación del negocio. No se inventa una historia. -->
+                        <p>
+                            En Agua Fresca encuentras copas de helado, preparaciones
+                            con frutas y bebidas para acompañar tus momentos
+                            favoritos.
+                        </p>
+                        <p>
+                            Explora la carta, elige lo que se te antoja y personaliza
+                            tu pedido a tu gusto.
+                        </p>
+                        <a class="boton" href="#menu">Encuentra tu favorito</a>
+                    </div>
+                    <div class="beneficios">
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">♡</b>Copas especiales
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">✧</b>A tu gusto
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">❋</b>Con frutas
+                        </div>
+                        <div class="beneficio glass">
+                            <b aria-hidden="true">☺</b>Para compartir
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="seccion" id="menu">
+                <div class="contenedor">
+                    <div class="cabecera">
+                        <p class="eyebrow">Elige, combina y disfruta</p>
+                        <h2>Un favorito para cada antojo</h2>
+                        <p>
+                            Cada copa tiene su personalidad. Las bebidas reúnen sus
+                            opciones para que elijas fácilmente.
+                        </p>
+                    </div>
+                    <div
+                        class="filtros"
+                        id="categorias"
+                        aria-label="Categorías del menú"
+                    >
+                        <button
+                            class="filtro"
+                            data-categoria="todos"
+                            aria-pressed="true"
+                        >
+                            Todo
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="copas"
+                            aria-pressed="false"
+                        >
+                            Copas y postres
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="infantiles"
+                            aria-pressed="false"
+                        >
+                            Copas infantiles
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="bebidas"
+                            aria-pressed="false"
+                        >
+                            Bebidas
+                        </button>
+                        <button
+                            class="filtro"
+                            data-categoria="antojos"
+                            aria-pressed="false"
+                        >
+                            Antojos
+                        </button>
+                    </div>
+                    <input
+                        type="search"
+                        class="buscador"
+                        id="buscar"
+                        placeholder="Busca una copa, bebida o sabor…"
+                        aria-label="Buscar en el menú"
+                    />
+                    <p class="resumen-menu" id="resumenMenu" aria-live="polite"></p>
+                    <div class="productos-grid" id="productos"></div>
+                    <p id="sinResultados" hidden>
+                        No encontramos esa opción. Prueba con otro nombre.
+                    </p>
+                    <noscript
+                        >Activa JavaScript para ver el menú y preparar tu
+                        pedido.</noscript
+                    >
+                </div>
+            </section>
+            <section class="seccion promo">
+                <div class="contenedor glass">
+                    <p class="eyebrow">Ese toque extra</p>
+                    <h2>Hazlo todavía más tuyo.</h2>
+                    <p>
+                        Agrega queso, chantilly, helado, cereal, cerezas, fresas o
+                        fruta desde tu copa favorita.
+                    </p>
+                    <a class="boton" href="#menu">Personalizar mi antojo</a>
+                </div>
+            </section>
+            <section class="seccion" id="resenas">
+                <div class="contenedor glass">
+                    <p class="eyebrow">Tu experiencia cuenta</p>
+                    <h2>Un espacio para tus momentos dulces</h2>
+                    <!-- Añadir reseñas reales cuando el negocio las proporcione. -->
+                    <p>Después de tu visita, cuéntanos cuál fue tu favorito.</p>
+                    <a
+                        class="boton"
+                        id="enlaceResenas"
+                        hidden
+                        target="_blank"
+                        rel="noopener"
+                        >Escribir una reseña</a
+                    >
+                </div>
+            </section>
+            <section class="seccion" id="ubicacion">
+                <div class="contenedor">
+                    <div class="cabecera">
+                        <p class="eyebrow">Ven por tu favorito</p>
+                        <h2>Nos vemos en Agua Fresca</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-card glass">
+                            <h3>Ubicación</h3>
+                            <p id="direccionLocal"></p>
+                            <a
+                                class="boton"
+                                id="enlaceMapa"
+                                hidden
+                                target="_blank"
+                                rel="noopener"
+                                >Cómo llegar</a
+                            >
+                        </div>
+                        <div class="info-card glass">
+                            <h3>Horario</h3>
+                            <p id="horarioLocal"></p>
+                        </div>
+                        <div class="info-card glass">
+                            <h3>Contacto</h3>
+                            <p id="contactoLocal"></p>
+                            <a
+                                class="boton"
+                                id="enlaceContacto"
+                                hidden
+                                target="_blank"
+                                rel="noopener"
+                                >WhatsApp</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="seccion" id="redes">
+                <div class="contenedor">
+                    <h2>Más momentos dulces</h2>
+                    <p>Sigue las novedades de Agua Fresca.</p>
+                    <div
+                        class="acciones"
+                        id="enlacesRedes"
+                        style="justify-content: center"
+                    ></div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            Agua Fresca · Heladería<br />La felicidad viene en forma de helado.
+        </footer>
+
+        <!-- 04. VENTANAS DE PRODUCTO Y CARRITO -->
+        <dialog id="modalProducto" aria-labelledby="tituloProducto">
+            <div class="modal-interior">
+                <div class="modal-cabecera">
+                    <h2 id="tituloProducto"></h2>
+                    <button
+                        class="cerrar"
+                        data-cerrar="modalProducto"
+                        aria-label="Cerrar producto"
+                    >
+                        ×
+                    </button>
+                </div>
+                <form id="formProducto">
+                    <p id="descripcionProducto"></p>
+                    <div id="opcionesProducto"></div>
+                    <fieldset id="extrasProducto">
+                        <legend>Adiciones para tu antojo</legend>
+                        <div id="listaExtras"></div>
+                    </fieldset>
+                    <label class="campo"
+                        >Indicaciones para este producto<textarea
+                            name="nota"
+                            maxlength="250"
+                            placeholder="¿Algo que debamos tener en cuenta?"
+                        ></textarea>
+                    </label>
+                    <p class="total" id="precioProducto" aria-live="polite"></p>
+                    <p class="aviso" id="avisoPrecio" hidden>
+                        Este producto tiene un precio por confirmar. Puedes guardarlo
+                        en tu pedido; el envío estará disponible al completar los
+                        precios.
+                    </p>
+                    <button class="boton principal" type="submit">
+                        Agregar al pedido
+                    </button>
+                </form>
+            </div>
+        </dialog>
+        <dialog id="modalCarrito" aria-labelledby="tituloCarrito">
+            <div class="modal-interior">
+                <div class="modal-cabecera">
+                    <h2 id="tituloCarrito">Tu pedido</h2>
+                    <button
+                        class="cerrar"
+                        data-cerrar="modalCarrito"
+                        aria-label="Cerrar pedido"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div id="listaCarrito"></div>
+                <p class="total" id="totalCarrito" aria-live="polite"></p>
+                <form id="formPedido">
+                    <label class="campo"
+                        >Tu nombre<input
+                            name="nombre"
+                            required
+                            maxlength="80"
+                            autocomplete="name"
+                    /></label>
+                    <label class="campo"
+                        >Tu teléfono<input
+                            name="telefono"
+                            type="tel"
+                            required
+                            maxlength="25"
+                            autocomplete="tel"
+                    /></label>
+                    <label class="campo"
+                        >¿Cómo quieres recibirlo?<select name="entrega" id="entrega">
+                            <option value="Recoger en el local">
+                                Recoger en el local
+                            </option>
+                            <option value="Domicilio">Domicilio</option>
+                        </select></label
+                    >
+                    <label class="campo" id="campoDireccion" hidden
+                        >Dirección de entrega<input
+                            name="direccion"
+                            id="direccionPedido"
+                            maxlength="200"
+                            autocomplete="street-address"
+                    /></label>
+                    <label class="campo"
+                        >Notas generales<textarea
+                            name="nota"
+                            maxlength="400"
+                        ></textarea>
+                    </label>
+                    <p class="aviso">
+                        El domicilio y la disponibilidad se confirman con el local.
+                        Revisarás el mensaje en WhatsApp antes de enviarlo.
+                    </p>
+                    <p class="aviso" id="bloqueoPedido"></p>
+                    <button class="boton principal" id="enviarPedido" type="submit">
+                        Listo · Continuar a WhatsApp
+                    </button>
+                </form>
+            </div>
+        </dialog>
+        <!-- Filtro cromático: elimina el negro del GIF y tiñe de verde el check.
+             Se mantiene la ruta original imagenes/check-pedido.gif.
+             Si no existe el GIF, se usa un chulito verde SVG animado y transparente. -->
+        <svg aria-hidden="true" class="solo-lectores" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="gifVerdeSinNegro" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="matrix" values="
+                        0 0 0 0 0.10
+                        0 0 0 0 0.96
+                        0 0 0 0 0.41
+                        0.31 0.59 0.10 0 0" />
+                    <feComponentTransfer>
+                        <feFuncA type="gamma" amplitude="1" exponent="2.3" offset="0" />
+                    </feComponentTransfer>
+                </filter>
+            </defs>
+        </svg>
+        <dialog id="modalConfirmacion" aria-label="Abriendo pedido en WhatsApp">
+            <div class="confirmacion-interior" role="status" aria-live="polite">
+                <img id="checkPedido" src="imagenes/check-pedido.gif" alt="" width="210" height="172" />
+                <svg id="checkVectorFallback" viewBox="0 0 150 120" aria-hidden="true" hidden>
+                    <path d="M28 60 L63 91 L123 28" />
+                </svg>
+                <span class="solo-lectores">Abriendo WhatsApp para que envíes tu pedido.</span>
+                <a id="abrirWhatsAppOtraVez" class="boton" target="_self" hidden>Continuar a WhatsApp</a>
+            </div>
+        </dialog>
+        <div class="toast" id="toast" role="status" hidden></div>
+
+        <script>
+            "use strict";
+
+            // 05. CONFIGURACIÓN DEL NEGOCIO
+            // Completar con datos de Agua Fresca. No se reutiliza el número de la hamburguesería.
+            const NEGOCIO = {
+                nombre: "Agua Fresca",
+                whatsapp: "573003830231", // Código de país y número, sin + ni espacios. Ejemplo: 573001234567.
+                direccion: "Dirección por confirmar",
+                horario: "Horario por confirmar",
+                mapa: "", // URL completa de Google Maps.
+                resenas: "", // URL de reseñas reales.
+                instagram: "",
+                facebook: "",
+                tiktok: "",
+            };
+
+            // 06. CATÁLOGO: 56 TARJETAS
+            // precio: valor en COP, sin puntos ni símbolo. null = pendiente; 0 = gratis.
+            // imagen: archivo dentro de la carpeta imagenes que acompaña este index.html.
+            // En tarjetas agrupadas, el precio de cada opción es su precio completo.
+            const PRODUCTOS = [
+                // TARJETA 01: BROWNIE CALIENTE
+                {
+                    id: "copa-01",
+                    nombre: "Brownie caliente",
+                    categoria: "copas",
+                    descripcion:
+                        "Brownie, helado, salsa de chocolate y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-01.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 02: TORTA ESPECIAL
+                {
+                    id: "copa-02",
+                    nombre: "Torta especial",
+                    categoria: "copas",
+                    descripcion: "Torta de chocolate, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-02.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 03: CAFÉ COLOMBIA
+                {
+                    id: "copa-03",
+                    nombre: "Café Colombia",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, licor de café y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-03.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 04: SUPREMA
+                {
+                    id: "copa-04",
+                    nombre: "Suprema",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, chocolatina de maní y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-04.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 05: OREO
+                {
+                    id: "copa-05",
+                    nombre: "Oreo",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, galleta Oreo, salsa de chocolate y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-05.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 06: EXPLOSIÓN DE CHOCOLATE
+                {
+                    id: "copa-06",
+                    nombre: "Explosión de chocolate",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, trozos de brownie, galleta Oreo y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-06.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 07: EUFORIA
+                {
+                    id: "copa-07",
+                    nombre: "Euforia",
+                    categoria: "copas",
+                    descripcion: "Trozos de brownie, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-07.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 08: FANTASÍA
+                {
+                    id: "copa-08",
+                    nombre: "Fantasía",
+                    categoria: "copas",
+                    descripcion:
+                        "Banano, papaya, fresa, helado, queso rallado y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-08.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 09: CAPRICHO
+                {
+                    id: "copa-09",
+                    nombre: "Capricho",
+                    categoria: "copas",
+                    descripcion: "Melocotón, brownie, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-09.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 10: AREQUIPE
+                {
+                    id: "copa-10",
+                    nombre: "Arequipe",
+                    categoria: "copas",
+                    descripcion:
+                        "Salsa de arequipe, banano, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-10.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 11: WAFFLES
+                {
+                    id: "copa-11",
+                    nombre: "Waffles",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, fresa, melocotón o banano y crema chantilly.",
+                    precio: 20000,
+                    imagen: "imagenes/copa-11.webp",
+                    adiciones: true,
+                    sabores: false,
+                    opciones: [
+                        {
+                            nombre: "Fresa",
+                            precio: 20000,
+                            color: "#e46e8b",
+                        },
+                        {
+                            nombre: "Melocotón",
+                            precio: 20000,
+                            color: "#efb176",
+                        },
+                        {
+                            nombre: "Banano",
+                            precio: 20000,
+                            color: "#e4c861",
+                        },
+                    ],
+                },
+                // TARJETA 12: BAYLEYS
+                {
+                    id: "copa-12",
+                    nombre: "Bayleys",
+                    categoria: "copas",
+                    descripcion:
+                        "Trago de Bayleys, salsa de chocolate, helado, queso y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-12.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 13: CHOCORRAMO
+                {
+                    id: "copa-13",
+                    nombre: "Chocorramo",
+                    categoria: "copas",
+                    descripcion: "Trozos de Chocorramo, helado y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-13.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 14: MILO
+                {
+                    id: "copa-14",
+                    nombre: "Milo",
+                    categoria: "copas",
+                    descripcion: "Galleta Milo, helado y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-14.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 15: SORPRESA
+                {
+                    id: "copa-15",
+                    nombre: "Sorpresa",
+                    categoria: "copas",
+                    descripcion: "Helado, fresa, kiwi, melocotón y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-15.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 16: SUEÑO DE FRUTAS
+                {
+                    id: "copa-16",
+                    nombre: "Sueño de frutas",
+                    categoria: "copas",
+                    descripcion: "Helado, trozos de frutas y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-16.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 17: FESTIVAL DE FRUTAS
+                {
+                    id: "copa-17",
+                    nombre: "Festival de frutas",
+                    categoria: "copas",
+                    descripcion:
+                        "Mango, manzana, papaya, banano, melocotón, fresas, helado, yogurt y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-17.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 18: MELOCOTÓN
+                {
+                    id: "copa-18",
+                    nombre: "Melocotón",
+                    categoria: "copas",
+                    descripcion: "Rodajas de melocotón, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-18.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 19: FRESA
+                {
+                    id: "copa-19",
+                    nombre: "Fresa",
+                    categoria: "copas",
+                    descripcion:
+                        "Fresas, helado, leche condensada y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-19.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 20: CEREZA
+                {
+                    id: "copa-20",
+                    nombre: "Cereza",
+                    categoria: "copas",
+                    descripcion: "Cerezas, helado y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-20.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 21: DESTELLOS ROJOS
+                {
+                    id: "copa-21",
+                    nombre: "Destellos rojos",
+                    categoria: "copas",
+                    descripcion: "Fresas, cerezas, helado y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-21.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 22: CARIBE
+                {
+                    id: "copa-22",
+                    nombre: "Caribe",
+                    categoria: "copas",
+                    descripcion: "Melocotón, fresas, helado y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-22.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 23: ILUSIÓN
+                {
+                    id: "copa-23",
+                    nombre: "Ilusión",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, mango, durazno, queso rallado, cereales y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-23.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 24: ESTRELLA
+                {
+                    id: "copa-24",
+                    nombre: "Estrella",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, fresa, banano, ripio de Oreo y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-24.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 25: DE LA CASA
+                {
+                    id: "copa-25",
+                    nombre: "De la casa",
+                    categoria: "copas",
+                    descripcion:
+                        "Helado, queso rallado, salsa de arequipe y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-25.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 26: CABELLO DE ÁNGEL
+                {
+                    id: "copa-26",
+                    nombre: "Cabello de ángel",
+                    categoria: "copas",
+                    descripcion: "Helado, queso derretido y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-26.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 27: M&M
+                {
+                    id: "copa-27",
+                    nombre: "M&M",
+                    categoria: "copas",
+                    descripcion: "Helado, M&M y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-27.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 28: EXPLOSIÓN DE MASMELOS
+                {
+                    id: "copa-28",
+                    nombre: "Explosión de masmelos",
+                    categoria: "copas",
+                    descripcion: "Helado, masmelos y crema chantilly.",
+                    precio: 16000,
+                    imagen: "imagenes/copa-28.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 29: ENSALADA DE FRUTAS
+                {
+                    id: "copa-29",
+                    nombre: "Ensalada de frutas",
+                    categoria: "copas",
+                    descripcion:
+                        "Frutas, yogurt de melocotón, queso rallado, helado, leche condensada y cereal.",
+                    precio: 13000,
+                    imagen: "imagenes/copa-29.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 30: SALPICÓN SENCILLO
+                {
+                    id: "copa-30",
+                    nombre: "Salpicón sencillo",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, jugo de salpicón y leche condensada.",
+                    precio: 8000,
+                    imagen: "imagenes/copa-30.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 31: SALPICÓN HELADO
+                {
+                    id: "copa-31",
+                    nombre: "Salpicón helado",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, helado, jugo de salpicón y leche condensada.",
+                    precio: 12000,
+                    imagen: "imagenes/copa-31.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 32: SALPICÓN ESPECIAL
+                {
+                    id: "copa-32",
+                    nombre: "Salpicón especial",
+                    categoria: "copas",
+                    descripcion:
+                        "Fruta picada, jugo de salpicón, helado, queso rallado, cereal y leche condensada.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-32.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 33: ARCOÍRIS
+                {
+                    id: "copa-33",
+                    nombre: "Arcoíris",
+                    categoria: "copas",
+                    descripcion: "Variedad de gelatina y crema chantilly.",
+                    precio: 11000,
+                    imagen: "imagenes/copa-33.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 34: GELATINA HELADO
+                {
+                    id: "copa-34",
+                    nombre: "Gelatina helado",
+                    categoria: "copas",
+                    descripcion:
+                        "Gelatina, helado, leche condensada y crema chantilly.",
+                    precio: 14000,
+                    imagen: "imagenes/copa-34.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 35: BANANA SPLIT
+                {
+                    id: "copa-35",
+                    nombre: "Banana split",
+                    categoria: "copas",
+                    descripcion:
+                        "Banano, helado, salsa de arequipe y crema chantilly.",
+                    precio: 17000,
+                    imagen: "imagenes/copa-35.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 36: CONCHA
+                {
+                    id: "copa-36",
+                    nombre: "Concha",
+                    categoria: "copas",
+                    descripcion:
+                        "Elige con galleta y salsa o con chantilly y decoración.",
+                    precio: 7500,
+                    imagen: "imagenes/copa-36.webp",
+                    adiciones: true,
+                    sabores: false,
+                    imagenes: ["imagenes/copa-36.webp", "imagenes/copa-36-2.webp"],
+                    opciones: [
+                        {
+                            nombre: "Con galleta y salsa",
+                            precio: 7500,
+                        },
+                        {
+                            nombre: "Con chantilly y decoración",
+                            precio: 11000,
+                        },
+                    ],
+                },
+                // TARJETA 37: CUCURUCHOS
+                {
+                    id: "copa-37",
+                    nombre: "Cucuruchos",
+                    categoria: "copas",
+                    descripcion: "Helado, crema chantilly y decoración.",
+                    precio: 5000,
+                    imagen: "imagenes/copa-37.webp",
+                    adiciones: true,
+                    sabores: true,
+                    imagenes: ["imagenes/copa-37.webp", "imagenes/copa-37-2.webp"],
+                },
+                // TARJETA 38: COPA PAYASO
+                {
+                    id: "infantil-01",
+                    nombre: "Copa Payaso",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de payaso.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-01.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 39: COPA GATO
+                {
+                    id: "infantil-02",
+                    nombre: "Copa Gato",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de gato.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-02.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 40: COPA RATÓN
+                {
+                    id: "infantil-03",
+                    nombre: "Copa Ratón",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de ratón.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-03.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 41: COPA MUÑECO DE NIEVE
+                {
+                    id: "infantil-04",
+                    nombre: "Copa Muñeco de nieve",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de muñeco de nieve.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-04.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 42: COPA ARAÑA
+                {
+                    id: "infantil-05",
+                    nombre: "Copa Araña",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de araña.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-05.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 43: COPA OSO
+                {
+                    id: "infantil-06",
+                    nombre: "Copa Oso",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de oso.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-06.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 44: COPA PINOCHO
+                {
+                    id: "infantil-07",
+                    nombre: "Copa Pinocho",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pinocho.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-07.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 45: COPA CERDITO
+                {
+                    id: "infantil-08",
+                    nombre: "Copa Cerdito",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de cerdito.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-08.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 46: COPA PULPO
+                {
+                    id: "infantil-09",
+                    nombre: "Copa Pulpo",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pulpo.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-09.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 47: COPA BÚHO
+                {
+                    id: "infantil-10",
+                    nombre: "Copa Búho",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de búho.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-10.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 48: COPA GUSANO
+                {
+                    id: "infantil-11",
+                    nombre: "Copa Gusano",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de gusano.",
+                    precio: 14000,
+                    imagen: "imagenes/infantil-11.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 49: COPA POLLITO
+                {
+                    id: "infantil-12",
+                    nombre: "Copa Pollito",
+                    categoria: "infantiles",
+                    descripcion: "Una copa de helado con figura de pollito.",
+                    precio: 12000,
+                    imagen: "imagenes/infantil-12.webp",
+                    adiciones: true,
+                    sabores: false,
+                },
+                // TARJETA 50: GASEOSAS Y BEBIDAS ENVASADAS
+                {
+                    id: "gaseosas",
+                    nombre: "Gaseosas y bebidas envasadas",
+                    categoria: "bebidas",
+                    descripcion: "Escoge tu bebida favorita.",
+                    precio: null,
+                    imagen: "imagenes/gaseosas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Piña",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Uva",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Manzana",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Colombiana",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Quatro",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Tuti-fruti",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Coca-Cola",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Tamarindo",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Hit",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Bretaña",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Saviloe",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Mr Tea",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Agua",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Agua con gas",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Agua saborizada",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Gatorade",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Vive 100",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Malta",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 51: CERVEZAS
+                {
+                    id: "cervezas",
+                    nombre: "Cervezas",
+                    categoria: "bebidas",
+                    descripcion: "Elige la cerveza para acompañar tu pedido.",
+                    precio: null,
+                    imagen: "imagenes/cervezas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Águila",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Coronita",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Águila Light",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Pilsen",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Cola y Pola",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Costeñita",
+                            precio: null,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Los Cuates",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 52: PRODUCTOS ALPINA
+                {
+                    id: "alpina",
+                    nombre: "Productos Alpina",
+                    categoria: "bebidas",
+                    descripcion: "Abre las opciones y escoge tu producto.",
+                    precio: null,
+                    imagen: "imagenes/alpina.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "modal",
+                    opciones: [
+                        {
+                            nombre: "Bonyurt",
+                            precio: null,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Avena",
+                            precio: null,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Alpinito",
+                            precio: null,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "YogoYogo",
+                            precio: null,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Alpin",
+                            precio: null,
+                            color: "#a8cce1",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 53: BEBIDAS FRÍAS Y CALIENTES
+                {
+                    id: "preparadas",
+                    nombre: "Bebidas frías y calientes",
+                    categoria: "bebidas",
+                    descripcion: "Malteadas, cafés, aromáticas y micheladas.",
+                    precio: 1000,
+                    imagen: "imagenes/preparadas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "modal",
+                    opciones: [
+                        {
+                            nombre: "Malteada",
+                            precio: 13000,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Milo frío",
+                            precio: 8000,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Capuchino frío",
+                            precio: 13000,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Milo caliente",
+                            precio: 10000,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Capuchino caliente",
+                            precio: 10000,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Tinto",
+                            precio: 1500,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Café con leche",
+                            precio: 2000,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Aromática",
+                            precio: 1000,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Michelada",
+                            precio: 5000,
+                            color: "#d3bde8",
+                        },
+                    ],
+                    imagenes: [
+                        "imagenes/preparadas.webp",
+                        "imagenes/preparadas-2.webp",
+                    ],
+                },
+                // TARJETA 54: JUGOS NATURALES
+                {
+                    id: "jugos",
+                    nombre: "Jugos naturales",
+                    categoria: "bebidas",
+                    descripcion: "Elige tu fruta y prepáralo en agua o en leche.",
+                    precio: 6000,
+                    imagen: "imagenes/jugos.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Mango",
+                            precio: 6000,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Fresa",
+                            precio: 6000,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Mora",
+                            precio: 6000,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Maracuyá",
+                            precio: 6000,
+                            color: "#edc481",
+                        },
+                        {
+                            nombre: "Guanábana",
+                            precio: 6000,
+                            color: "#a8cce1",
+                        },
+                        {
+                            nombre: "Guayaba",
+                            precio: 6000,
+                            color: "#ba9382",
+                        },
+                        {
+                            nombre: "Chontaborojo",
+                            precio: 6000,
+                            color: "#e899aa",
+                        },
+                    ],
+                    preparaciones: ["En agua", "En leche"],
+                },
+                // TARJETA 55: LIMONADAS
+                {
+                    id: "limonadas",
+                    nombre: "Limonadas",
+                    categoria: "bebidas",
+                    descripcion: "Encuentra tu combinación favorita.",
+                    precio: 10000,
+                    imagen: "imagenes/limonadas.webp",
+                    adiciones: false,
+                    sabores: false,
+                    selector: "colores",
+                    opciones: [
+                        {
+                            nombre: "Coco",
+                            precio: 10000,
+                            color: "#e899aa",
+                        },
+                        {
+                            nombre: "Mango biche",
+                            precio: 10000,
+                            color: "#a3d8c5",
+                        },
+                        {
+                            nombre: "Cereza",
+                            precio: 10000,
+                            color: "#d3bde8",
+                        },
+                        {
+                            nombre: "Fresa",
+                            precio: 10000,
+                            color: "#edc481",
+                        },
+                    ],
+                    notaImagen: "Imagen representativa de la categoría.",
+                },
+                // TARJETA 56: PIZZA HAWAIANA
+                {
+                    id: "pizza-hawaiana",
+                    nombre: "Pizza hawaiana",
+                    categoria: "antojos",
+                    descripcion: "Un antojo salado para acompañar tu visita.",
+                    precio: 12000,
+                    imagen: "imagenes/pizza-hawaiana.webp",
+                    adiciones: false,
+                    sabores: false,
+                },
+            ];
+
+            // 07. OPCIONES Y ADICIONES
+            // Agregar aquí los sabores reales de helado cuando el negocio los confirme.
+            // No se inventa una lista de sabores que no está en la carta.
+            const SABORES_HELADO = [];
+
+            const ADICIONES = [
+                {
+                    id: "queso",
+                    nombre: "Queso",
+                    precio: 4000,
+                },
+                {
+                    id: "chantilly",
+                    nombre: "Chantilly",
+                    precio: 4000,
+                },
+                {
+                    id: "helado",
+                    nombre: "Helado",
+                    precio: 3000,
+                },
+                {
+                    id: "cereal",
+                    nombre: "Cereal",
+                    precio: 2000,
+                },
+                {
+                    id: "cerezas",
+                    nombre: "Cerezas",
+                    precio: 2000,
+                },
+                {
+                    id: "fresas",
+                    nombre: "Fresas",
+                    precio: 2000,
+                },
+                {
+                    id: "fruta",
+                    nombre: "Fruta",
+                    precio: 3000,
+                },
+            ];
+
+            // Las preparaciones con precio distinto se configuran por separado aquí.
+            // precio es el valor final del producto; no es un recargo.
+            const PRECIOS_PREPARACION = {
+                jugos: {
+                    "Mango|En agua": 6000,
+                    "Mango|En leche": 8000,
+                    "Fresa|En agua": 6000,
+                    "Fresa|En leche": 8000,
+                    "Mora|En agua": 6000,
+                    "Mora|En leche": 8000,
+                    "Maracuyá|En agua": 6000,
+                    "Maracuyá|En leche": 8000,
+                    "Guanábana|En agua": 6000,
+                    "Guanábana|En leche": 8000,
+                    "Guayaba|En agua": 6000,
+                    "Guayaba|En leche": 8000,
+                    "Chontaborojo|En agua": 6000,
+                    "Chontaborojo|En leche": 8000,
+                },
+                preparadas: {
+                    "Aromática|En agua": 1000,
+                    "Aromática|En leche": 2000,
+                },
+            };
+            const PRECIOS_MICHELADA = { Soda: 5000, Cerveza: 6000 };
+
+            const OPCIONES_SECUNDARIAS = {
+                Hit: ["Mango", "Piña-Naranja", "Mora", "Tropical"],
+                Alpin: ["Chocolate", "Fresa"],
+                Aromática: ["Hierbabuena", "Manzanilla", "Panelita", "Frutos rojos"],
+                Michelada: ["Mango", "Maracuyá", "Cereza", "Fresa"],
+            };
+            const BASES_MICHELADA = [
+                "Soda",
+                "Tamarindo",
+                "Bretaña",
+                "Cerveza",
+                "Quatro",
+            ];
+
+            // 08. FUNCIONAMIENTO
+            // A partir de aquí normalmente no necesitas editar para cambiar la carta.
+            const $ = (id) => document.getElementById(id);
+            const moneda = (n) =>
+                new Intl.NumberFormat("es-CO", {
+                    style: "currency",
+                    currency: "COP",
+                    maximumFractionDigits: 0,
+                }).format(n);
+            const precioValido = (n) =>
+                typeof n === "number" && Number.isFinite(n) && n >= 0;
+            const textoPrecio = (n) =>
+                precioValido(n) ? moneda(n) : "Precio por confirmar";
+            const normalizar = (s) =>
+                s
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase();
+            const CLAVE_CARRITO = "agua-fresca-pedido-v1";
+            const seleccionados = new Map();
+            let categoria = "todos";
+            let productoActual = null;
+            let ultimoBoton = null;
+            let carrito = [];
+            let tiempoToast;
+
+            function nodo(tag, clase, texto) {
+                const el = document.createElement(tag);
+                if (clase) el.className = clase;
+                if (texto !== undefined) el.textContent = texto;
+                return el;
+            }
+
+            function notificar(texto) {
+                clearTimeout(tiempoToast);
+                $("toast").textContent = texto;
+                $("toast").hidden = false;
+                tiempoToast = setTimeout(() => {
+                    $("toast").hidden = true;
+                }, 3000);
+            }
+
+            function abrirModal(id) {
+                $(id).showModal();
+                document.body.classList.add("bloqueado");
+            }
+
+            document.querySelectorAll("dialog").forEach((dialogo) => {
+                dialogo.addEventListener("close", () => {
+                    if (!document.querySelector("dialog[open]")) {
+                        document.body.classList.remove("bloqueado");
+                    }
+                });
+                dialogo.addEventListener("click", (e) => {
+                    const r = dialogo.getBoundingClientRect();
+                    if (
+                        dialogo.id !== "modalConfirmacion" &&
+                        e.target === dialogo &&
+                        (e.clientX < r.left ||
+                            e.clientX > r.right ||
+                            e.clientY < r.top ||
+                            e.clientY > r.bottom)
+                    )
+                        dialogo.close();
+                });
+            });
+            document.querySelectorAll("[data-cerrar]").forEach((boton) => {
+                boton.addEventListener("click", () =>
+                    $(boton.dataset.cerrar).close(),
+                );
+            });
+
+            function configurarNegocio() {
+                $("direccionLocal").textContent = NEGOCIO.direccion;
+                $("horarioLocal").textContent = NEGOCIO.horario;
+                $("contactoLocal").textContent =
+                    NEGOCIO.whatsapp || "Contacto por confirmar";
+                const enlaces = [
+                    ["enlaceMapa", NEGOCIO.mapa],
+                    ["enlaceResenas", NEGOCIO.resenas],
+                    [
+                        "enlaceContacto",
+                        NEGOCIO.whatsapp ? "https://wa.me/" + NEGOCIO.whatsapp : "",
+                    ],
+                ];
+                for (const [id, url] of enlaces) {
+                    if (/^https:\/\//.test(url)) {
+                        $(id).href = url;
+                        $(id).hidden = false;
+                    }
+                }
+                for (const red of ["instagram", "facebook", "tiktok"]) {
+                    if (!/^https:\/\//.test(NEGOCIO[red])) continue;
+                    const enlace = nodo(
+                        "a",
+                        "boton",
+                        red === "tiktok"
+                            ? "TikTok"
+                            : red[0].toUpperCase() + red.slice(1),
+                    );
+                    enlace.href = NEGOCIO[red];
+                    enlace.target = "_blank";
+                    enlace.rel = "noopener";
+                    $("enlacesRedes").append(enlace);
+                }
+            }
+
+            function crearFoto(p) {
+                const marco = nodo("div", "producto-imagen");
+                const marcador = nodo("div", "foto-pendiente");
+                marcador.innerHTML =
+                    '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="9" width="30" height="23" rx="5"/><circle cx="26" cy="16" r="3"/><path d="M6 28l9-10 8 8 4-4 7 7"/></svg>';
+                marcador.append(nodo("span", "", "Foto próximamente"));
+                marco.append(marcador);
+                const rutas = p.imagenes || (p.imagen ? [p.imagen] : []);
+                const grupo = nodo("div", "fotos-producto");
+                grupo.style.setProperty("--numero-fotos", rutas.length);
+                rutas.forEach((ruta, indice) => {
+                    const fuente = ruta;
+                    if (!fuente) return;
+                    const foto = new Image();
+                    foto.alt =
+                        p.nombre +
+                        (rutas.length > 1 ? " · presentación " + (indice + 1) : "");
+                    foto.loading = "eager";
+                    foto.decoding = "async";
+                    foto.onload = () => {
+                        if (marcador.parentElement) marcador.replaceWith(grupo);
+                    };
+                    grupo.append(foto);
+                    foto.src = fuente;
+                });
+                return marco;
+            }
+
+            function pintarCatalogo() {
+                const consulta = normalizar($("buscar").value.trim());
+                const visibles = PRODUCTOS.filter((p) => {
+                    const texto = [
+                        p.nombre,
+                        p.descripcion,
+                        ...(p.opciones || []).map((o) => o.nombre),
+                    ].join(" ");
+                    return (
+                        (categoria === "todos" || p.categoria === categoria) &&
+                        normalizar(texto).includes(consulta)
+                    );
+                });
+                $("productos").replaceChildren();
+                for (const p of visibles) {
+                    const tarjeta = nodo("article", "producto glass");
+                    tarjeta.dataset.producto = p.id;
+                    tarjeta.append(
+                        crearFoto(p),
+                        nodo("h3", "", p.nombre),
+                        nodo("p", "descripcion", p.descripcion),
+                    );
+                    if (p.notaImagen)
+                        tarjeta.append(nodo("small", "nota-imagen", p.notaImagen));
+                    if (p.selector === "colores") {
+                        const muestras = nodo("div", "muestras");
+                        muestras.setAttribute("role", "group");
+                        muestras.setAttribute(
+                            "aria-label",
+                            "Opciones de " + p.nombre,
+                        );
+                        p.opciones.forEach((opcion, indice) => {
+                            const boton = nodo("button", "muestra");
+                            boton.type = "button";
+                            boton.style.setProperty("--color", opcion.color);
+                            boton.setAttribute(
+                                "aria-pressed",
+                                String(seleccionados.get(p.id) === indice),
+                            );
+                            const color = nodo("i");
+                            color.setAttribute("aria-hidden", "true");
+                            boton.append(color, nodo("span", "", opcion.nombre));
+                            boton.addEventListener("click", () => {
+                                seleccionados.set(p.id, indice);
+                                muestras
+                                    .querySelectorAll("button")
+                                    .forEach((b) =>
+                                        b.setAttribute(
+                                            "aria-pressed",
+                                            String(b === boton),
+                                        ),
+                                    );
+                                tarjeta.querySelector(".seleccion").textContent =
+                                    "Elegiste: " + opcion.nombre;
+                                tarjeta.querySelector(".precio").textContent =
+                                    textoPrecio(opcion.precio);
+                            });
+                            muestras.append(boton);
+                        });
+                        tarjeta.append(muestras);
+                        const indice = seleccionados.get(p.id);
+                        tarjeta.append(
+                            nodo(
+                                "p",
+                                "seleccion",
+                                indice === undefined
+                                    ? "Selecciona una opción"
+                                    : "Elegiste: " + p.opciones[indice].nombre,
+                            ),
+                        );
+                    }
+                    const seleccion = seleccionados.get(p.id);
+                    const valor =
+                        p.opciones && seleccion !== undefined
+                            ? p.opciones[seleccion].precio
+                            : p.precio;
+                    tarjeta.append(
+                        nodo(
+                            "p",
+                            "precio",
+                            (p.opciones &&
+                            seleccion === undefined &&
+                            precioValido(valor)
+                                ? "Desde "
+                                : "") + textoPrecio(valor),
+                        ),
+                    );
+                    const acciones = nodo("div", "producto-acciones");
+                    const elegir = nodo(
+                        "button",
+                        "boton",
+                        esCopaFija(p)
+                            ? "Agregar al carrito"
+                            : p.sabores
+                              ? "Elegir sabor"
+                              : p.opciones
+                                ? "Elegir opciones"
+                                : "Agregar al pedido",
+                    );
+                    elegir.type = "button";
+                    elegir.addEventListener("click", () => {
+                        const directo =
+                            esCopaFija(p) && !p.opciones && !p.preparaciones;
+                        abrirProducto(p, elegir, !directo);
+                        if (directo) $("formProducto").requestSubmit();
+                    });
+                    acciones.append(elegir);
+                    if (p.adiciones) {
+                        const extras = nodo(
+                            "button",
+                            "boton secundario",
+                            "+ Adiciones",
+                        );
+                        extras.type = "button";
+                        extras.addEventListener("click", () => {
+                            abrirProducto(p, extras);
+                            $("extrasProducto").scrollIntoView({ block: "nearest" });
+                        });
+                        acciones.append(extras);
+                    }
+                    tarjeta.append(acciones);
+                    $("productos").append(tarjeta);
+                }
+                $("resumenMenu").textContent =
+                    visibles.length +
+                    " de " +
+                    PRODUCTOS.length +
+                    " tarjetas · Las opciones se eligen dentro de cada producto";
+                $("sinResultados").hidden = visibles.length !== 0;
+            }
+
+            function agregarSelector(nombre, etiqueta, opciones, valor = "") {
+                const label = nodo("label", "campo", etiqueta);
+                const select = nodo("select");
+                select.name = nombre;
+                select.required = true;
+                const vacia = nodo("option", "", "Selecciona una opción");
+                vacia.value = "";
+                select.append(vacia);
+                opciones.forEach((opcion, indice) => {
+                    const op = nodo(
+                        "option",
+                        "",
+                        typeof opcion === "string"
+                            ? opcion
+                            : opcion.nombre + " · " + textoPrecio(opcion.precio),
+                    );
+                    op.value = typeof opcion === "string" ? opcion : String(indice);
+                    select.append(op);
+                });
+                select.value = valor;
+                label.append(select);
+                $("opcionesProducto").append(label);
+                return select;
+            }
+
+            function actualizarSubopciones() {
+                $("opcionesProducto")
+                    .querySelectorAll(".dependiente")
+                    .forEach((el) => el.remove());
+                const p = productoActual;
+                const valor = $("formProducto").elements.opcion?.value;
+                const opcion =
+                    valor !== "" && valor !== undefined
+                        ? p.opciones?.[Number(valor)]
+                        : null;
+                if (opcion && OPCIONES_SECUNDARIAS[opcion.nombre]) {
+                    agregarSelector(
+                        "variante",
+                        opcion.nombre === "Michelada"
+                            ? "Sabor de la michelada"
+                            : "Elige el sabor",
+                        OPCIONES_SECUNDARIAS[opcion.nombre],
+                    ).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Michelada") {
+                    agregarSelector(
+                        "base",
+                        "Base de la michelada",
+                        BASES_MICHELADA,
+                    ).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Aromática") {
+                    agregarSelector("preparacion", "Preparación", [
+                        "En agua",
+                        "En leche",
+                    ]).parentElement.classList.add("dependiente");
+                }
+                if (opcion?.nombre === "Malteada" && SABORES_HELADO.length) {
+                    agregarSelector(
+                        "sabor",
+                        "Sabor de la malteada",
+                        SABORES_HELADO,
+                    ).parentElement.classList.add("dependiente");
+                }
+                actualizarPrecioModal();
+            }
+
+            // Copas de receta fija: agregar directamente o personalizar adiciones.
+            function esCopaFija(p) {
+                return (
+                    (p.categoria === "copas" || p.categoria === "infantiles") &&
+                    p.id !== "copa-37"
+                );
+            }
+
+            function abrirProducto(p, boton, mostrar = true) {
+                productoActual = p;
+                ultimoBoton = boton;
+                $("formProducto").reset();
+                $("tituloProducto").textContent = p.nombre;
+                $("descripcionProducto").textContent = p.descripcion;
+                $("opcionesProducto").replaceChildren();
+                if (p.opciones) {
+                    const previo = seleccionados.get(p.id);
+                    const select = agregarSelector(
+                        "opcion",
+                        p.nombre === "Waffles"
+                            ? "Fruta de tu waffle"
+                            : "Elige tu producto",
+                        p.opciones,
+                        previo === undefined ? "" : String(previo),
+                    );
+                    select.addEventListener("change", actualizarSubopciones);
+                }
+                if (p.preparaciones)
+                    agregarSelector("preparacion", "Preparación", p.preparaciones);
+                if (p.sabores) {
+                    if (SABORES_HELADO.length) {
+                        // Permite combinar varios sabores, pues la carta no especifica número de bolas.
+                        const campo = nodo("fieldset");
+                        campo.append(nodo("legend", "", "Elige tus sabores"));
+                        SABORES_HELADO.forEach((sabor) => {
+                            const label = nodo("label", "extra");
+                            const input = nodo("input");
+                            input.type = "checkbox";
+                            input.name = "sabor";
+                            input.value = sabor;
+                            label.append(input, document.createTextNode(sabor));
+                            campo.append(label);
+                        });
+                        $("opcionesProducto").append(campo);
+                    } else {
+                        $("opcionesProducto").append(
+                            nodo(
+                                "p",
+                                "aviso",
+                                "Los sabores disponibles se confirman con el local. Puedes indicar tu preferencia en las notas.",
+                            ),
+                        );
+                    }
+                }
+                $("extrasProducto").hidden = !p.adiciones;
+                $("listaExtras").replaceChildren();
+                if (p.adiciones)
+                    ADICIONES.forEach((extra) => {
+                        const label = nodo("label", "extra");
+                        const input = nodo("input");
+                        input.type = "checkbox";
+                        input.name = "extra";
+                        input.value = extra.id;
+                        label.append(
+                            input,
+                            document.createTextNode(extra.nombre),
+                            nodo("small", "", textoPrecio(extra.precio)),
+                        );
+                        $("listaExtras").append(label);
+                    });
+                actualizarSubopciones();
+                if (mostrar) abrirModal("modalProducto");
+            }
+
+            function obtenerSeleccion() {
+                const p = productoActual;
+                const datos = new FormData($("formProducto"));
+                const valorOpcion = datos.get("opcion");
+                const opcion =
+                    valorOpcion !== null && valorOpcion !== ""
+                        ? p.opciones?.[Number(valorOpcion)]
+                        : null;
+                const extras = datos
+                    .getAll("extra")
+                    .map((id) => ADICIONES.find((e) => e.id === id))
+                    .filter(Boolean);
+                const preparacion = datos.get("preparacion");
+                let precio = p.opciones ? opcion?.precio : p.precio;
+                if (preparacion) {
+                    const clave = (opcion?.nombre || "") + "|" + preparacion;
+                    precio = PRECIOS_PREPARACION[p.id]?.[clave] ?? precio;
+                }
+                if (p.id === "preparadas" && opcion?.nombre === "Michelada") {
+                    precio = PRECIOS_MICHELADA[datos.get("base")] ?? null;
+                }
+                const pendiente =
+                    !precioValido(precio) ||
+                    extras.some((e) => !precioValido(e.precio));
+                const unitario = pendiente
+                    ? null
+                    : precio + extras.reduce((s, e) => s + e.precio, 0);
+                const detalle = [];
+                if (opcion) detalle.push(opcion.nombre);
+                for (const campo of ["preparacion", "variante", "base"]) {
+                    if (datos.get(campo)) detalle.push(String(datos.get(campo)));
+                }
+                const sabores = datos.getAll("sabor");
+                if (sabores.length) detalle.push("Sabores: " + sabores.join(", "));
+                if (extras.length)
+                    detalle.push(
+                        "Adiciones: " + extras.map((e) => e.nombre).join(", "),
+                    );
+                return {
+                    productoId: p.id,
+                    nombre: p.nombre,
+                    detalle,
+                    nota: String(datos.get("nota") || "").trim(),
+                    unitario,
+                    eleccion: Object.fromEntries(
+                        ["opcion", "preparacion", "variante", "base"].map((k) => [
+                            k,
+                            datos.get(k) || "",
+                        ]),
+                    ),
+                    sabores,
+                    extras: extras.map((e) => e.id),
+                };
+            }
+
+            function actualizarPrecioModal() {
+                if (!productoActual) return;
+                const item = obtenerSeleccion();
+                $("precioProducto").textContent = textoPrecio(item.unitario);
+                $("avisoPrecio").hidden = precioValido(item.unitario);
+            }
+            $("formProducto").addEventListener("change", actualizarPrecioModal);
+            $("formProducto").addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (
+                    productoActual.sabores &&
+                    SABORES_HELADO.length &&
+                    !new FormData(e.currentTarget).getAll("sabor").length
+                ) {
+                    notificar("Elige al menos un sabor.");
+                    return;
+                }
+                const item = obtenerSeleccion();
+                const firma = JSON.stringify([
+                    item.productoId,
+                    item.eleccion,
+                    item.sabores,
+                    item.extras,
+                    item.nota,
+                ]);
+                const existente = carrito.find((i) => i.firma === firma);
+                if (existente)
+                    existente.cantidad = Math.min(99, existente.cantidad + 1);
+                else carrito.push({ ...item, firma, cantidad: 1 });
+                $("modalProducto").close();
+                guardarCarrito();
+                animarAlCarrito();
+                notificar("Agregado a tu pedido");
+            });
+
+            function animarAlCarrito() {
+                if (
+                    !ultimoBoton ||
+                    matchMedia("(prefers-reduced-motion: reduce)").matches
+                )
+                    return;
+                const origen = ultimoBoton.getBoundingClientRect();
+                const destino = $("abrirCarrito").getBoundingClientRect();
+                const punto = nodo("div", "volando", "♡");
+                punto.style.left = origen.left + origen.width / 2 + "px";
+                punto.style.top = origen.top + "px";
+                document.body.append(punto);
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => {
+                        punto.style.transform = `translate(${destino.left - origen.left - origen.width / 2}px, ${destino.top - origen.top}px) scale(.2)`;
+                        punto.style.opacity = "0";
+                    }),
+                );
+                setTimeout(() => punto.remove(), 700);
+            }
+
+            function guardarCarrito() {
+                try {
+                    localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
+                } catch {
+                    notificar("Tu navegador no permite guardar el pedido al salir.");
+                }
+                pintarCarrito();
+            }
+
+            function cargarCarrito() {
+                try {
+                    const datos = JSON.parse(
+                        localStorage.getItem(CLAVE_CARRITO) || "[]",
+                    );
+                    if (Array.isArray(datos))
+                        carrito = datos
+                            .filter(
+                                (i) =>
+                                    PRODUCTOS.some((p) => p.id === i.productoId) &&
+                                    typeof i.firma === "string" &&
+                                    typeof i.nombre === "string" &&
+                                    Array.isArray(i.detalle) &&
+                                    i.detalle.every((d) => typeof d === "string") &&
+                                    typeof i.nota === "string" &&
+                                    Number.isInteger(i.cantidad) &&
+                                    i.cantidad > 0 &&
+                                    i.cantidad <= 99 &&
+                                    (i.unitario === null ||
+                                        precioValido(i.unitario)),
+                            )
+                            .slice(0, 200);
+                } catch {
+                    carrito = [];
+                }
+                // Recalcula al volver: evita conservar precios antiguos después de editar la carta.
+                carrito.forEach((item) => {
+                    const producto = PRODUCTOS.find((p) => p.id === item.productoId);
+                    const eleccion = item.eleccion || {};
+                    const opcion =
+                        eleccion.opcion !== undefined && eleccion.opcion !== ""
+                            ? producto.opciones?.[Number(eleccion.opcion)]
+                            : null;
+                    let precio = producto.opciones
+                        ? opcion?.precio
+                        : producto.precio;
+                    if (eleccion.preparacion) {
+                        const clave =
+                            (opcion?.nombre || "") + "|" + eleccion.preparacion;
+                        precio = PRECIOS_PREPARACION[producto.id]?.[clave] ?? precio;
+                    }
+                    if (
+                        producto.id === "preparadas" &&
+                        opcion?.nombre === "Michelada"
+                    ) {
+                        precio = PRECIOS_MICHELADA[eleccion.base] ?? null;
+                    }
+                    const ids = Array.isArray(item.extras) ? item.extras : [];
+                    const extras = ids.map((id) =>
+                        ADICIONES.find((e) => e.id === id),
+                    );
+                    const pendiente =
+                        !precioValido(precio) ||
+                        extras.some((e) => !e || !precioValido(e.precio));
+                    item.unitario = pendiente
+                        ? null
+                        : precio + extras.reduce((s, e) => s + e.precio, 0);
+                });
+                pintarCarrito();
+            }
+
+            function motivoBloqueo() {
+                if (!carrito.length)
+                    return "Agrega productos para preparar tu pedido.";
+                if (carrito.some((i) => !precioValido(i.unitario)))
+                    return "Hay precios por confirmar. El envío se habilitará cuando estén completos.";
+                if (!/^\d{10,15}$/.test(NEGOCIO.whatsapp))
+                    return "El contacto de WhatsApp está por confirmar.";
+                return "";
+            }
+
+            function pintarCarrito() {
+                $("contador").textContent = carrito.reduce(
+                    (s, i) => s + i.cantidad,
+                    0,
+                );
+                $("listaCarrito").replaceChildren();
+                if (!carrito.length)
+                    $("listaCarrito").append(
+                        nodo("p", "", "Tu pedido está esperando algo delicioso."),
+                    );
+                carrito.forEach((item, indice) => {
+                    const fila = nodo("div", "fila-carrito");
+                    fila.append(nodo("strong", "", item.nombre));
+                    if (item.detalle.length)
+                        fila.append(nodo("p", "", item.detalle.join(" · ")));
+                    if (item.nota) fila.append(nodo("p", "", "Nota: " + item.nota));
+                    fila.append(
+                        nodo(
+                            "p",
+                            "",
+                            precioValido(item.unitario)
+                                ? moneda(item.unitario * item.cantidad)
+                                : "Precio por confirmar",
+                        ),
+                    );
+                    const controles = nodo("div", "controles");
+                    for (const [etiqueta, variacion] of [
+                        ["−", -1],
+                        ["+", 1],
+                    ]) {
+                        if (variacion === 1)
+                            controles.append(
+                                nodo("span", "", String(item.cantidad)),
+                            );
+                        const boton = nodo("button", "", etiqueta);
+                        boton.type = "button";
+                        boton.setAttribute(
+                            "aria-label",
+                            (variacion === 1 ? "Aumentar " : "Disminuir ") +
+                                item.nombre,
+                        );
+                        boton.addEventListener("click", () => {
+                            item.cantidad = Math.min(99, item.cantidad + variacion);
+                            if (item.cantidad <= 0) carrito.splice(indice, 1);
+                            guardarCarrito();
+                        });
+                        controles.append(boton);
+                    }
+                    const borrar = nodo("button", "eliminar", "Quitar");
+                    borrar.type = "button";
+                    borrar.addEventListener("click", () => {
+                        carrito.splice(indice, 1);
+                        guardarCarrito();
+                    });
+                    controles.append(borrar);
+                    fila.append(controles);
+                    $("listaCarrito").append(fila);
+                });
+                const pendiente = carrito.some((i) => !precioValido(i.unitario));
+                const total = carrito.reduce(
+                    (s, i) => s + (i.unitario || 0) * i.cantidad,
+                    0,
+                );
+                $("totalCarrito").textContent = pendiente
+                    ? "Total por confirmar"
+                    : "Subtotal de productos: " + moneda(total);
+                const bloqueo = motivoBloqueo();
+                $("bloqueoPedido").textContent = bloqueo;
+                $("bloqueoPedido").hidden = !bloqueo;
+                $("enviarPedido").disabled = Boolean(bloqueo);
+                $("formPedido").hidden = !carrito.length;
+            }
+
+            $("abrirCarrito").addEventListener("click", () =>
+                abrirModal("modalCarrito"),
+            );
+            $("entrega").addEventListener("change", () => {
+                const domicilio = $("entrega").value === "Domicilio";
+                $("campoDireccion").hidden = !domicilio;
+                $("direccionPedido").required = domicilio;
+            });
+            // Mantiene el GIF original si existe; sin él se dibuja un check real,
+            // nítido y 100% transparente sobre el glass morado.
+            const CHECK_GIF = "imagenes/check-pedido.gif";
+            let temporizadorWhatsApp = null;
+            let temporizadorRescate = null;
+            let navegacionIniciada = false;
+            const dialogoConfirmacion = $("modalConfirmacion");
+            const gifCheck = $("checkPedido");
+            const vectorCheck = $("checkVectorFallback");
+            const enlaceRescate = $("abrirWhatsAppOtraVez");
+            gifCheck.addEventListener("error", () => {
+                gifCheck.hidden = true;
+                vectorCheck.removeAttribute("hidden");
+            });
+            gifCheck.addEventListener("load", () => {
+                gifCheck.hidden = false;
+                vectorCheck.setAttribute("hidden", "");
+            });
+            dialogoConfirmacion.addEventListener("close", () => {
+                clearTimeout(temporizadorWhatsApp);
+                clearTimeout(temporizadorRescate);
+            });
+
+            function iniciarConfirmacionWhatsApp(url) {
+                clearTimeout(temporizadorWhatsApp);
+                clearTimeout(temporizadorRescate);
+                navegacionIniciada = false;
+                enlaceRescate.href = url;
+                enlaceRescate.hidden = true;
+
+                // Cambiar src reinicia el GIF si se encuentra en imagenes/.
+                // El vector aparece desde el primer fotograma, sin espacios vacíos.
+                // Si el GIF está disponible, su animación reemplaza el vector.
+                gifCheck.hidden = true;
+                vectorCheck.removeAttribute("hidden");
+                // Reinicia el GIF en cada pedido, sin modificar el archivo original.
+                gifCheck.src = CHECK_GIF + "?repetir=" + Date.now();
+                $("modalCarrito").close();
+                abrirModal("modalConfirmacion");
+
+                const movimientoReducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                const duracion = movimientoReducido ? 450 : 1900;
+                temporizadorWhatsApp = setTimeout(() => {
+                    if (!dialogoConfirmacion.open) return;
+                    navegacionIniciada = true;
+                    // Navegación en la misma pestaña: evita que los navegadores
+                    // móviles bloqueen una nueva ventana abierta tras un timer.
+                    window.location.assign(url);
+                    // Respaldo por si el dispositivo no abre WhatsApp.
+                    temporizadorRescate = setTimeout(() => {
+                        if (dialogoConfirmacion.open && document.visibilityState === "visible") {
+                            enlaceRescate.hidden = false;
+                        }
+                    }, 1600);
+                }, duracion);
+            }
+
+            // Si el cliente regresa de WhatsApp conserva su carrito sin mostrar
+            // una falsa confirmación de envío. Esta web no puede enviar mensajes sola.
+            document.addEventListener("visibilitychange", () => {
+                if (navegacionIniciada && document.visibilityState === "visible" && dialogoConfirmacion.open) {
+                    dialogoConfirmacion.close();
+                    navegacionIniciada = false;
+                }
+            });
+            window.addEventListener("pageshow", (e) => {
+                if (e.persisted && dialogoConfirmacion.open) {
+                    dialogoConfirmacion.close();
+                    navegacionIniciada = false;
+                }
+            });
+
+            $("formPedido").addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (motivoBloqueo()) {
+                    notificar(motivoBloqueo());
+                    return;
+                }
+                const datos = new FormData(e.currentTarget);
+                const lineas = [
+                    "Hola, " + NEGOCIO.nombre + ". Quiero solicitar este pedido:",
+                    "",
+                ];
+                carrito.forEach((item) => {
+                    lineas.push(
+                        `${item.cantidad} × ${item.nombre} — ${moneda(item.cantidad * item.unitario)}`,
+                    );
+                    if (item.detalle.length)
+                        lineas.push("  " + item.detalle.join(" · "));
+                    if (item.nota) lineas.push("  Nota: " + item.nota);
+                });
+                const total = carrito.reduce(
+                    (s, i) => s + i.unitario * i.cantidad,
+                    0,
+                );
+                lineas.push(
+                    "",
+                    "Subtotal de productos: " + moneda(total),
+                    "Nombre: " + datos.get("nombre"),
+                    "Teléfono: " + datos.get("telefono"),
+                    "Entrega: " + datos.get("entrega"),
+                );
+                if (datos.get("entrega") === "Domicilio")
+                    lineas.push("Dirección: " + datos.get("direccion"));
+                if (datos.get("nota")) lineas.push("Notas: " + datos.get("nota"));
+                lineas.push(
+                    "Domicilio y disponibilidad por confirmar con el local.",
+                );
+                const url =
+                    "https://wa.me/" +
+                    NEGOCIO.whatsapp +
+                    "?text=" +
+                    encodeURIComponent(lineas.join("\n"));
+                // Paso 1: cerrar el panel de datos. Paso 2: sólo check verde.
+                // Paso 3: navegar a WhatsApp cuando haya terminado la animación.
+                iniciarConfirmacionWhatsApp(url);
+            });
+
+            document.querySelectorAll(".filtro").forEach((boton) => {
+                boton.addEventListener("click", () => {
+                    categoria = boton.dataset.categoria;
+                    document
+                        .querySelectorAll(".filtro")
+                        .forEach((b) =>
+                            b.setAttribute("aria-pressed", String(b === boton)),
+                        );
+                    pintarCatalogo();
+                });
+            });
+            $("buscar").addEventListener("input", pintarCatalogo);
+            $("menuMovil").addEventListener("click", () => {
+                const abierto = $("navLinks").classList.toggle("abierto");
+                $("menuMovil").setAttribute("aria-expanded", String(abierto));
+            });
+            document.querySelectorAll(".nav-links a").forEach((enlace) => {
+                enlace.addEventListener("click", () => {
+                    $("navLinks").classList.remove("abierto");
+                    $("menuMovil").setAttribute("aria-expanded", "false");
+                });
+            });
+
+            configurarNegocio();
+            pintarCatalogo();
+            cargarCarrito();
+        </script>
+    </body>
+</html>
